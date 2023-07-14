@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fin-suitghana
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fin-suitghana
+  template:
+    metadata:
+      labels:
+        app: fin-suitghana
+    spec:
+      containers:
+        - name: fin-suitghana
+          image: fin-suitghana:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: '1'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fin-suitghana-balancer
+spec:
+  selector:
+    app: fin-suitghana
+  ports:
+    - protocol: TCP
+      port: 8000 # The port to expose to the outside
+      targetPort: 8080 # The port the application is running on in the pods
+  type: LoadBalancer
+  sessionAffinity: ClientIP
