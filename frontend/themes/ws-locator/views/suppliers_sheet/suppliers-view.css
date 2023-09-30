@@ -1,0 +1,36 @@
+
+/* header layout styling  */
+.button-container {
+    /* border: 1px solid rgb(226, 226, 226) !important; */
+    /* border-radius: 5px; */
+    padding: 5px;
+    display: flex !important;
+    align-items:center;
+    justify-content: flex-end;
+}
+
+.add-supplier-button {
+    font-size: 12px;
+    background-color: #673FB4;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.add-supplier-button:hover {
+    transition: 0.3s;
+    background-color: #855ece;
+}
+
+
+/* FILTER TEXT FIELD STYLING */
+.filter-text-field {
+    width:250px;
+    
+    
+}
+
+.filter-text-field {
+    color: rgb(64, 20, 146);
+}
