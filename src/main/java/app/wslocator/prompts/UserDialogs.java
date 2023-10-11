@@ -13,7 +13,7 @@ public class UserDialogs {
     private static Button confirmButton = new Button("APPROVE");
     private static Button cancelButton = new Button("CANCEL");
 
-    public UserDialogs(String headerText, String bodyText) {
+    public UserDialogs(String headerText, String bodyText, String s) {
         title = headerText;
         body = bodyText;
     }

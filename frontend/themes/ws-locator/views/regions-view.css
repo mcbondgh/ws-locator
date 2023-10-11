@@ -1,0 +1,27 @@
+
+/* .page-horizontal-layout{
+    background-color: rgb(249, 253, 255) !important;
+    border: 1px solid #ddd;
+    padding:20px;
+} */
+
+
+
+.section-container{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    margin:10px;
+}
+
+.buttons-container {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding:10px;
+    border-top: 1px solid #ccc;
+}
+
+
+
+

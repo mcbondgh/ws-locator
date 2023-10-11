@@ -2,6 +2,8 @@ package app.wslocator.views.dashboard;
 
 import app.wslocator.data.entity.SuppliersEntity;
 import app.wslocator.views.MainLayout;
+import app.wslocator.views.includes.HeaderAndFooter;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.Uses;
@@ -27,7 +29,7 @@ import java.util.List;
 @RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
-public class DashboardView extends Composite<VerticalLayout> {
+public class DashboardView extends Composite<VerticalLayout> implements HeaderAndFooter{
 
     private HorizontalLayout pageHeaderLayout = new HorizontalLayout();
 
@@ -50,12 +52,14 @@ public class DashboardView extends Composite<VerticalLayout> {
         verticalLayout.setSizeFull();
         verticalLayout.setClassName("content-area");
 
-        getContent().add(createPageHeader(), createPageBody(), createPageFooter());
+        getContent().add(pageHeaderLayout(), createPageBody(), pageFooterLayout());
     }
 
 
     // this method contains all components in the header field of the returning a horizontal layout
-    private HorizontalLayout createPageHeader() {
+    @Override
+    public HorizontalLayout pageHeaderLayout() {
+        // TODO Auto-generated method stub
         pageHeaderLayout.addClassName(Gap.MEDIUM);
         pageHeaderLayout.setWidthFull();
         pageHeaderLayout.addClassName(Padding.SMALL);
@@ -64,7 +68,7 @@ public class DashboardView extends Composite<VerticalLayout> {
         pageHeaderLayout.add(h3);
         return pageHeaderLayout;
     }
-
+   
 
     //This method returns a horizontal layout that contains all the content rendered in the body of the page.
     private VerticalLayout createPageBody() {
@@ -142,7 +146,9 @@ public class DashboardView extends Composite<VerticalLayout> {
 
 
     //This method returns a horizontal layout that contains all the content rendered in the footer of the page.
-    private HorizontalLayout createPageFooter() {
+    @Override
+    public HorizontalLayout pageFooterLayout() {
+        // TODO Auto-generated method stub
         pageFooterLayout.setHeightFull();
         pageFooterLayout.addClassName(Gap.MEDIUM);
         footerText.setText("Powered By MCs Republic | 2023");
@@ -150,6 +156,7 @@ public class DashboardView extends Composite<VerticalLayout> {
         footerText.getStyle().set("font-size", "var(--lumo-font-size-s)");
         pageFooterLayout.add(footerText);
         return pageFooterLayout;
+        
     }
 
 
