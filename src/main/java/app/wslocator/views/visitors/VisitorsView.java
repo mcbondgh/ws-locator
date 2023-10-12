@@ -1,24 +1,30 @@
 package app.wslocator.views.visitors;
 
+import app.wslocator.data.entity.VisitorsEntity;
 import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.charts.model.TextAlign;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Section;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.theme.lumo.LumoUtility.AlignContent;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 
@@ -34,6 +40,7 @@ public class VisitorsView extends Composite<VerticalLayout> implements HeaderAnd
 
     private H3 headerText = new H3();
     private Paragraph footerText = new Paragraph();
+    private Grid<VisitorsEntity> visitorsTable = new Grid<>(VisitorsEntity.class);
      
 
 
@@ -41,7 +48,8 @@ public class VisitorsView extends Composite<VerticalLayout> implements HeaderAnd
 
     public VisitorsView() {
        addClassName("visitors-main-view");
-       getContent().add(pageHeaderLayout(), visitorsTableSection(), graphProjectionSection() ,pageFooterLayout());
+       getContent().setWidthFull();
+       getContent().add(pageHeaderLayout(), graphProjectionSection(), visitorsTableSection() , pageFooterLayout());
     }
 
 
@@ -53,6 +61,9 @@ public class VisitorsView extends Composite<VerticalLayout> implements HeaderAnd
         headerText.setText("REVIEW SUPPLIERS WITH MOST VISITORS");
         headerText.setClassName("header-text", true);
         pageHeaderLayout.add(headerText);
+
+        System.out.println("problem found...");
+
         return pageHeaderLayout;
     }
 
@@ -60,24 +71,35 @@ public class VisitorsView extends Composite<VerticalLayout> implements HeaderAnd
 
     private HorizontalLayout graphProjectionSection() {
         pageLayout = new HorizontalLayout();
-        addClassName("content-area");
+        pageLayout.addClassName("content-area");
+        pageLayout.setWidthFull();
+        pageLayout.setAlignItems(Alignment.CENTER);
 
 
+        //CREATE A SECTION TO HOLD THE GRAPH PROJECTIONS...
+        Section charSection = new Section();
+        charSection.addClassName("chart-section-container");
+        Paragraph chartHeader = new Paragraph("No Chart data available yet");
+        
 
-        pageLayout.add(new Text("dfasdoifhdifhoiaf"));
+        charSection.add(chartHeader);
+        pageLayout.add(charSection);
         return pageLayout;
         
     }
 
-
+    //VISITORS SECTION TABLE IMPLEMENTATION
     private HorizontalLayout visitorsTableSection() {
         pageLayout = new HorizontalLayout();
 
+        //Add GRID COLUNMS TO THE TABLE...
 
+
+        pageLayout.add(visitorsTable);
         return pageLayout;
     }
 
-
+    // PAGE FOOTER METHOD 
     @Override
     public HorizontalLayout pageFooterLayout() {
         pageFooterLayout.setHeightFull();

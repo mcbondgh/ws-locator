@@ -1,9 +1,3 @@
-.gragh-section {
-    margin: 0;
-    padding:20px;
-    border: 1px solid red;
-}
-
-.visitors-main-view {
-    padding:20px;
+.chart-section-container {
+    margin: auto;
 }
