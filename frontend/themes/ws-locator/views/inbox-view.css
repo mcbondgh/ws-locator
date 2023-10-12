@@ -1,0 +1,17 @@
+
+.page-section{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.messages-container, .read-messages-container {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+@media screen {
+    
+}
