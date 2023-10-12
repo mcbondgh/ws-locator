@@ -121,7 +121,6 @@ public class SupplersView extends Composite<VerticalLayout> {
         suppliersTable.getColumns().get(5).setHeader("STATUS");
         suppliersTable.getColumns().get(6).setHeader("DESCRIPTION");
         suppliersTable.getColumns().get(7).setHeader("VIEW");
-        suppliersTable.getColumns().get(2).getStyle().setBackground("green");
         suppliersTable.getColumns().forEach(item-> item.setAutoWidth(true).setFrozen(true));
         return suppliersTable;
 

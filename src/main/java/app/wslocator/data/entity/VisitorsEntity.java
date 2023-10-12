@@ -4,14 +4,14 @@ public class VisitorsEntity {
 
     private int identifier;
     private String userAgent;
-    private String IPAddres;
-    private String locaation;
+    private String ipAddress;
+    private String location;
     private int pageVisits;
-    public VisitorsEntity(int identifier, String userAgent, String iPAddres, String locaation, int pageVisits) {
+    public VisitorsEntity(int identifier, String userAgent, String ipAddress, String location, int pageVisits) {
         this.identifier = identifier;
         this.userAgent = userAgent;
-        IPAddres = iPAddres;
-        this.locaation = locaation;
+        this.ipAddress = ipAddress;
+        this.location = location;
         this.pageVisits = pageVisits;
     }
     public int getIdentifier() {
@@ -27,16 +27,16 @@ public class VisitorsEntity {
         this.userAgent = userAgent;
     }
     public String getIPAddres() {
-        return IPAddres;
+        return ipAddress;
     }
-    public void setIPAddres(String iPAddres) {
-        IPAddres = iPAddres;
+    public void setIPAddres(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
-    public String getLocaation() {
-        return locaation;
+    public String getlocation() {
+        return location;
     }
-    public void setLocaation(String locaation) {
-        this.locaation = locaation;
+    public void setlocation(String location) {
+        this.location = location;
     }
     public int getPageVisits() {
         return pageVisits;

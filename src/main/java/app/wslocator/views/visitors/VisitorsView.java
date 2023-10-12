@@ -3,14 +3,13 @@ package app.wslocator.views.visitors;
 import app.wslocator.data.entity.VisitorsEntity;
 import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
-
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.charts.model.TextAlign;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.dnd.GridDropMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
@@ -91,10 +90,14 @@ public class VisitorsView extends Composite<VerticalLayout> implements HeaderAnd
     //VISITORS SECTION TABLE IMPLEMENTATION
     private HorizontalLayout visitorsTableSection() {
         pageLayout = new HorizontalLayout();
+        pageLayout.setWidthFull();
 
         //Add GRID COLUNMS TO THE TABLE...
+        visitorsTable.setHeight("300px");
+        visitorsTable.setColumns("identifier", "userAgent", "ipAddress", "location", "pageVisits");
+          
 
-
+        visitorsTable.addClassName("visitors-table");
         pageLayout.add(visitorsTable);
         return pageLayout;
     }
