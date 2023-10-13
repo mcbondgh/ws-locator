@@ -1,4 +1,4 @@
-import{t as themeRegistry,u as unsafeCSS,c as css$e,a as addLumoGlobalStyles,D as Directive,n as nothing,P as PartType,b as noChange,d as directive,r as render$1,s as svg$6,e as registerStyles$1,T as ThemableMixin,f as color$h,g as typography,h as ThemePropertyMixin,i as html$1,_ as __vitePreload,L as LitElement}from"./indexhtml-d4ebb10e.js";/**
+import{t as themeRegistry,u as unsafeCSS,c as css$e,a as addLumoGlobalStyles,D as Directive,n as nothing,P as PartType,b as noChange,d as directive,r as render$1,s as svg$6,e as registerStyles$1,T as ThemableMixin,f as ThemePropertyMixin,g as color$h,h as typography,i as html$1,_ as __vitePreload,L as LitElement}from"./indexhtml-e293e1a7.js";/**
 @license
 Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -752,7 +752,571 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="lumo:unordered-list"><path d="M146 325c-42 0-67-26-67-63 0-37 25-63 67-63 42 0 67 26 67 63 0 37-25 63-67 63z m0 250c-42 0-67-26-67-63 0-37 25-63 67-63 42 0 67 26 67 63 0 37-25 63-67 63z m0 250c-42 0-67-26-67-63 0-37 25-63 67-63 42 0 67 26 67 63 0 37-25 63-67 63zM333 258c0-18 15-33 34-33h516c18 0 33 15 34 33 0 18-15 33-34 34H367c-18 0-33-15-34-34z m0 250c0-18 15-33 34-33h516c18 0 33 15 34 33s-15 33-34 34H367c-18 0-33-15-34-34z m0 250c0-18 15-33 34-33h516c18 0 33 15 34 33s-15 33-34 34H367c-18 0-33-15-34-34z"></path></g>
 <g id="lumo:upload"><path d="M454 271V604c0 21-17 38-37 38s-38-17-38-38V271L254 382c-15 14-39 12-53-3-14-15-12-39 3-53L391 160c14-13 36-13 51-1 0 0 0 0 0 1l187 166c15 14 17 37 3 53-14 15-37 17-53 3L454 271zM675 704c0-21 17-38 37-37 21 0 38 17 38 37v92c0 21-17 38-38 37H121c-21 0-38-17-38-37v-92c0-21 17-38 38-37s38 17 37 37v54h517v-54z"></path></g>
 <g id="lumo:user"><path d="M500 500c-69 0-125-56-125-125s56-125 125-125 125 56 125 125-56 125-125 125z m-292 292c0-115 131-208 292-209s292 93 292 209H208z"></path></g>
-</defs></svg>`;Iconset.register("lumo",1e3,template$a);registerStyles$1("vaadin-app-layout",css$e`
+</defs></svg>`;Iconset.register("lumo",1e3,template$a);/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const overlay=css$e`
+  :host {
+    top: var(--lumo-space-m);
+    right: var(--lumo-space-m);
+    bottom: var(--lumo-space-m);
+    left: var(--lumo-space-m);
+    /* Workaround for Edge issue (only on Surface), where an overflowing vaadin-list-box inside vaadin-select-overlay makes the overlay transparent */
+    /* stylelint-disable-next-line */
+    outline: 0px solid transparent;
+  }
+
+  [part='overlay'] {
+    background-color: var(--lumo-base-color);
+    background-image: linear-gradient(var(--lumo-tint-5pct), var(--lumo-tint-5pct));
+    border-radius: var(--lumo-border-radius-m);
+    box-shadow: 0 0 0 1px var(--lumo-shade-5pct), var(--lumo-box-shadow-m);
+    color: var(--lumo-body-text-color);
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size-m);
+    font-weight: 400;
+    line-height: var(--lumo-line-height-m);
+    letter-spacing: 0;
+    text-transform: none;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  [part='content'] {
+    padding: var(--lumo-space-xs);
+  }
+
+  [part='backdrop'] {
+    background-color: var(--lumo-shade-20pct);
+    animation: 0.2s lumo-overlay-backdrop-enter both;
+    will-change: opacity;
+  }
+
+  @keyframes lumo-overlay-backdrop-enter {
+    0% {
+      opacity: 0;
+    }
+  }
+
+  :host([closing]) [part='backdrop'] {
+    animation: 0.2s lumo-overlay-backdrop-exit both;
+  }
+
+  @keyframes lumo-overlay-backdrop-exit {
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes lumo-overlay-dummy-animation {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+`;registerStyles$1("",overlay,{moduleId:"lumo-overlay"});registerStyles$1("vaadin-overlay",overlay,{moduleId:"lumo-vaadin-overlay"});/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/let scheduled=!1,beforeRenderQueue=[],afterRenderQueue=[];function schedule(){scheduled=!0,requestAnimationFrame(function(){scheduled=!1,flushQueue(beforeRenderQueue),setTimeout(function(){runQueue(afterRenderQueue)})})}function flushQueue(n){for(;n.length;)callMethod(n.shift())}function runQueue(n){for(let i=0,t=n.length;i<t;i++)callMethod(n.shift())}function callMethod(n){const i=n[0],t=n[1],r=n[2];try{t.apply(i,r)}catch(o){setTimeout(()=>{throw o})}}function beforeNextRender(n,i,t){scheduled||schedule(),beforeRenderQueue.push([n,i,t])}function afterNextRender(n,i,t){scheduled||schedule(),afterRenderQueue.push([n,i,t])}/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const testUserAgent=n=>n.test(navigator.userAgent),testPlatform=n=>n.test(navigator.platform),testVendor=n=>n.test(navigator.vendor),isAndroid=testUserAgent(/Android/u),isChrome=testUserAgent(/Chrome/u)&&testVendor(/Google Inc/u),isFirefox$4=testUserAgent(/Firefox/u),isIPad=testPlatform(/^iPad/u)||testPlatform(/^Mac/u)&&navigator.maxTouchPoints>1,isIPhone=testPlatform(/^iPhone/u),isIOS=isIPhone||isIPad,isSafari=testUserAgent(/^((?!chrome|android).)*safari/iu),isTouch=(()=>{try{return document.createEvent("TouchEvent"),!0}catch{return!1}})();/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */function processTemplates(n){if(window.Vaadin&&window.Vaadin.templateRendererCallback){window.Vaadin.templateRendererCallback(n);return}n.querySelector("template")&&console.warn(`WARNING: <template> inside <${n.localName}> is no longer supported. Import @vaadin/polymer-legacy-adapter/template-renderer.js to enable compatibility.`)}/**
+ * @license
+ * Copyright (c) 2017 Anton Korzunov
+ * SPDX-License-Identifier: MIT
+ */let counterMap=new WeakMap,uncontrolledNodes=new WeakMap,markerMap={},lockCount=0;const unwrapHost=n=>n?n.host||unwrapHost(n.parentNode):null,isElement=n=>n&&n.nodeType===Node.ELEMENT_NODE,logError=(...n)=>{console.error(`Error: ${n.join(" ")}. Skip setting aria-hidden.`)},correctTargets=(n,i)=>isElement(n)?i.map(t=>{if(!isElement(t))return logError(t,"is not a valid element"),null;if(n.contains(t))return t;const r=unwrapHost(t);return r&&n.contains(r)?r:(logError(t,"is not contained inside",n),null)}).filter(t=>!!t):(logError(n,"is not a valid element"),[]),applyAttributeToOthers=(n,i,t,r)=>{const o=correctTargets(i,Array.isArray(n)?n:[n]);markerMap[t]||(markerMap[t]=new WeakMap);const a=markerMap[t],s=[],l=new Set,h=new Set(o),c=u=>{!u||l.has(u)||(l.add(u),c(u.parentNode))};o.forEach(c);const d=u=>{!u||h.has(u)||[...u.children].forEach(p=>{if(!["template","script","style"].includes(p.localName))if(l.has(p))d(p);else{const f=p.getAttribute(r),v=f!==null&&f!=="false",g=(counterMap.get(p)||0)+1,m=(a.get(p)||0)+1;counterMap.set(p,g),a.set(p,m),s.push(p),g===1&&v&&uncontrolledNodes.set(p,!0),m===1&&p.setAttribute(t,"true"),v||p.setAttribute(r,"true")}})};return d(i),l.clear(),lockCount+=1,()=>{s.forEach(u=>{const p=counterMap.get(u)-1,f=a.get(u)-1;counterMap.set(u,p),a.set(u,f),p||(uncontrolledNodes.has(u)?uncontrolledNodes.delete(u):u.removeAttribute(r)),f||u.removeAttribute(t)}),lockCount-=1,lockCount||(counterMap=new WeakMap,counterMap=new WeakMap,uncontrolledNodes=new WeakMap,markerMap={})}},hideOthers=(n,i=document.body,t="data-aria-hidden")=>{const r=Array.from(Array.isArray(n)?n:[n]);return i&&r.push(...Array.from(i.querySelectorAll("[aria-live]"))),applyAttributeToOthers(r,i,t,"aria-hidden")};/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */class AriaModalController{constructor(i,t){this.host=i,this.callback=typeof t=="function"?t:()=>i}showModal(){const i=this.callback();this.__showOthers=hideOthers(i)}close(){this.__showOthers&&(this.__showOthers(),this.__showOthers=null)}}/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */let keyboardActive=!1;window.addEventListener("keydown",()=>{keyboardActive=!0},{capture:!0});window.addEventListener("mousedown",()=>{keyboardActive=!1},{capture:!0});function getDeepActiveElement(){let n=document.activeElement||document.body;for(;n.shadowRoot&&n.shadowRoot.activeElement;)n=n.shadowRoot.activeElement;return n}function isKeyboardActive(){return keyboardActive}function isElementHiddenDirectly(n){const i=n.style;if(i.visibility==="hidden"||i.display==="none")return!0;const t=window.getComputedStyle(n);return t.visibility==="hidden"||t.display==="none"}function hasLowerTabOrder(n,i){const t=Math.max(n.tabIndex,0),r=Math.max(i.tabIndex,0);return t===0||r===0?r>t:t>r}function mergeSortByTabIndex(n,i){const t=[];for(;n.length>0&&i.length>0;)hasLowerTabOrder(n[0],i[0])?t.push(i.shift()):t.push(n.shift());return t.concat(n,i)}function sortElementsByTabIndex(n){const i=n.length;if(i<2)return n;const t=Math.ceil(i/2),r=sortElementsByTabIndex(n.slice(0,t)),o=sortElementsByTabIndex(n.slice(t));return mergeSortByTabIndex(r,o)}function isElementHidden(n){return n.offsetParent===null&&n.clientWidth===0&&n.clientHeight===0?!0:isElementHiddenDirectly(n)}function isElementFocusable(n){return n.matches('[tabindex="-1"]')?!1:n.matches("input, select, textarea, button, object")?n.matches(":not([disabled])"):n.matches("a[href], area[href], iframe, [tabindex], [contentEditable]")}function isElementFocused(n){return n.getRootNode().activeElement===n}function normalizeTabIndex(n){if(!isElementFocusable(n))return-1;const i=n.getAttribute("tabindex")||0;return Number(i)}function collectFocusableNodes(n,i){if(n.nodeType!==Node.ELEMENT_NODE||isElementHiddenDirectly(n))return!1;const t=n,r=normalizeTabIndex(t);let o=r>0;r>=0&&i.push(t);let a=[];return t.localName==="slot"?a=t.assignedNodes({flatten:!0}):a=(t.shadowRoot||t).children,[...a].forEach(s=>{o=collectFocusableNodes(s,i)||o}),o}function getFocusableElements(n){const i=[];return collectFocusableNodes(n,i)?sortElementsByTabIndex(i):i}/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */class FocusRestorationController{saveFocus(i){this.focusNode=i||getDeepActiveElement()}restoreFocus(){const i=this.focusNode;i&&(getDeepActiveElement()===document.body?setTimeout(()=>i.focus()):i.focus(),this.focusNode=null)}}/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const instances=[];class FocusTrapController{constructor(i){this.host=i,this.__trapNode=null,this.__onKeyDown=this.__onKeyDown.bind(this)}get __focusableElements(){return getFocusableElements(this.__trapNode)}get __focusedElementIndex(){const i=this.__focusableElements;return i.indexOf(i.filter(isElementFocused).pop())}hostConnected(){document.addEventListener("keydown",this.__onKeyDown)}hostDisconnected(){document.removeEventListener("keydown",this.__onKeyDown)}trapFocus(i){if(this.__trapNode=i,this.__focusableElements.length===0)throw this.__trapNode=null,new Error("The trap node should have at least one focusable descendant or be focusable itself.");instances.push(this),this.__focusedElementIndex===-1&&this.__focusableElements[0].focus()}releaseFocus(){this.__trapNode=null,instances.pop()}__onKeyDown(i){if(this.__trapNode&&this===Array.from(instances).pop()&&i.key==="Tab"){i.preventDefault();const t=i.shiftKey;this.__focusNextElement(t)}}__focusNextElement(i=!1){const t=this.__focusableElements,r=i?-1:1,o=this.__focusedElementIndex,a=(t.length+o+r)%t.length,s=t[a];s.focus(),s.localName==="input"&&s.select()}}/**
+ * @license
+ * Copyright (c) 2021 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const ControllerMixin=dedupingMixin(n=>class extends n{constructor(){super(),this.__controllers=new Set}connectedCallback(){super.connectedCallback(),this.__controllers.forEach(t=>{t.hostConnected&&t.hostConnected()})}disconnectedCallback(){super.disconnectedCallback(),this.__controllers.forEach(t=>{t.hostDisconnected&&t.hostDisconnected()})}addController(t){this.__controllers.add(t),this.$!==void 0&&this.isConnected&&t.hostConnected&&t.hostConnected()}removeController(t){this.__controllers.delete(t)}});/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const OverlayFocusMixin=n=>class extends ControllerMixin(n){static get properties(){return{focusTrap:{type:Boolean,value:!1},restoreFocusOnClose:{type:Boolean,value:!1},restoreFocusNode:{type:HTMLElement}}}constructor(){super(),this.__ariaModalController=new AriaModalController(this),this.__focusTrapController=new FocusTrapController(this),this.__focusRestorationController=new FocusRestorationController}ready(){super.ready(),this.addController(this.__ariaModalController),this.addController(this.__focusTrapController),this.addController(this.__focusRestorationController)}_resetFocus(){this.focusTrap&&(this.__ariaModalController.close(),this.__focusTrapController.releaseFocus()),this.restoreFocusOnClose&&this._shouldRestoreFocus()&&this.__focusRestorationController.restoreFocus()}_saveFocus(){this.restoreFocusOnClose&&this.__focusRestorationController.saveFocus(this.restoreFocusNode)}_trapFocus(){this.focusTrap&&(this.__ariaModalController.showModal(),this.__focusTrapController.trapFocus(this.$.overlay))}_shouldRestoreFocus(){const t=getDeepActiveElement();return t===document.body||this._deepContains(t)}_deepContains(t){if(this.contains(t))return!0;let r=t;const o=t.ownerDocument;for(;r&&r!==o&&r!==this;)r=r.parentNode||r.host;return r===this}};/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */class Overlay extends OverlayFocusMixin(ThemableMixin(DirMixin(PolymerElement))){static get template(){return html`
+      <style>
+        :host {
+          z-index: 200;
+          position: fixed;
+
+          /* Despite of what the names say, <vaadin-overlay> is just a container
+          for position/sizing/alignment. The actual overlay is the overlay part. */
+
+          /* Default position constraints: the entire viewport. Note: themes can
+          override this to introduce gaps between the overlay and the viewport. */
+          top: 0;
+          right: 0;
+          bottom: var(--vaadin-overlay-viewport-bottom);
+          left: 0;
+
+          /* Use flexbox alignment for the overlay part. */
+          display: flex;
+          flex-direction: column; /* makes dropdowns sizing easier */
+          /* Align to center by default. */
+          align-items: center;
+          justify-content: center;
+
+          /* Allow centering when max-width/max-height applies. */
+          margin: auto;
+
+          /* The host is not clickable, only the overlay part is. */
+          pointer-events: none;
+
+          /* Remove tap highlight on touch devices. */
+          -webkit-tap-highlight-color: transparent;
+
+          /* CSS API for host */
+          --vaadin-overlay-viewport-bottom: 0;
+        }
+
+        :host([hidden]),
+        :host(:not([opened]):not([closing])) {
+          display: none !important;
+        }
+
+        [part='overlay'] {
+          -webkit-overflow-scrolling: touch;
+          overflow: auto;
+          pointer-events: auto;
+
+          /* Prevent overflowing the host in MSIE 11 */
+          max-width: 100%;
+          box-sizing: border-box;
+
+          -webkit-tap-highlight-color: initial; /* reenable tap highlight inside */
+        }
+
+        [part='backdrop'] {
+          z-index: -1;
+          content: '';
+          background: rgba(0, 0, 0, 0.5);
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          pointer-events: auto;
+        }
+      </style>
+
+      <div id="backdrop" part="backdrop" hidden$="[[!withBackdrop]]"></div>
+      <div part="overlay" id="overlay" tabindex="0">
+        <div part="content" id="content">
+          <slot></slot>
+        </div>
+      </div>
+    `}static get is(){return"vaadin-overlay"}static get properties(){return{opened:{type:Boolean,notify:!0,observer:"_openedChanged",reflectToAttribute:!0},owner:Element,renderer:Function,withBackdrop:{type:Boolean,value:!1,reflectToAttribute:!0},model:Object,modeless:{type:Boolean,value:!1,reflectToAttribute:!0,observer:"_modelessChanged"},hidden:{type:Boolean,reflectToAttribute:!0,observer:"_hiddenChanged"},_mouseDownInside:{type:Boolean},_mouseUpInside:{type:Boolean},_oldOwner:Element,_oldModel:Object,_oldRenderer:Object,_oldOpened:Boolean}}static get observers(){return["_rendererOrDataChanged(renderer, owner, model, opened)"]}static get __attachedInstances(){return Array.from(document.body.children).filter(i=>i instanceof Overlay&&!i.hasAttribute("closing")).sort((i,t)=>i.__zIndex-t.__zIndex||0)}constructor(){super(),this._boundMouseDownListener=this._mouseDownListener.bind(this),this._boundMouseUpListener=this._mouseUpListener.bind(this),this._boundOutsideClickListener=this._outsideClickListener.bind(this),this._boundKeydownListener=this._keydownListener.bind(this),isIOS&&(this._boundIosResizeListener=()=>this._detectIosNavbar())}get _last(){return this===Overlay.__attachedInstances.pop()}ready(){super.ready(),this.addEventListener("click",()=>{}),this.$.backdrop.addEventListener("click",()=>{}),processTemplates(this)}_detectIosNavbar(){if(!this.opened)return;const i=window.innerHeight,r=window.innerWidth>i,o=document.documentElement.clientHeight;r&&o>i?this.style.setProperty("--vaadin-overlay-viewport-bottom",`${o-i}px`):this.style.setProperty("--vaadin-overlay-viewport-bottom","0")}close(i){const t=new CustomEvent("vaadin-overlay-close",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),t.defaultPrevented||(this.opened=!1)}connectedCallback(){super.connectedCallback(),this._boundIosResizeListener&&(this._detectIosNavbar(),window.addEventListener("resize",this._boundIosResizeListener))}disconnectedCallback(){super.disconnectedCallback(),this._boundIosResizeListener&&window.removeEventListener("resize",this._boundIosResizeListener)}requestContentUpdate(){this.renderer&&this.renderer.call(this.owner,this,this.owner,this.model)}_mouseDownListener(i){this._mouseDownInside=i.composedPath().indexOf(this.$.overlay)>=0}_mouseUpListener(i){this._mouseUpInside=i.composedPath().indexOf(this.$.overlay)>=0}_shouldCloseOnOutsideClick(i){return this._last}_outsideClickListener(i){if(i.composedPath().includes(this.$.overlay)||this._mouseDownInside||this._mouseUpInside){this._mouseDownInside=!1,this._mouseUpInside=!1;return}if(!this._shouldCloseOnOutsideClick(i))return;const t=new CustomEvent("vaadin-overlay-outside-click",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),this.opened&&!t.defaultPrevented&&this.close(i)}_keydownListener(i){if(this._last&&!(this.modeless&&!i.composedPath().includes(this.$.overlay))&&i.key==="Escape"){const t=new CustomEvent("vaadin-overlay-escape-press",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),this.opened&&!t.defaultPrevented&&this.close(i)}}_openedChanged(i,t){i?(this._saveFocus(),this._animatedOpening(),afterNextRender(this,()=>{this._trapFocus();const r=new CustomEvent("vaadin-overlay-open",{bubbles:!0});this.dispatchEvent(r)}),document.addEventListener("keydown",this._boundKeydownListener),this.modeless||this._addGlobalListeners()):t&&(this._resetFocus(),this._animatedClosing(),document.removeEventListener("keydown",this._boundKeydownListener),this.modeless||this._removeGlobalListeners())}_hiddenChanged(i){i&&this.hasAttribute("closing")&&this._flushAnimation("closing")}_shouldAnimate(){const i=getComputedStyle(this),t=i.getPropertyValue("animation-name");return!(i.getPropertyValue("display")==="none")&&t&&t!=="none"}_enqueueAnimation(i,t){const r=`__${i}Handler`,o=a=>{a&&a.target!==this||(t(),this.removeEventListener("animationend",o),delete this[r])};this[r]=o,this.addEventListener("animationend",o)}_flushAnimation(i){const t=`__${i}Handler`;typeof this[t]=="function"&&this[t]()}_animatedOpening(){this.parentNode===document.body&&this.hasAttribute("closing")&&this._flushAnimation("closing"),this._attachOverlay(),this.modeless||this._enterModalState(),this.setAttribute("opening",""),this._shouldAnimate()?this._enqueueAnimation("opening",()=>{this._finishOpening()}):this._finishOpening()}_attachOverlay(){this._placeholder=document.createComment("vaadin-overlay-placeholder"),this.parentNode.insertBefore(this._placeholder,this),document.body.appendChild(this),this.bringToFront()}_finishOpening(){this.removeAttribute("opening")}_finishClosing(){this._detachOverlay(),this.$.overlay.style.removeProperty("pointer-events"),this.removeAttribute("closing"),this.dispatchEvent(new CustomEvent("vaadin-overlay-closed"))}_animatedClosing(){this.hasAttribute("opening")&&this._flushAnimation("opening"),this._placeholder&&(this._exitModalState(),this.setAttribute("closing",""),this.dispatchEvent(new CustomEvent("vaadin-overlay-closing")),this._shouldAnimate()?this._enqueueAnimation("closing",()=>{this._finishClosing()}):this._finishClosing())}_detachOverlay(){this._placeholder.parentNode.insertBefore(this,this._placeholder),this._placeholder.parentNode.removeChild(this._placeholder)}_modelessChanged(i){i?(this._removeGlobalListeners(),this._exitModalState()):this.opened&&(this._addGlobalListeners(),this._enterModalState())}_addGlobalListeners(){document.addEventListener("mousedown",this._boundMouseDownListener),document.addEventListener("mouseup",this._boundMouseUpListener),document.documentElement.addEventListener("click",this._boundOutsideClickListener,!0)}_enterModalState(){document.body.style.pointerEvents!=="none"&&(this._previousDocumentPointerEvents=document.body.style.pointerEvents,document.body.style.pointerEvents="none"),Overlay.__attachedInstances.forEach(i=>{i!==this&&(i.shadowRoot.querySelector('[part="overlay"]').style.pointerEvents="none")})}_removeGlobalListeners(){document.removeEventListener("mousedown",this._boundMouseDownListener),document.removeEventListener("mouseup",this._boundMouseUpListener),document.documentElement.removeEventListener("click",this._boundOutsideClickListener,!0)}_exitModalState(){this._previousDocumentPointerEvents!==void 0&&(document.body.style.pointerEvents=this._previousDocumentPointerEvents,delete this._previousDocumentPointerEvents);const i=Overlay.__attachedInstances;let t;for(;(t=i.pop())&&!(t!==this&&(t.shadowRoot.querySelector('[part="overlay"]').style.removeProperty("pointer-events"),!t.modeless)););}_rendererOrDataChanged(i,t,r,o){const a=this._oldOwner!==t||this._oldModel!==r;this._oldModel=r,this._oldOwner=t;const s=this._oldRenderer!==i;this._oldRenderer=i;const l=this._oldOpened!==o;this._oldOpened=o,s&&(this.innerHTML="",delete this._$litPart$),o&&i&&(s||l||a)&&this.requestContentUpdate()}bringToFront(){let i="";const t=Overlay.__attachedInstances.filter(r=>r!==this).pop();t&&(i=t.__zIndex+1),this.style.zIndex=i,this.__zIndex=i||parseFloat(getComputedStyle(this).zIndex)}}customElements.define(Overlay.is,Overlay);const dialogOverlay=css$e`
+  /* Optical centering */
+  :host::before,
+  :host::after {
+    content: '';
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  :host::after {
+    flex-grow: 1.1;
+  }
+
+  [part='overlay'] {
+    border-radius: var(--lumo-border-radius-l);
+    box-shadow: 0 0 0 1px var(--lumo-shade-5pct), var(--lumo-box-shadow-xl);
+    background-image: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [part='content'] {
+    padding: var(--lumo-space-l);
+  }
+
+  :host(:is([has-header], [has-title])) [part='header'] + [part='content'] {
+    padding-top: 0;
+  }
+
+  [part='header'],
+  [part='header-content'],
+  [part='footer'] {
+    gap: var(--lumo-space-xs) var(--lumo-space-s);
+    line-height: var(--lumo-line-height-s);
+  }
+
+  [part='header'] {
+    padding: var(--lumo-space-m);
+    background-color: var(--lumo-base-color);
+    border-radius: var(--lumo-border-radius-l) var(--lumo-border-radius-l) 0 0; /* Needed for Safari */
+  }
+
+  [part='footer'] {
+    padding: var(--lumo-space-s) var(--lumo-space-m);
+    background-color: var(--lumo-contrast-5pct);
+    border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l); /* Needed for Safari */
+  }
+
+  [part='title'] {
+    font-size: var(--lumo-font-size-xl);
+    font-weight: 600;
+    color: var(--lumo-header-text-color);
+    margin-inline-start: calc(var(--lumo-space-l) - var(--lumo-space-m));
+  }
+
+  /* No padding */
+  :host([theme~='no-padding']) [part='content'] {
+    padding: 0;
+  }
+
+  @media (min-height: 320px) {
+    :host([overflow~='top']) [part='header'] {
+      box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct);
+    }
+  }
+
+  /* Animations */
+
+  :host([opening]),
+  :host([closing]) {
+    animation: 0.25s lumo-overlay-dummy-animation;
+  }
+
+  :host([opening]) [part='overlay'] {
+    animation: 0.12s 0.05s vaadin-dialog-enter cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+
+  @keyframes vaadin-dialog-enter {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  :host([closing]) [part='overlay'] {
+    animation: 0.1s 0.03s vaadin-dialog-exit cubic-bezier(0.55, 0.055, 0.675, 0.19) both;
+  }
+
+  :host([closing]) [part='backdrop'] {
+    animation-delay: 0.05s;
+  }
+
+  @keyframes vaadin-dialog-exit {
+    100% {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+  }
+`;registerStyles$1("vaadin-dialog-overlay",[overlay,dialogOverlay],{moduleId:"lumo-dialog"});/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */registerStyles$1("vaadin-dialog-overlay",css$e`
+    [part='header'],
+    [part='header-content'],
+    [part='footer'] {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      flex: none;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    [part='header'] {
+      flex-wrap: nowrap;
+    }
+
+    ::slotted([slot='header-content']),
+    ::slotted([slot='title']),
+    ::slotted([slot='footer']) {
+      display: contents;
+      pointer-events: auto;
+    }
+
+    ::slotted([slot='title']) {
+      font: inherit !important;
+      overflow-wrap: anywhere;
+    }
+
+    [part='header-content'] {
+      flex: 1;
+    }
+
+    :host([has-title]) [part='header-content'],
+    [part='footer'] {
+      justify-content: flex-end;
+    }
+
+    :host(:not([has-title]):not([has-header])) [part='header'],
+    :host(:not([has-header])) [part='header-content'],
+    :host(:not([has-title])) [part='title'],
+    :host(:not([has-footer])) [part='footer'] {
+      display: none !important;
+    }
+
+    :host(:is([has-title], [has-header], [has-footer])) [part='content'] {
+      height: auto;
+    }
+
+    @media (min-height: 320px) {
+      :host(:is([has-title], [has-header], [has-footer])) .resizer-container {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      :host(:is([has-title], [has-header], [has-footer])) [part='content'] {
+        flex: 1;
+        overflow: auto;
+      }
+    }
+
+    /*
+      NOTE(platosha): Make some min-width to prevent collapsing of the content
+      taking the parent width, e. g., <vaadin-grid> and such.
+    */
+    [part='content'] {
+      min-width: 12em; /* matches the default <vaadin-text-field> width */
+    }
+
+    :host([has-bounds-set]) [part='overlay'] {
+      max-width: none;
+    }
+
+    @media (forced-colors: active) {
+      [part='overlay'] {
+        outline: 3px solid !important;
+      }
+    }
+  `,{moduleId:"vaadin-dialog-overlay-styles"});let memoizedTemplate$c;class DialogOverlay extends Overlay{static get is(){return"vaadin-dialog-overlay"}static get template(){if(!memoizedTemplate$c){memoizedTemplate$c=super.template.cloneNode(!0);const i=memoizedTemplate$c.content.querySelector('[part="content"]'),t=memoizedTemplate$c.content.querySelector('[part="overlay"]'),r=document.createElement("section");r.id="resizerContainer",r.classList.add("resizer-container"),r.appendChild(i),t.appendChild(r);const o=document.createElement("header");o.setAttribute("part","header"),r.insertBefore(o,i);const a=document.createElement("div");a.setAttribute("part","title"),o.appendChild(a);const s=document.createElement("slot");s.setAttribute("name","title"),a.appendChild(s);const l=document.createElement("div");l.setAttribute("part","header-content"),o.appendChild(l);const h=document.createElement("slot");h.setAttribute("name","header-content"),l.appendChild(h);const c=document.createElement("footer");c.setAttribute("part","footer"),r.appendChild(c);const d=document.createElement("slot");d.setAttribute("name","footer"),c.appendChild(d)}return memoizedTemplate$c}static get observers(){return["_headerFooterRendererChange(headerRenderer, footerRenderer, opened)","_headerTitleChanged(headerTitle, opened)"]}static get properties(){return{modeless:Boolean,withBackdrop:Boolean,headerTitle:String,headerRenderer:Function,footerRenderer:Function}}ready(){super.ready(),this.__resizeObserver=new ResizeObserver(()=>{this.__updateOverflow()}),this.__resizeObserver.observe(this.$.resizerContainer),this.$.content.addEventListener("scroll",()=>{this.__updateOverflow()})}__createContainer(i){const t=document.createElement("div");return t.setAttribute("slot",i),t}__clearContainer(i){i.innerHTML="",delete i._$litPart$}__initContainer(i,t){return i?this.__clearContainer(i):i=this.__createContainer(t),i}_headerFooterRendererChange(i,t,r){const o=this.__oldHeaderRenderer!==i;this.__oldHeaderRenderer=i;const a=this.__oldFooterRenderer!==t;this.__oldFooterRenderer=t;const s=this._oldOpenedFooterHeader!==r;this._oldOpenedFooterHeader=r,this.toggleAttribute("has-header",!!i),this.toggleAttribute("has-footer",!!t),o&&(i?this.headerContainer=this.__initContainer(this.headerContainer,"header-content"):this.headerContainer&&(this.headerContainer.remove(),this.headerContainer=null,this.__updateOverflow())),a&&(t?this.footerContainer=this.__initContainer(this.footerContainer,"footer"):this.footerContainer&&(this.footerContainer.remove(),this.footerContainer=null,this.__updateOverflow())),(i&&(o||s)||t&&(a||s))&&r&&this.requestContentUpdate()}_headerTitleChanged(i,t){this.toggleAttribute("has-title",!!i),t&&(i||this._oldHeaderTitle)&&this.requestContentUpdate(),this._oldHeaderTitle=i}_headerTitleRenderer(){this.headerTitle?(this.headerTitleElement||(this.headerTitleElement=document.createElement("h2"),this.headerTitleElement.setAttribute("slot","title"),this.headerTitleElement.classList.add("draggable")),this.appendChild(this.headerTitleElement),this.headerTitleElement.textContent=this.headerTitle):this.headerTitleElement&&(this.headerTitleElement.remove(),this.headerTitleElement=null)}requestContentUpdate(){super.requestContentUpdate(),this.headerContainer&&(this.headerContainer.parentElement||this.appendChild(this.headerContainer),this.headerRenderer&&this.headerRenderer.call(this.owner,this.headerContainer,this.owner)),this.footerContainer&&(this.footerContainer.parentElement||this.appendChild(this.footerContainer),this.footerRenderer&&this.footerRenderer.call(this.owner,this.footerContainer,this.owner)),this._headerTitleRenderer(),this.__updateOverflow()}setBounds(i){const t=this.$.overlay,r={...i};t.style.position!=="absolute"&&(t.style.position="absolute",this.setAttribute("has-bounds-set","")),Object.keys(r).forEach(o=>{typeof r[o]=="number"&&(r[o]=`${r[o]}px`)}),Object.assign(t.style,r)}getBounds(){const i=this.$.overlay.getBoundingClientRect(),t=this.getBoundingClientRect(),r=i.top-t.top,o=i.left-t.left,a=i.width,s=i.height;return{top:r,left:o,width:a,height:s}}__updateOverflow(){let i="";if(this.hasAttribute("has-header")||this.hasAttribute("has-footer")||this.headerTitle){const r=this.$.content;r.scrollTop>0&&(i+=" top"),r.scrollTop<r.scrollHeight-r.clientHeight&&(i+=" bottom")}const t=i.trim();t.length>0&&this.getAttribute("overflow")!==t?this.setAttribute("overflow",t):t.length===0&&this.hasAttribute("overflow")&&this.removeAttribute("overflow")}}customElements.define(DialogOverlay.is,DialogOverlay);/**
+ * @license
+ * Copyright (c) 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const OverlayClassMixin=n=>class extends n{static get properties(){return{overlayClass:{type:String},_overlayElement:{type:Object}}}static get observers(){return["__updateOverlayClassNames(overlayClass, _overlayElement)"]}__updateOverlayClassNames(t,r){if(!r||t===void 0)return;const{classList:o}=r;if(this.__initialClasses||(this.__initialClasses=new Set(o)),Array.isArray(this.__previousClasses)){const s=this.__previousClasses.filter(l=>!this.__initialClasses.has(l));s.length>0&&o.remove(...s)}const a=typeof t=="string"?t.split(" "):[];a.length>0&&o.add(...a),this.__previousClasses=a}};/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */function getMouseOrFirstTouchEvent(n){return n.touches?n.touches[0]:n}function eventInWindow(n){return n.clientX>=0&&n.clientX<=window.innerWidth&&n.clientY>=0&&n.clientY<=window.innerHeight}/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */const DialogDraggableMixin=n=>class extends n{static get properties(){return{draggable:{type:Boolean,value:!1,reflectToAttribute:!0},_touchDevice:{type:Boolean,value:isTouch},__dragHandleClassName:{type:String}}}ready(){super.ready(),this._originalBounds={},this._originalMouseCoords={},this._startDrag=this._startDrag.bind(this),this._drag=this._drag.bind(this),this._stopDrag=this._stopDrag.bind(this),this.$.overlay.$.overlay.addEventListener("mousedown",this._startDrag),this.$.overlay.$.overlay.addEventListener("touchstart",this._startDrag)}_startDrag(t){if(!(t.type==="touchstart"&&t.touches.length>1)&&this.draggable&&(t.button===0||t.touches)){const r=this.$.overlay.$.resizerContainer,o=t.target===r,a=t.offsetX>r.clientWidth||t.offsetY>r.clientHeight,s=t.target===this.$.overlay.$.content,l=t.composedPath().some((h,c)=>{if(!h.classList)return!1;const d=h.classList.contains(this.__dragHandleClassName||"draggable"),u=h.classList.contains("draggable-leaf-only"),p=c===0;return u&&p||d&&(!u||p)});if(o&&!a||s||l){l||t.preventDefault(),this._originalBounds=this.$.overlay.getBounds();const h=getMouseOrFirstTouchEvent(t);this._originalMouseCoords={top:h.pageY,left:h.pageX},window.addEventListener("mouseup",this._stopDrag),window.addEventListener("touchend",this._stopDrag),window.addEventListener("mousemove",this._drag),window.addEventListener("touchmove",this._drag),this.$.overlay.$.overlay.style.position!=="absolute"&&this.$.overlay.setBounds(this._originalBounds)}}}_drag(t){const r=getMouseOrFirstTouchEvent(t);if(eventInWindow(r)){const o=this._originalBounds.top+(r.pageY-this._originalMouseCoords.top),a=this._originalBounds.left+(r.pageX-this._originalMouseCoords.left);this.$.overlay.setBounds({top:o,left:a})}}_stopDrag(){window.removeEventListener("mouseup",this._stopDrag),window.removeEventListener("touchend",this._stopDrag),window.removeEventListener("mousemove",this._drag),window.removeEventListener("touchmove",this._drag)}};/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */registerStyles$1("vaadin-dialog-overlay",css$e`
+    [part='overlay'] {
+      position: relative;
+      overflow: visible;
+      max-height: 100%;
+      display: flex;
+    }
+
+    [part='content'] {
+      box-sizing: border-box;
+      height: 100%;
+    }
+
+    .resizer-container {
+      overflow: auto;
+      flex-grow: 1;
+      border-radius: inherit; /* prevent child elements being drawn outside part=overlay */
+    }
+
+    [part='overlay'][style] .resizer-container {
+      min-height: 100%;
+      width: 100%;
+    }
+
+    :host(:not([resizable])) .resizer {
+      display: none;
+    }
+
+    :host([resizable]) [part='title'] {
+      cursor: move;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .resizer {
+      position: absolute;
+      height: 16px;
+      width: 16px;
+    }
+
+    .resizer.edge {
+      height: 8px;
+      width: 8px;
+      top: -4px;
+      right: -4px;
+      bottom: -4px;
+      left: -4px;
+    }
+
+    .resizer.edge.n {
+      width: auto;
+      bottom: auto;
+      cursor: ns-resize;
+    }
+
+    .resizer.ne {
+      top: -4px;
+      right: -4px;
+      cursor: nesw-resize;
+    }
+
+    .resizer.edge.e {
+      height: auto;
+      left: auto;
+      cursor: ew-resize;
+    }
+
+    .resizer.se {
+      bottom: -4px;
+      right: -4px;
+      cursor: nwse-resize;
+    }
+
+    .resizer.edge.s {
+      width: auto;
+      top: auto;
+      cursor: ns-resize;
+    }
+
+    .resizer.sw {
+      bottom: -4px;
+      left: -4px;
+      cursor: nesw-resize;
+    }
+
+    .resizer.edge.w {
+      height: auto;
+      right: auto;
+      cursor: ew-resize;
+    }
+
+    .resizer.nw {
+      top: -4px;
+      left: -4px;
+      cursor: nwse-resize;
+    }
+  `,{moduleId:"vaadin-dialog-resizable-overlay-styles"});const DialogResizableMixin=n=>class extends n{static get properties(){return{resizable:{type:Boolean,value:!1,reflectToAttribute:!0}}}ready(){super.ready(),this._originalBounds={},this._originalMouseCoords={},this._resizeListeners={start:{},resize:{},stop:{}},this._addResizeListeners()}_addResizeListeners(){["n","e","s","w","nw","ne","se","sw"].forEach(t=>{const r=document.createElement("div");this._resizeListeners.start[t]=o=>this._startResize(o,t),this._resizeListeners.resize[t]=o=>this._resize(o,t),this._resizeListeners.stop[t]=()=>this._stopResize(t),t.length===1&&r.classList.add("edge"),r.classList.add("resizer"),r.classList.add(t),r.addEventListener("mousedown",this._resizeListeners.start[t]),r.addEventListener("touchstart",this._resizeListeners.start[t]),this.$.overlay.$.resizerContainer.appendChild(r)})}_startResize(t,r){if(!(t.type==="touchstart"&&t.touches.length>1)&&(t.button===0||t.touches)){t.preventDefault(),this._originalBounds=this.$.overlay.getBounds();const o=getMouseOrFirstTouchEvent(t);this._originalMouseCoords={top:o.pageY,left:o.pageX},window.addEventListener("mousemove",this._resizeListeners.resize[r]),window.addEventListener("touchmove",this._resizeListeners.resize[r]),window.addEventListener("mouseup",this._resizeListeners.stop[r]),window.addEventListener("touchend",this._resizeListeners.stop[r]),this.$.overlay.$.overlay.style.position!=="absolute"&&this.$.overlay.setBounds(this._originalBounds)}}_resize(t,r){const o=getMouseOrFirstTouchEvent(t);eventInWindow(o)&&r.split("").forEach(s=>{switch(s){case"n":{const l=this._originalBounds.height-(o.pageY-this._originalMouseCoords.top),h=this._originalBounds.top+(o.pageY-this._originalMouseCoords.top);l>40&&this.$.overlay.setBounds({top:h,height:l});break}case"e":{const l=this._originalBounds.width+(o.pageX-this._originalMouseCoords.left);l>40&&this.$.overlay.setBounds({width:l});break}case"s":{const l=this._originalBounds.height+(o.pageY-this._originalMouseCoords.top);l>40&&this.$.overlay.setBounds({height:l});break}case"w":{const l=this._originalBounds.width-(o.pageX-this._originalMouseCoords.left),h=this._originalBounds.left+(o.pageX-this._originalMouseCoords.left);l>40&&this.$.overlay.setBounds({left:h,width:l});break}}})}_stopResize(t){window.removeEventListener("mousemove",this._resizeListeners.resize[t]),window.removeEventListener("touchmove",this._resizeListeners.resize[t]),window.removeEventListener("mouseup",this._resizeListeners.stop[t]),window.removeEventListener("touchend",this._resizeListeners.stop[t]),this.dispatchEvent(new CustomEvent("resize",{detail:this._getResizeDimensions()}))}_getResizeDimensions(){const t=this.$.overlay.$.resizerContainer.scrollTop,{width:r,height:o}=getComputedStyle(this.$.overlay.$.overlay),a=this.$.overlay.$.content;a.setAttribute("style","position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: content-box; height: auto;");const{width:s,height:l}=getComputedStyle(a);return a.removeAttribute("style"),this.$.overlay.$.resizerContainer.scrollTop=t,{width:r,height:o,contentWidth:s,contentHeight:l}}};/**
+ * @license
+ * Copyright (c) 2017 - 2023 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */class Dialog extends OverlayClassMixin(ThemePropertyMixin(ElementMixin(DialogDraggableMixin(DialogResizableMixin(PolymerElement))))){static get template(){return html`
+      <style>
+        :host {
+          display: none !important;
+        }
+      </style>
+
+      <vaadin-dialog-overlay
+        id="overlay"
+        header-title="[[headerTitle]]"
+        on-opened-changed="_onOverlayOpened"
+        on-mousedown="_bringOverlayToFront"
+        on-touchstart="_bringOverlayToFront"
+        theme$="[[_theme]]"
+        modeless="[[modeless]]"
+        with-backdrop="[[!modeless]]"
+        resizable$="[[resizable]]"
+        restore-focus-on-close
+        focus-trap
+      ></vaadin-dialog-overlay>
+    `}static get is(){return"vaadin-dialog"}static get properties(){return{opened:{type:Boolean,value:!1,notify:!0},noCloseOnOutsideClick:{type:Boolean,value:!1},noCloseOnEsc:{type:Boolean,value:!1},ariaLabel:{type:String,value:""},renderer:Function,headerTitle:String,headerRenderer:Function,footerRenderer:Function,modeless:{type:Boolean,value:!1}}}static get observers(){return["_openedChanged(opened)","_ariaLabelChanged(ariaLabel, headerTitle)","_rendererChanged(renderer, headerRenderer, footerRenderer)"]}ready(){super.ready();const i=this.$.overlay;i.setAttribute("role","dialog"),i.addEventListener("vaadin-overlay-outside-click",this._handleOutsideClick.bind(this)),i.addEventListener("vaadin-overlay-escape-press",this._handleEscPress.bind(this)),this._overlayElement=i,processTemplates(this)}requestContentUpdate(){this.$&&this.$.overlay.requestContentUpdate()}_rendererChanged(i,t,r){this.$.overlay.setProperties({owner:this,renderer:i,headerRenderer:t,footerRenderer:r})}connectedCallback(){super.connectedCallback(),this.__restoreOpened&&(this.opened=!0)}disconnectedCallback(){super.disconnectedCallback(),setTimeout(()=>{this.isConnected||(this.__restoreOpened=this.opened,this.opened=!1)})}_openedChanged(i){this.$.overlay.opened=i}_ariaLabelChanged(i,t){i||t?this.$.overlay.setAttribute("aria-label",i||t):this.$.overlay.removeAttribute("aria-label")}_onOverlayOpened(i){i.detail.value===!1&&(this.opened=!1)}_handleOutsideClick(i){this.noCloseOnOutsideClick&&i.preventDefault()}_handleEscPress(i){this.noCloseOnEsc&&i.preventDefault()}_bringOverlayToFront(){this.modeless&&this.$.overlay.bringToFront()}}customElements.define(Dialog.is,Dialog);/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/class Debouncer{constructor(){this._asyncModule=null,this._callback=null,this._timer=null}setConfig(i,t){this._asyncModule=i,this._callback=t,this._timer=this._asyncModule.run(()=>{this._timer=null,debouncerQueue.delete(this),this._callback()})}cancel(){this.isActive()&&(this._cancelAsync(),debouncerQueue.delete(this))}_cancelAsync(){this.isActive()&&(this._asyncModule.cancel(this._timer),this._timer=null)}flush(){this.isActive()&&(this.cancel(),this._callback())}isActive(){return this._timer!=null}static debounce(i,t,r){return i instanceof Debouncer?i._cancelAsync():i=new Debouncer,i.setConfig(t,r),i}}let debouncerQueue=new Set;const enqueueDebouncer=function(n){debouncerQueue.add(n)},flushDebouncers=function(){const n=!!debouncerQueue.size;return debouncerQueue.forEach(i=>{try{i.flush()}catch(t){setTimeout(()=>{throw t})}}),n};/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/const flush=function(){let n,i;do n=window.ShadyDOM&&ShadyDOM.flush(),window.ShadyCSS&&window.ShadyCSS.ScopingShim&&window.ShadyCSS.ScopingShim.flush(),i=flushDebouncers();while(n||i)};/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/let elementsHidden=!1;function hideElementsGlobally(){if(legacyOptimizations&&!useShadow){if(!elementsHidden){elementsHidden=!0;const n=document.createElement("style");n.textContent="dom-bind,dom-if,dom-repeat{display:none;}",document.head.appendChild(n)}return!0}return!1}/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/function mutablePropertyChange(n,i,t,r,o){let a;o&&(a=typeof t=="object"&&t!==null,a&&(r=n.__dataTemp[i]));let s=r!==t&&(r===r||t===t);return a&&s&&(n.__dataTemp[i]=t),s}const MutableData=dedupingMixin(n=>{class i extends n{_shouldPropertyChange(r,o,a){return mutablePropertyChange(this,r,o,a,!0)}}return i}),OptionalMutableData=dedupingMixin(n=>{class i extends n{static get properties(){return{mutableData:Boolean}}_shouldPropertyChange(r,o,a){return mutablePropertyChange(this,r,o,a,this.mutableData)}}return i});MutableData._mutablePropertyChange=mutablePropertyChange;/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/let newInstance=null;function HTMLTemplateElementExtension(){return newInstance}HTMLTemplateElementExtension.prototype=Object.create(HTMLTemplateElement.prototype,{constructor:{value:HTMLTemplateElementExtension,writable:!0}});const DataTemplate=PropertyEffects(HTMLTemplateElementExtension),MutableDataTemplate=MutableData(DataTemplate);function upgradeTemplate(n,i){newInstance=n,Object.setPrototypeOf(n,i.prototype),new i,newInstance=null}const templateInstanceBase=PropertyEffects(class{});function showHideChildren(n,i){for(let t=0;t<i.length;t++){let r=i[t];if(!!n!=!!r.__hideTemplateChildren__)if(r.nodeType===Node.TEXT_NODE)n?(r.__polymerTextContent__=r.textContent,r.textContent=""):r.textContent=r.__polymerTextContent__;else if(r.localName==="slot")if(n)r.__polymerReplaced__=document.createComment("hidden-slot"),wrap$f(wrap$f(r).parentNode).replaceChild(r.__polymerReplaced__,r);else{const o=r.__polymerReplaced__;o&&wrap$f(wrap$f(o).parentNode).replaceChild(r,o)}else r.style&&(n?(r.__polymerDisplay__=r.style.display,r.style.display="none"):r.style.display=r.__polymerDisplay__);r.__hideTemplateChildren__=n,r._showHideChildren&&r._showHideChildren(n)}}class TemplateInstanceBase extends templateInstanceBase{constructor(i){super(),this._configureProperties(i),this.root=this._stampTemplate(this.__dataHost);let t=[];this.children=t;for(let o=this.root.firstChild;o;o=o.nextSibling)t.push(o),o.__templatizeInstance=this;this.__templatizeOwner&&this.__templatizeOwner.__hideTemplateChildren__&&this._showHideChildren(!0);let r=this.__templatizeOptions;(i&&r.instanceProps||!r.instanceProps)&&this._enableProperties()}_configureProperties(i){if(this.__templatizeOptions.forwardHostProp)for(let r in this.__hostProps)this._setPendingProperty(r,this.__dataHost["_host_"+r]);for(let r in i)this._setPendingProperty(r,i[r])}forwardHostProp(i,t){this._setPendingPropertyOrPath(i,t,!1,!0)&&this.__dataHost._enqueueClient(this)}_addEventListenerToNode(i,t,r){if(this._methodHost&&this.__templatizeOptions.parentModel)this._methodHost._addEventListenerToNode(i,t,o=>{o.model=this,r(o)});else{let o=this.__dataHost.__dataHost;o&&o._addEventListenerToNode(i,t,r)}}_showHideChildren(i){showHideChildren(i,this.children)}_setUnmanagedPropertyToNode(i,t,r){i.__hideTemplateChildren__&&i.nodeType==Node.TEXT_NODE&&t=="textContent"?i.__polymerTextContent__=r:super._setUnmanagedPropertyToNode(i,t,r)}get parentModel(){let i=this.__parentModel;if(!i){let t;i=this;do i=i.__dataHost.__dataHost;while((t=i.__templatizeOptions)&&!t.parentModel);this.__parentModel=i}return i}dispatchEvent(i){return!0}}TemplateInstanceBase.prototype.__dataHost;TemplateInstanceBase.prototype.__templatizeOptions;TemplateInstanceBase.prototype._methodHost;TemplateInstanceBase.prototype.__templatizeOwner;TemplateInstanceBase.prototype.__hostProps;const MutableTemplateInstanceBase=MutableData(TemplateInstanceBase);function findMethodHost(n){let i=n.__dataHost;return i&&i._methodHost||i}function createTemplatizerClass(n,i,t){let r=t.mutableData?MutableTemplateInstanceBase:TemplateInstanceBase;templatize.mixin&&(r=templatize.mixin(r));let o=class extends r{};return o.prototype.__templatizeOptions=t,o.prototype._bindTemplate(n),addNotifyEffects(o,n,i,t),o}function addPropagateEffects(n,i,t,r){let o=t.forwardHostProp;if(o&&i.hasHostProps){const a=n.localName=="template";let s=i.templatizeTemplateClass;if(!s){if(a){let h=t.mutableData?MutableDataTemplate:DataTemplate;class c extends h{}s=i.templatizeTemplateClass=c}else{const h=n.constructor;class c extends h{}s=i.templatizeTemplateClass=c}let l=i.hostProps;for(let h in l)s.prototype._addPropertyEffect("_host_"+h,s.prototype.PROPERTY_EFFECT_TYPES.PROPAGATE,{fn:createForwardHostPropEffect(h,o)}),s.prototype._createNotifyingProperty("_host_"+h);legacyWarnings&&r&&warnOnUndeclaredProperties(i,t,r)}if(n.__dataProto&&Object.assign(n.__data,n.__dataProto),a)upgradeTemplate(n,s),n.__dataTemp={},n.__dataPending=null,n.__dataOld=null,n._enableProperties();else{Object.setPrototypeOf(n,s.prototype);const l=i.hostProps;for(let h in l)if(h="_host_"+h,h in n){const c=n[h];delete n[h],n.__data[h]=c}}}}function createForwardHostPropEffect(n,i){return function(r,o,a){i.call(r.__templatizeOwner,o.substring(6),a[o])}}function addNotifyEffects(n,i,t,r){let o=t.hostProps||{};for(let a in r.instanceProps){delete o[a];let s=r.notifyInstanceProp;s&&n.prototype._addPropertyEffect(a,n.prototype.PROPERTY_EFFECT_TYPES.NOTIFY,{fn:createNotifyInstancePropEffect(a,s)})}if(r.forwardHostProp&&i.__dataHost)for(let a in o)t.hasHostProps||(t.hasHostProps=!0),n.prototype._addPropertyEffect(a,n.prototype.PROPERTY_EFFECT_TYPES.NOTIFY,{fn:createNotifyHostPropEffect()})}function createNotifyInstancePropEffect(n,i){return function(r,o,a){i.call(r.__templatizeOwner,r,o,a[o])}}function createNotifyHostPropEffect(){return function(i,t,r){i.__dataHost._setPendingPropertyOrPath("_host_"+t,r[t],!0,!0)}}function templatize(n,i,t){if(strictTemplatePolicy&&!findMethodHost(n))throw new Error("strictTemplatePolicy: template owner not trusted");if(t=t||{},n.__templatizeOwner)throw new Error("A <template> can only be templatized once");n.__templatizeOwner=i;let o=(i?i.constructor:TemplateInstanceBase)._parseTemplate(n),a=o.templatizeInstanceClass;a||(a=createTemplatizerClass(n,o,t),o.templatizeInstanceClass=a);const s=findMethodHost(n);addPropagateEffects(n,o,t,s);let l=class extends a{};return l.prototype._methodHost=s,l.prototype.__dataHost=n,l.prototype.__templatizeOwner=i,l.prototype.__hostProps=o.hostProps,l=l,l}function warnOnUndeclaredProperties(n,i,t){const r=t.constructor._properties,{propertyEffects:o}=n,{instanceProps:a}=i;for(let s in o)if(!r[s]&&!(a&&a[s])){const l=o[s];for(let h=0;h<l.length;h++){const{part:c}=l[h].info;if(!(c.signature&&c.signature.static)){console.warn(`Property '${s}' used in template but not declared in 'properties'; attribute will not be observed.`);break}}}}function modelForElement(n,i){let t;for(;i;)if(t=i.__dataHost?i:i.__templatizeInstance)if(t.__dataHost!=n)i=t.__dataHost;else return t;else i=wrap$f(i).parentNode;return null}/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/class DomIfBase extends PolymerElement{static get is(){return"dom-if"}static get template(){return null}static get properties(){return{if:{type:Boolean,observer:"__debounceRender"},restamp:{type:Boolean,observer:"__debounceRender"},notifyDomChange:{type:Boolean}}}constructor(){super(),this.__renderDebouncer=null,this._lastIf=!1,this.__hideTemplateChildren__=!1,this.__template,this._templateInfo}__debounceRender(){this.__renderDebouncer=Debouncer.debounce(this.__renderDebouncer,microTask$1,()=>this.__render()),enqueueDebouncer(this.__renderDebouncer)}disconnectedCallback(){super.disconnectedCallback();const i=wrap$f(this).parentNode;(!i||i.nodeType==Node.DOCUMENT_FRAGMENT_NODE&&!wrap$f(i).host)&&this.__teardownInstance()}connectedCallback(){super.connectedCallback(),hideElementsGlobally()||(this.style.display="none"),this.if&&this.__debounceRender()}__ensureTemplate(){if(!this.__template){const i=this;let t=i._templateInfo?i:wrap$f(i).querySelector("template");if(!t){let r=new MutationObserver(()=>{if(wrap$f(this).querySelector("template"))r.disconnect(),this.__render();else throw new Error("dom-if requires a <template> child")});return r.observe(this,{childList:!0}),!1}this.__template=t}return!0}__ensureInstance(){let i=wrap$f(this).parentNode;if(this.__hasInstance()){let t=this.__getInstanceNodes();if(t&&t.length&&wrap$f(this).previousSibling!==t[t.length-1])for(let o=0,a;o<t.length&&(a=t[o]);o++)wrap$f(i).insertBefore(a,this)}else{if(!i||!this.__ensureTemplate())return!1;this.__createAndInsertInstance(i)}return!0}render(){flush()}__render(){if(this.if){if(!this.__ensureInstance())return}else this.restamp&&this.__teardownInstance();this._showHideChildren(),(!suppressTemplateNotifications||this.notifyDomChange)&&this.if!=this._lastIf&&(this.dispatchEvent(new CustomEvent("dom-change",{bubbles:!0,composed:!0})),this._lastIf=this.if)}__hasInstance(){}__getInstanceNodes(){}__createAndInsertInstance(i){}__teardownInstance(){}_showHideChildren(){}}class DomIfFast extends DomIfBase{constructor(){super(),this.__instance=null,this.__syncInfo=null}__hasInstance(){return!!this.__instance}__getInstanceNodes(){return this.__instance.templateInfo.childNodes}__createAndInsertInstance(i){const t=this.__dataHost||this;if(strictTemplatePolicy&&!this.__dataHost)throw new Error("strictTemplatePolicy: template owner not trusted");const r=t._bindTemplate(this.__template,!0);r.runEffects=(o,a,s)=>{let l=this.__syncInfo;if(this.if)l&&(this.__syncInfo=null,this._showHideChildren(),a=Object.assign(l.changedProps,a)),o(a,s);else if(this.__instance)if(l||(l=this.__syncInfo={runEffects:o,changedProps:{}}),s)for(const h in a){const c=root(h);l.changedProps[c]=this.__dataHost[c]}else Object.assign(l.changedProps,a)},this.__instance=t._stampTemplate(this.__template,r),wrap$f(i).insertBefore(this.__instance,this)}__syncHostProperties(){const i=this.__syncInfo;i&&(this.__syncInfo=null,i.runEffects(i.changedProps,!1))}__teardownInstance(){const i=this.__dataHost||this;this.__instance&&(i._removeBoundDom(this.__instance),this.__instance=null,this.__syncInfo=null)}_showHideChildren(){const i=this.__hideTemplateChildren__||!this.if;this.__instance&&!!this.__instance.__hidden!==i&&(this.__instance.__hidden=i,showHideChildren(i,this.__instance.templateInfo.childNodes)),i||this.__syncHostProperties()}}class DomIfLegacy extends DomIfBase{constructor(){super(),this.__ctor=null,this.__instance=null,this.__invalidProps=null}__hasInstance(){return!!this.__instance}__getInstanceNodes(){return this.__instance.children}__createAndInsertInstance(i){this.__ctor||(this.__ctor=templatize(this.__template,this,{mutableData:!0,forwardHostProp:function(t,r){this.__instance&&(this.if?this.__instance.forwardHostProp(t,r):(this.__invalidProps=this.__invalidProps||Object.create(null),this.__invalidProps[root(t)]=!0))}})),this.__instance=new this.__ctor,wrap$f(i).insertBefore(this.__instance.root,this)}__teardownInstance(){if(this.__instance){let i=this.__instance.children;if(i&&i.length){let t=wrap$f(i[0]).parentNode;if(t){t=wrap$f(t);for(let r=0,o;r<i.length&&(o=i[r]);r++)t.removeChild(o)}}this.__invalidProps=null,this.__instance=null}}__syncHostProperties(){let i=this.__invalidProps;if(i){this.__invalidProps=null;for(let t in i)this.__instance._setPendingProperty(t,this.__dataHost[t]);this.__instance._flushProperties()}}_showHideChildren(){const i=this.__hideTemplateChildren__||!this.if;this.__instance&&!!this.__instance.__hidden!==i&&(this.__instance.__hidden=i,this.__instance._showHideChildren(i)),i||this.__syncHostProperties()}}const DomIf=fastDomIf?DomIfFast:DomIfLegacy;customElements.define(DomIf.is,DomIf);class FlowComponentDirective extends Directive{constructor(i){if(super(i),i.type!==PartType.CHILD)throw new Error(`${this.constructor.directiveName}() can only be used in child bindings`)}update(i,[t,r]){return this.updateContent(i,t,r),noChange}updateContent(i,t,r){const{parentNode:o,startNode:a}=i,s=r!=null,l=s?this.getNewNode(t,r):null,h=this.getOldNode(i);if(s&&!l)setTimeout(()=>this.updateContent(i,t,r));else{if(h===l)return;h&&l?o.replaceChild(l,h):h?o.removeChild(h):l&&a.after(l)}}getNewNode(i,t){return window.Vaadin.Flow.clients[i].getByNodeId(t)}getOldNode(i){const{startNode:t,endNode:r}=i;if(t.nextSibling!==r)return t.nextSibling}}const flowComponentDirective=directive(FlowComponentDirective);function getNodeInternal(n,i){return window.Vaadin.Flow.clients[n].getByNodeId(i)}function getNode(n,i){return flowComponentDirective(n,i)}function setChildNodes(n,i,t){t.textContent="",t.append(...i.map(r=>getNodeInternal(n,r)))}function patchVirtualContainer(n){const i=n.insertBefore;n.insertBefore=function(t,r){return r&&r.parentNode===this?i.call(this,t,r):i.call(this,t,null)}}window.Vaadin||(window.Vaadin={});var Qt;(Qt=window.Vaadin).FlowComponentHost||(Qt.FlowComponentHost={patchVirtualContainer,getNode,setChildNodes});class FlowComponentRenderer extends PolymerElement{static get template(){return html`
+      <style>
+        :host {
+          animation: 1ms flow-component-renderer-appear;
+        }
+
+        @keyframes flow-component-renderer-appear {
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+      <slot></slot>
+    `}static get is(){return"flow-component-renderer"}static get properties(){return{nodeid:Number,appid:String}}static get observers(){return["_attachRenderedComponentIfAble(appid, nodeid)"]}ready(){super.ready(),this.addEventListener("click",function(i){this.firstChild&&typeof this.firstChild.click=="function"&&i.target===this&&(i.stopPropagation(),this.firstChild.click())}),this.addEventListener("animationend",this._onAnimationEnd)}_asyncAttachRenderedComponentIfAble(){this._debouncer=Debouncer.debounce(this._debouncer,idlePeriod$1,()=>this._attachRenderedComponentIfAble())}_attachRenderedComponentIfAble(){if(!this.nodeid||!this.appid)return;const i=this._getRenderedComponent();this.firstChild?i?this.firstChild!==i?(this.replaceChild(i,this.firstChild),this._defineFocusTarget(),this.onComponentRendered()):(this._defineFocusTarget(),this.onComponentRendered()):this._asyncAttachRenderedComponentIfAble():i?(this.appendChild(i),this._defineFocusTarget(),this.onComponentRendered()):this._asyncAttachRenderedComponentIfAble()}_getRenderedComponent(){try{return window.Vaadin.Flow.clients[this.appid].getByNodeId(this.nodeid)}catch(i){console.error("Could not get node %s from app %s",this.nodeid,this.appid),console.error(i)}return null}onComponentRendered(){}_defineFocusTarget(){var i=this._getFirstFocusableDescendant(this.firstChild);i!==null&&i.setAttribute("focus-target","true")}_getFirstFocusableDescendant(i){if(this._isFocusable(i))return i;if(i.hasAttribute&&(i.hasAttribute("disabled")||i.hasAttribute("hidden"))||!i.children)return null;for(var t=0;t<i.children.length;t++){var r=this._getFirstFocusableDescendant(i.children[t]);if(r!==null)return r}return null}_isFocusable(i){return i.hasAttribute&&typeof i.hasAttribute=="function"&&(i.hasAttribute("disabled")||i.hasAttribute("hidden"))?!1:i.tabIndex===0}_onAnimationEnd(i){i.animationName.indexOf("flow-component-renderer-appear")===0&&this._attachRenderedComponentIfAble()}}window.customElements.define(FlowComponentRenderer.is,FlowComponentRenderer);registerStyles$1("vaadin-app-layout",css$e`
     [part='navbar'],
     [part='drawer'] {
       background-color: var(--lumo-base-color);
@@ -810,10 +1374,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
 `;document.head.appendChild(template$9.content);/**
  * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const testUserAgent=n=>n.test(navigator.userAgent),testPlatform=n=>n.test(navigator.platform),testVendor=n=>n.test(navigator.vendor),isAndroid=testUserAgent(/Android/u),isChrome=testUserAgent(/Chrome/u)&&testVendor(/Google Inc/u),isFirefox$4=testUserAgent(/Firefox/u),isIPad=testPlatform(/^iPad/u)||testPlatform(/^Mac/u)&&navigator.maxTouchPoints>1,isIPhone=testPlatform(/^iPhone/u),isIOS=isIPhone||isIPad,isSafari=testUserAgent(/^((?!chrome|android).)*safari/iu),isTouch=(()=>{try{return document.createEvent("TouchEvent"),!0}catch{return!1}})();/**
- * @license
  * Copyright (c) 2018 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */function _detectIosNavbar(){if(isIOS){const n=window.innerHeight,t=window.innerWidth>n,r=document.documentElement.clientHeight;t&&r>n?document.documentElement.style.setProperty("--vaadin-viewport-offset-bottom",`${r-n}px`):document.documentElement.style.setProperty("--vaadin-viewport-offset-bottom","")}}_detectIosNavbar();window.addEventListener("resize",_detectIosNavbar);/**
@@ -833,34 +1393,6 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */function isSlot(n){return n.localName==="slot"}let FlattenedNodesObserver=class{static getFlattenedNodes(n){const i=wrap$f(n);return isSlot(n)?(n=n,i.assignedNodes({flatten:!0})):Array.from(i.childNodes).map(t=>isSlot(t)?(t=t,wrap$f(t).assignedNodes({flatten:!0})):[t]).reduce((t,r)=>t.concat(r),[])}constructor(n,i){this._shadyChildrenObserver=null,this._nativeChildrenObserver=null,this._connected=!1,this._target=n,this.callback=i,this._effectiveNodes=[],this._observer=null,this._scheduled=!1,this._boundSchedule=()=>{this._schedule()},this.connect(),this._schedule()}connect(){isSlot(this._target)?this._listenSlots([this._target]):wrap$f(this._target).children&&(this._listenSlots(wrap$f(this._target).children),window.ShadyDOM?this._shadyChildrenObserver=window.ShadyDOM.observeChildren(this._target,n=>{this._processMutations(n)}):(this._nativeChildrenObserver=new MutationObserver(n=>{this._processMutations(n)}),this._nativeChildrenObserver.observe(this._target,{childList:!0}))),this._connected=!0}disconnect(){isSlot(this._target)?this._unlistenSlots([this._target]):wrap$f(this._target).children&&(this._unlistenSlots(wrap$f(this._target).children),window.ShadyDOM&&this._shadyChildrenObserver?(window.ShadyDOM.unobserveChildren(this._shadyChildrenObserver),this._shadyChildrenObserver=null):this._nativeChildrenObserver&&(this._nativeChildrenObserver.disconnect(),this._nativeChildrenObserver=null)),this._connected=!1}_schedule(){this._scheduled||(this._scheduled=!0,microTask$1.run(()=>this.flush()))}_processMutations(n){this._processSlotMutations(n),this.flush()}_processSlotMutations(n){if(n)for(let i=0;i<n.length;i++){let t=n[i];t.addedNodes&&this._listenSlots(t.addedNodes),t.removedNodes&&this._unlistenSlots(t.removedNodes)}}flush(){if(!this._connected)return!1;window.ShadyDOM&&ShadyDOM.flush(),this._nativeChildrenObserver?this._processSlotMutations(this._nativeChildrenObserver.takeRecords()):this._shadyChildrenObserver&&this._processSlotMutations(this._shadyChildrenObserver.takeRecords()),this._scheduled=!1;let n={target:this._target,addedNodes:[],removedNodes:[]},i=this.constructor.getFlattenedNodes(this._target),t=calculateSplices(i,this._effectiveNodes);for(let o=0,a;o<t.length&&(a=t[o]);o++)for(let s=0,l;s<a.removed.length&&(l=a.removed[s]);s++)n.removedNodes.push(l);for(let o=0,a;o<t.length&&(a=t[o]);o++)for(let s=a.index;s<a.index+a.addedCount;s++)n.addedNodes.push(i[s]);this._effectiveNodes=i;let r=!1;return(n.addedNodes.length||n.removedNodes.length)&&(r=!0,this.callback.call(this._target,n)),r}_listenSlots(n){for(let i=0;i<n.length;i++){let t=n[i];isSlot(t)&&t.addEventListener("slotchange",this._boundSchedule)}}_unlistenSlots(n){for(let i=0;i<n.length;i++){let t=n[i];isSlot(t)&&t.removeEventListener("slotchange",this._boundSchedule)}}};/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/let scheduled=!1,beforeRenderQueue=[],afterRenderQueue=[];function schedule(){scheduled=!0,requestAnimationFrame(function(){scheduled=!1,flushQueue(beforeRenderQueue),setTimeout(function(){runQueue(afterRenderQueue)})})}function flushQueue(n){for(;n.length;)callMethod(n.shift())}function runQueue(n){for(let i=0,t=n.length;i<t;i++)callMethod(n.shift())}function callMethod(n){const i=n[0],t=n[1],r=n[2];try{t.apply(i,r)}catch(o){setTimeout(()=>{throw o})}}function beforeNextRender(n,i,t){scheduled||schedule(),beforeRenderQueue.push([n,i,t])}function afterNextRender(n,i,t){scheduled||schedule(),afterRenderQueue.push([n,i,t])}/**
- * @license
- * Copyright (c) 2017 Anton Korzunov
- * SPDX-License-Identifier: MIT
- */let counterMap=new WeakMap,uncontrolledNodes=new WeakMap,markerMap={},lockCount=0;const unwrapHost=n=>n?n.host||unwrapHost(n.parentNode):null,isElement=n=>n&&n.nodeType===Node.ELEMENT_NODE,logError=(...n)=>{console.error(`Error: ${n.join(" ")}. Skip setting aria-hidden.`)},correctTargets=(n,i)=>isElement(n)?i.map(t=>{if(!isElement(t))return logError(t,"is not a valid element"),null;if(n.contains(t))return t;const r=unwrapHost(t);return r&&n.contains(r)?r:(logError(t,"is not contained inside",n),null)}).filter(t=>!!t):(logError(n,"is not a valid element"),[]),applyAttributeToOthers=(n,i,t,r)=>{const o=correctTargets(i,Array.isArray(n)?n:[n]);markerMap[t]||(markerMap[t]=new WeakMap);const a=markerMap[t],s=[],l=new Set,h=new Set(o),c=u=>{!u||l.has(u)||(l.add(u),c(u.parentNode))};o.forEach(c);const d=u=>{!u||h.has(u)||[...u.children].forEach(p=>{if(!["template","script","style"].includes(p.localName))if(l.has(p))d(p);else{const f=p.getAttribute(r),v=f!==null&&f!=="false",g=(counterMap.get(p)||0)+1,m=(a.get(p)||0)+1;counterMap.set(p,g),a.set(p,m),s.push(p),g===1&&v&&uncontrolledNodes.set(p,!0),m===1&&p.setAttribute(t,"true"),v||p.setAttribute(r,"true")}})};return d(i),l.clear(),lockCount+=1,()=>{s.forEach(u=>{const p=counterMap.get(u)-1,f=a.get(u)-1;counterMap.set(u,p),a.set(u,f),p||(uncontrolledNodes.has(u)?uncontrolledNodes.delete(u):u.removeAttribute(r)),f||u.removeAttribute(t)}),lockCount-=1,lockCount||(counterMap=new WeakMap,counterMap=new WeakMap,uncontrolledNodes=new WeakMap,markerMap={})}},hideOthers=(n,i=document.body,t="data-aria-hidden")=>{const r=Array.from(Array.isArray(n)?n:[n]);return i&&r.push(...Array.from(i.querySelectorAll("[aria-live]"))),applyAttributeToOthers(r,i,t,"aria-hidden")};/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */class AriaModalController{constructor(i,t){this.host=i,this.callback=typeof t=="function"?t:()=>i}showModal(){const i=this.callback();this.__showOthers=hideOthers(i)}close(){this.__showOthers&&(this.__showOthers(),this.__showOthers=null)}}/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */let keyboardActive=!1;window.addEventListener("keydown",()=>{keyboardActive=!0},{capture:!0});window.addEventListener("mousedown",()=>{keyboardActive=!1},{capture:!0});function getDeepActiveElement(){let n=document.activeElement||document.body;for(;n.shadowRoot&&n.shadowRoot.activeElement;)n=n.shadowRoot.activeElement;return n}function isKeyboardActive(){return keyboardActive}function isElementHiddenDirectly(n){const i=n.style;if(i.visibility==="hidden"||i.display==="none")return!0;const t=window.getComputedStyle(n);return t.visibility==="hidden"||t.display==="none"}function hasLowerTabOrder(n,i){const t=Math.max(n.tabIndex,0),r=Math.max(i.tabIndex,0);return t===0||r===0?r>t:t>r}function mergeSortByTabIndex(n,i){const t=[];for(;n.length>0&&i.length>0;)hasLowerTabOrder(n[0],i[0])?t.push(i.shift()):t.push(n.shift());return t.concat(n,i)}function sortElementsByTabIndex(n){const i=n.length;if(i<2)return n;const t=Math.ceil(i/2),r=sortElementsByTabIndex(n.slice(0,t)),o=sortElementsByTabIndex(n.slice(t));return mergeSortByTabIndex(r,o)}function isElementHidden(n){return n.offsetParent===null&&n.clientWidth===0&&n.clientHeight===0?!0:isElementHiddenDirectly(n)}function isElementFocusable(n){return n.matches('[tabindex="-1"]')?!1:n.matches("input, select, textarea, button, object")?n.matches(":not([disabled])"):n.matches("a[href], area[href], iframe, [tabindex], [contentEditable]")}function isElementFocused(n){return n.getRootNode().activeElement===n}function normalizeTabIndex(n){if(!isElementFocusable(n))return-1;const i=n.getAttribute("tabindex")||0;return Number(i)}function collectFocusableNodes(n,i){if(n.nodeType!==Node.ELEMENT_NODE||isElementHiddenDirectly(n))return!1;const t=n,r=normalizeTabIndex(t);let o=r>0;r>=0&&i.push(t);let a=[];return t.localName==="slot"?a=t.assignedNodes({flatten:!0}):a=(t.shadowRoot||t).children,[...a].forEach(s=>{o=collectFocusableNodes(s,i)||o}),o}function getFocusableElements(n){const i=[];return collectFocusableNodes(n,i)?sortElementsByTabIndex(i):i}/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const instances=[];class FocusTrapController{constructor(i){this.host=i,this.__trapNode=null,this.__onKeyDown=this.__onKeyDown.bind(this)}get __focusableElements(){return getFocusableElements(this.__trapNode)}get __focusedElementIndex(){const i=this.__focusableElements;return i.indexOf(i.filter(isElementFocused).pop())}hostConnected(){document.addEventListener("keydown",this.__onKeyDown)}hostDisconnected(){document.removeEventListener("keydown",this.__onKeyDown)}trapFocus(i){if(this.__trapNode=i,this.__focusableElements.length===0)throw this.__trapNode=null,new Error("The trap node should have at least one focusable descendant or be focusable itself.");instances.push(this),this.__focusedElementIndex===-1&&this.__focusableElements[0].focus()}releaseFocus(){this.__trapNode=null,instances.pop()}__onKeyDown(i){if(this.__trapNode&&this===Array.from(instances).pop()&&i.key==="Tab"){i.preventDefault();const t=i.shiftKey;this.__focusNextElement(t)}}__focusNextElement(i=!1){const t=this.__focusableElements,r=i?-1:1,o=this.__focusedElementIndex,a=(t.length+o+r)%t.length,s=t[a];s.focus(),s.localName==="input"&&s.select()}}/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const ControllerMixin=dedupingMixin(n=>class extends n{constructor(){super(),this.__controllers=new Set}connectedCallback(){super.connectedCallback(),this.__controllers.forEach(t=>{t.hostConnected&&t.hostConnected()})}disconnectedCallback(){super.disconnectedCallback(),this.__controllers.forEach(t=>{t.hostDisconnected&&t.hostDisconnected()})}addController(t){this.__controllers.add(t),this.$!==void 0&&this.isConnected&&t.hostConnected&&t.hostConnected()}removeController(t){this.__controllers.delete(t)}});/**
  * @license
  * Copyright (c) 2018 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -2305,166 +2837,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <div part="reveal-button" slot="suffix">
     <slot name="reveal"></slot>
   </div>
-`;let memoizedTemplate$c;class PasswordField extends TextField{static get is(){return"vaadin-password-field"}static get template(){if(!memoizedTemplate$c){memoizedTemplate$c=super.template.cloneNode(!0);const i=ownTemplate.content.querySelector('[part="reveal-button"]');memoizedTemplate$c.content.querySelector('[part="input-field"]').appendChild(i)}return memoizedTemplate$c}static get properties(){return{revealButtonHidden:{type:Boolean,observer:"_revealButtonHiddenChanged",value:!1},passwordVisible:{type:Boolean,value:!1,reflectToAttribute:!0,observer:"_passwordVisibleChanged",readOnly:!0},i18n:{type:Object,value:()=>({reveal:"Show password"})}}}static get observers(){return["__i18nChanged(i18n.*)"]}constructor(){super(),this._setType("password"),this.__boundRevealButtonClick=this._onRevealButtonClick.bind(this),this.__boundRevealButtonTouchend=this._onRevealButtonTouchend.bind(this)}get slotStyles(){const i=this.localName;return[...super.slotStyles,`
+`;let memoizedTemplate$b;class PasswordField extends TextField{static get is(){return"vaadin-password-field"}static get template(){if(!memoizedTemplate$b){memoizedTemplate$b=super.template.cloneNode(!0);const i=ownTemplate.content.querySelector('[part="reveal-button"]');memoizedTemplate$b.content.querySelector('[part="input-field"]').appendChild(i)}return memoizedTemplate$b}static get properties(){return{revealButtonHidden:{type:Boolean,observer:"_revealButtonHiddenChanged",value:!1},passwordVisible:{type:Boolean,value:!1,reflectToAttribute:!0,observer:"_passwordVisibleChanged",readOnly:!0},i18n:{type:Object,value:()=>({reveal:"Show password"})}}}static get observers(){return["__i18nChanged(i18n.*)"]}constructor(){super(),this._setType("password"),this.__boundRevealButtonClick=this._onRevealButtonClick.bind(this),this.__boundRevealButtonTouchend=this._onRevealButtonTouchend.bind(this)}get slotStyles(){const i=this.localName;return[...super.slotStyles,`
         ${i} [slot="input"]::-ms-reveal {
           display: none;
         }
-      `]}get _revealNode(){return this._revealButtonController&&this._revealButtonController.node}ready(){super.ready(),this._revealPart=this.shadowRoot.querySelector('[part="reveal-button"]'),this._revealButtonController=new SlotController(this,"reveal","vaadin-password-field-button",{initializer:i=>{i.disabled=this.disabled,i.addEventListener("click",this.__boundRevealButtonClick),i.addEventListener("touchend",this.__boundRevealButtonTouchend)}}),this.addController(this._revealButtonController),this.__updateAriaLabel(this.i18n),this._updateToggleState(!1),this._toggleRevealHidden(this.revealButtonHidden),this.inputElement&&(this.inputElement.autocapitalize="off")}_shouldSetFocus(i){return i.target===this.inputElement||i.target===this._revealNode}_shouldRemoveFocus(i){return!(i.relatedTarget===this._revealNode||i.relatedTarget===this.inputElement&&i.target===this._revealNode)}_setFocused(i){if(super._setFocused(i),!i)this._setPasswordVisible(!1);else{const t=this.getRootNode().activeElement===this._revealNode;this.toggleAttribute("focus-ring",this._keyboardActive&&!t)}}__updateAriaLabel(i){i.reveal&&this._revealNode&&this._revealNode.setAttribute("aria-label",i.reveal)}__i18nChanged(i){this.__updateAriaLabel(i.base)}_revealButtonHiddenChanged(i){this._toggleRevealHidden(i)}_togglePasswordVisibility(){this._setPasswordVisible(!this.passwordVisible)}_onRevealButtonClick(){this._togglePasswordVisibility()}_onRevealButtonTouchend(i){i.preventDefault(),this._togglePasswordVisibility(),this.inputElement.focus()}_toggleRevealHidden(i){this._revealNode&&(i?(this._revealPart.setAttribute("hidden",""),this._revealNode.setAttribute("tabindex","-1"),this._revealNode.setAttribute("aria-hidden","true")):(this._revealPart.removeAttribute("hidden"),this._revealNode.setAttribute("tabindex","0"),this._revealNode.removeAttribute("aria-hidden")))}_updateToggleState(i){this._revealNode&&this._revealNode.setAttribute("aria-pressed",i?"true":"false")}_passwordVisibleChanged(i){this._setType(i?"text":"password"),this._updateToggleState(i)}_disabledChanged(i,t){super._disabledChanged(i,t),this._revealNode&&(this._revealNode.disabled=i)}}customElements.define(PasswordField.is,PasswordField);/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const overlay=css$e`
-  :host {
-    top: var(--lumo-space-m);
-    right: var(--lumo-space-m);
-    bottom: var(--lumo-space-m);
-    left: var(--lumo-space-m);
-    /* Workaround for Edge issue (only on Surface), where an overflowing vaadin-list-box inside vaadin-select-overlay makes the overlay transparent */
-    /* stylelint-disable-next-line */
-    outline: 0px solid transparent;
-  }
-
-  [part='overlay'] {
-    background-color: var(--lumo-base-color);
-    background-image: linear-gradient(var(--lumo-tint-5pct), var(--lumo-tint-5pct));
-    border-radius: var(--lumo-border-radius-m);
-    box-shadow: 0 0 0 1px var(--lumo-shade-5pct), var(--lumo-box-shadow-m);
-    color: var(--lumo-body-text-color);
-    font-family: var(--lumo-font-family);
-    font-size: var(--lumo-font-size-m);
-    font-weight: 400;
-    line-height: var(--lumo-line-height-m);
-    letter-spacing: 0;
-    text-transform: none;
-    -webkit-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  [part='content'] {
-    padding: var(--lumo-space-xs);
-  }
-
-  [part='backdrop'] {
-    background-color: var(--lumo-shade-20pct);
-    animation: 0.2s lumo-overlay-backdrop-enter both;
-    will-change: opacity;
-  }
-
-  @keyframes lumo-overlay-backdrop-enter {
-    0% {
-      opacity: 0;
-    }
-  }
-
-  :host([closing]) [part='backdrop'] {
-    animation: 0.2s lumo-overlay-backdrop-exit both;
-  }
-
-  @keyframes lumo-overlay-backdrop-exit {
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes lumo-overlay-dummy-animation {
-    0% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-`;registerStyles$1("",overlay,{moduleId:"lumo-overlay"});registerStyles$1("vaadin-overlay",overlay,{moduleId:"lumo-vaadin-overlay"});/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */function processTemplates(n){if(window.Vaadin&&window.Vaadin.templateRendererCallback){window.Vaadin.templateRendererCallback(n);return}n.querySelector("template")&&console.warn(`WARNING: <template> inside <${n.localName}> is no longer supported. Import @vaadin/polymer-legacy-adapter/template-renderer.js to enable compatibility.`)}/**
- * @license
- * Copyright (c) 2021 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */class FocusRestorationController{saveFocus(i){this.focusNode=i||getDeepActiveElement()}restoreFocus(){const i=this.focusNode;i&&(getDeepActiveElement()===document.body?setTimeout(()=>i.focus()):i.focus(),this.focusNode=null)}}/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const OverlayFocusMixin=n=>class extends ControllerMixin(n){static get properties(){return{focusTrap:{type:Boolean,value:!1},restoreFocusOnClose:{type:Boolean,value:!1},restoreFocusNode:{type:HTMLElement}}}constructor(){super(),this.__ariaModalController=new AriaModalController(this),this.__focusTrapController=new FocusTrapController(this),this.__focusRestorationController=new FocusRestorationController}ready(){super.ready(),this.addController(this.__ariaModalController),this.addController(this.__focusTrapController),this.addController(this.__focusRestorationController)}_resetFocus(){this.focusTrap&&(this.__ariaModalController.close(),this.__focusTrapController.releaseFocus()),this.restoreFocusOnClose&&this._shouldRestoreFocus()&&this.__focusRestorationController.restoreFocus()}_saveFocus(){this.restoreFocusOnClose&&this.__focusRestorationController.saveFocus(this.restoreFocusNode)}_trapFocus(){this.focusTrap&&(this.__ariaModalController.showModal(),this.__focusTrapController.trapFocus(this.$.overlay))}_shouldRestoreFocus(){const t=getDeepActiveElement();return t===document.body||this._deepContains(t)}_deepContains(t){if(this.contains(t))return!0;let r=t;const o=t.ownerDocument;for(;r&&r!==o&&r!==this;)r=r.parentNode||r.host;return r===this}};/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */class Overlay extends OverlayFocusMixin(ThemableMixin(DirMixin(PolymerElement))){static get template(){return html`
-      <style>
-        :host {
-          z-index: 200;
-          position: fixed;
-
-          /* Despite of what the names say, <vaadin-overlay> is just a container
-          for position/sizing/alignment. The actual overlay is the overlay part. */
-
-          /* Default position constraints: the entire viewport. Note: themes can
-          override this to introduce gaps between the overlay and the viewport. */
-          top: 0;
-          right: 0;
-          bottom: var(--vaadin-overlay-viewport-bottom);
-          left: 0;
-
-          /* Use flexbox alignment for the overlay part. */
-          display: flex;
-          flex-direction: column; /* makes dropdowns sizing easier */
-          /* Align to center by default. */
-          align-items: center;
-          justify-content: center;
-
-          /* Allow centering when max-width/max-height applies. */
-          margin: auto;
-
-          /* The host is not clickable, only the overlay part is. */
-          pointer-events: none;
-
-          /* Remove tap highlight on touch devices. */
-          -webkit-tap-highlight-color: transparent;
-
-          /* CSS API for host */
-          --vaadin-overlay-viewport-bottom: 0;
-        }
-
-        :host([hidden]),
-        :host(:not([opened]):not([closing])) {
-          display: none !important;
-        }
-
-        [part='overlay'] {
-          -webkit-overflow-scrolling: touch;
-          overflow: auto;
-          pointer-events: auto;
-
-          /* Prevent overflowing the host in MSIE 11 */
-          max-width: 100%;
-          box-sizing: border-box;
-
-          -webkit-tap-highlight-color: initial; /* reenable tap highlight inside */
-        }
-
-        [part='backdrop'] {
-          z-index: -1;
-          content: '';
-          background: rgba(0, 0, 0, 0.5);
-          position: fixed;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          pointer-events: auto;
-        }
-      </style>
-
-      <div id="backdrop" part="backdrop" hidden$="[[!withBackdrop]]"></div>
-      <div part="overlay" id="overlay" tabindex="0">
-        <div part="content" id="content">
-          <slot></slot>
-        </div>
-      </div>
-    `}static get is(){return"vaadin-overlay"}static get properties(){return{opened:{type:Boolean,notify:!0,observer:"_openedChanged",reflectToAttribute:!0},owner:Element,renderer:Function,withBackdrop:{type:Boolean,value:!1,reflectToAttribute:!0},model:Object,modeless:{type:Boolean,value:!1,reflectToAttribute:!0,observer:"_modelessChanged"},hidden:{type:Boolean,reflectToAttribute:!0,observer:"_hiddenChanged"},_mouseDownInside:{type:Boolean},_mouseUpInside:{type:Boolean},_oldOwner:Element,_oldModel:Object,_oldRenderer:Object,_oldOpened:Boolean}}static get observers(){return["_rendererOrDataChanged(renderer, owner, model, opened)"]}static get __attachedInstances(){return Array.from(document.body.children).filter(i=>i instanceof Overlay&&!i.hasAttribute("closing")).sort((i,t)=>i.__zIndex-t.__zIndex||0)}constructor(){super(),this._boundMouseDownListener=this._mouseDownListener.bind(this),this._boundMouseUpListener=this._mouseUpListener.bind(this),this._boundOutsideClickListener=this._outsideClickListener.bind(this),this._boundKeydownListener=this._keydownListener.bind(this),isIOS&&(this._boundIosResizeListener=()=>this._detectIosNavbar())}get _last(){return this===Overlay.__attachedInstances.pop()}ready(){super.ready(),this.addEventListener("click",()=>{}),this.$.backdrop.addEventListener("click",()=>{}),processTemplates(this)}_detectIosNavbar(){if(!this.opened)return;const i=window.innerHeight,r=window.innerWidth>i,o=document.documentElement.clientHeight;r&&o>i?this.style.setProperty("--vaadin-overlay-viewport-bottom",`${o-i}px`):this.style.setProperty("--vaadin-overlay-viewport-bottom","0")}close(i){const t=new CustomEvent("vaadin-overlay-close",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),t.defaultPrevented||(this.opened=!1)}connectedCallback(){super.connectedCallback(),this._boundIosResizeListener&&(this._detectIosNavbar(),window.addEventListener("resize",this._boundIosResizeListener))}disconnectedCallback(){super.disconnectedCallback(),this._boundIosResizeListener&&window.removeEventListener("resize",this._boundIosResizeListener)}requestContentUpdate(){this.renderer&&this.renderer.call(this.owner,this,this.owner,this.model)}_mouseDownListener(i){this._mouseDownInside=i.composedPath().indexOf(this.$.overlay)>=0}_mouseUpListener(i){this._mouseUpInside=i.composedPath().indexOf(this.$.overlay)>=0}_shouldCloseOnOutsideClick(i){return this._last}_outsideClickListener(i){if(i.composedPath().includes(this.$.overlay)||this._mouseDownInside||this._mouseUpInside){this._mouseDownInside=!1,this._mouseUpInside=!1;return}if(!this._shouldCloseOnOutsideClick(i))return;const t=new CustomEvent("vaadin-overlay-outside-click",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),this.opened&&!t.defaultPrevented&&this.close(i)}_keydownListener(i){if(this._last&&!(this.modeless&&!i.composedPath().includes(this.$.overlay))&&i.key==="Escape"){const t=new CustomEvent("vaadin-overlay-escape-press",{bubbles:!0,cancelable:!0,detail:{sourceEvent:i}});this.dispatchEvent(t),this.opened&&!t.defaultPrevented&&this.close(i)}}_openedChanged(i,t){i?(this._saveFocus(),this._animatedOpening(),afterNextRender(this,()=>{this._trapFocus();const r=new CustomEvent("vaadin-overlay-open",{bubbles:!0});this.dispatchEvent(r)}),document.addEventListener("keydown",this._boundKeydownListener),this.modeless||this._addGlobalListeners()):t&&(this._resetFocus(),this._animatedClosing(),document.removeEventListener("keydown",this._boundKeydownListener),this.modeless||this._removeGlobalListeners())}_hiddenChanged(i){i&&this.hasAttribute("closing")&&this._flushAnimation("closing")}_shouldAnimate(){const i=getComputedStyle(this),t=i.getPropertyValue("animation-name");return!(i.getPropertyValue("display")==="none")&&t&&t!=="none"}_enqueueAnimation(i,t){const r=`__${i}Handler`,o=a=>{a&&a.target!==this||(t(),this.removeEventListener("animationend",o),delete this[r])};this[r]=o,this.addEventListener("animationend",o)}_flushAnimation(i){const t=`__${i}Handler`;typeof this[t]=="function"&&this[t]()}_animatedOpening(){this.parentNode===document.body&&this.hasAttribute("closing")&&this._flushAnimation("closing"),this._attachOverlay(),this.modeless||this._enterModalState(),this.setAttribute("opening",""),this._shouldAnimate()?this._enqueueAnimation("opening",()=>{this._finishOpening()}):this._finishOpening()}_attachOverlay(){this._placeholder=document.createComment("vaadin-overlay-placeholder"),this.parentNode.insertBefore(this._placeholder,this),document.body.appendChild(this),this.bringToFront()}_finishOpening(){this.removeAttribute("opening")}_finishClosing(){this._detachOverlay(),this.$.overlay.style.removeProperty("pointer-events"),this.removeAttribute("closing"),this.dispatchEvent(new CustomEvent("vaadin-overlay-closed"))}_animatedClosing(){this.hasAttribute("opening")&&this._flushAnimation("opening"),this._placeholder&&(this._exitModalState(),this.setAttribute("closing",""),this.dispatchEvent(new CustomEvent("vaadin-overlay-closing")),this._shouldAnimate()?this._enqueueAnimation("closing",()=>{this._finishClosing()}):this._finishClosing())}_detachOverlay(){this._placeholder.parentNode.insertBefore(this,this._placeholder),this._placeholder.parentNode.removeChild(this._placeholder)}_modelessChanged(i){i?(this._removeGlobalListeners(),this._exitModalState()):this.opened&&(this._addGlobalListeners(),this._enterModalState())}_addGlobalListeners(){document.addEventListener("mousedown",this._boundMouseDownListener),document.addEventListener("mouseup",this._boundMouseUpListener),document.documentElement.addEventListener("click",this._boundOutsideClickListener,!0)}_enterModalState(){document.body.style.pointerEvents!=="none"&&(this._previousDocumentPointerEvents=document.body.style.pointerEvents,document.body.style.pointerEvents="none"),Overlay.__attachedInstances.forEach(i=>{i!==this&&(i.shadowRoot.querySelector('[part="overlay"]').style.pointerEvents="none")})}_removeGlobalListeners(){document.removeEventListener("mousedown",this._boundMouseDownListener),document.removeEventListener("mouseup",this._boundMouseUpListener),document.documentElement.removeEventListener("click",this._boundOutsideClickListener,!0)}_exitModalState(){this._previousDocumentPointerEvents!==void 0&&(document.body.style.pointerEvents=this._previousDocumentPointerEvents,delete this._previousDocumentPointerEvents);const i=Overlay.__attachedInstances;let t;for(;(t=i.pop())&&!(t!==this&&(t.shadowRoot.querySelector('[part="overlay"]').style.removeProperty("pointer-events"),!t.modeless)););}_rendererOrDataChanged(i,t,r,o){const a=this._oldOwner!==t||this._oldModel!==r;this._oldModel=r,this._oldOwner=t;const s=this._oldRenderer!==i;this._oldRenderer=i;const l=this._oldOpened!==o;this._oldOpened=o,s&&(this.innerHTML="",delete this._$litPart$),o&&i&&(s||l||a)&&this.requestContentUpdate()}bringToFront(){let i="";const t=Overlay.__attachedInstances.filter(r=>r!==this).pop();t&&(i=t.__zIndex+1),this.style.zIndex=i,this.__zIndex=i||parseFloat(getComputedStyle(this).zIndex)}}customElements.define(Overlay.is,Overlay);const loginFormWrapper$1=css$e`
+      `]}get _revealNode(){return this._revealButtonController&&this._revealButtonController.node}ready(){super.ready(),this._revealPart=this.shadowRoot.querySelector('[part="reveal-button"]'),this._revealButtonController=new SlotController(this,"reveal","vaadin-password-field-button",{initializer:i=>{i.disabled=this.disabled,i.addEventListener("click",this.__boundRevealButtonClick),i.addEventListener("touchend",this.__boundRevealButtonTouchend)}}),this.addController(this._revealButtonController),this.__updateAriaLabel(this.i18n),this._updateToggleState(!1),this._toggleRevealHidden(this.revealButtonHidden),this.inputElement&&(this.inputElement.autocapitalize="off")}_shouldSetFocus(i){return i.target===this.inputElement||i.target===this._revealNode}_shouldRemoveFocus(i){return!(i.relatedTarget===this._revealNode||i.relatedTarget===this.inputElement&&i.target===this._revealNode)}_setFocused(i){if(super._setFocused(i),!i)this._setPasswordVisible(!1);else{const t=this.getRootNode().activeElement===this._revealNode;this.toggleAttribute("focus-ring",this._keyboardActive&&!t)}}__updateAriaLabel(i){i.reveal&&this._revealNode&&this._revealNode.setAttribute("aria-label",i.reveal)}__i18nChanged(i){this.__updateAriaLabel(i.base)}_revealButtonHiddenChanged(i){this._toggleRevealHidden(i)}_togglePasswordVisibility(){this._setPasswordVisible(!this.passwordVisible)}_onRevealButtonClick(){this._togglePasswordVisibility()}_onRevealButtonTouchend(i){i.preventDefault(),this._togglePasswordVisibility(),this.inputElement.focus()}_toggleRevealHidden(i){this._revealNode&&(i?(this._revealPart.setAttribute("hidden",""),this._revealNode.setAttribute("tabindex","-1"),this._revealNode.setAttribute("aria-hidden","true")):(this._revealPart.removeAttribute("hidden"),this._revealNode.setAttribute("tabindex","0"),this._revealNode.removeAttribute("aria-hidden")))}_updateToggleState(i){this._revealNode&&this._revealNode.setAttribute("aria-pressed",i?"true":"false")}_passwordVisibleChanged(i){this._setType(i?"text":"password"),this._updateToggleState(i)}_disabledChanged(i,t){super._disabledChanged(i,t),this._revealNode&&(this._revealNode.disabled=i)}}customElements.define(PasswordField.is,PasswordField);const loginFormWrapper$1=css$e`
   :host {
     max-width: calc(var(--lumo-size-m) * 10);
     background: var(--lumo-base-color) linear-gradient(var(--lumo-tint-5pct), var(--lumo-tint-5pct));
@@ -2872,11 +3249,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <slot></slot>
     </div>
   </section>
-`;let memoizedTemplate$b;class LoginOverlayWrapper extends Overlay{static get is(){return"vaadin-login-overlay-wrapper"}static get properties(){return{title:{type:String},description:{type:String}}}static get template(){if(!memoizedTemplate$b){memoizedTemplate$b=super.template.cloneNode(!0);const i=template$8.content.querySelector("[part=card]"),t=memoizedTemplate$b.content.querySelector("#content");t.replaceChild(i,t.children[0])}return memoizedTemplate$b}}customElements.define(LoginOverlayWrapper.is,LoginOverlayWrapper);/**
- * @license
- * Copyright (c) 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const OverlayClassMixin=n=>class extends n{static get properties(){return{overlayClass:{type:String},_overlayElement:{type:Object}}}static get observers(){return["__updateOverlayClassNames(overlayClass, _overlayElement)"]}__updateOverlayClassNames(t,r){if(!r||t===void 0)return;const{classList:o}=r;if(this.__initialClasses||(this.__initialClasses=new Set(o)),Array.isArray(this.__previousClasses)){const s=this.__previousClasses.filter(l=>!this.__initialClasses.has(l));s.length>0&&o.remove(...s)}const a=typeof t=="string"?t.split(" "):[];a.length>0&&o.add(...a),this.__previousClasses=a}};/**
+`;let memoizedTemplate$a;class LoginOverlayWrapper extends Overlay{static get is(){return"vaadin-login-overlay-wrapper"}static get properties(){return{title:{type:String},description:{type:String}}}static get template(){if(!memoizedTemplate$a){memoizedTemplate$a=super.template.cloneNode(!0);const i=template$8.content.querySelector("[part=card]"),t=memoizedTemplate$a.content.querySelector("#content");t.replaceChild(i,t.children[0])}return memoizedTemplate$a}}customElements.define(LoginOverlayWrapper.is,LoginOverlayWrapper);/**
  * @license
  * Copyright (c) 2018 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -3707,7 +4080,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         outline: 1px dashed;
       }
     }
-  `,{moduleId:"vaadin-tooltip-overlay-styles"});let memoizedTemplate$a;class TooltipOverlay extends PositionMixin(Overlay){static get is(){return"vaadin-tooltip-overlay"}static get template(){return memoizedTemplate$a||(memoizedTemplate$a=super.template.cloneNode(!0),memoizedTemplate$a.content.querySelector('[part~="overlay"]').removeAttribute("tabindex"),memoizedTemplate$a.content.querySelector('[part~="content"]').innerHTML="<slot></slot>"),memoizedTemplate$a}static get properties(){return{position:{type:String,reflectToAttribute:!0}}}ready(){super.ready(),this.owner=this.__dataHost,this.owner._overlayElement=this}requestContentUpdate(){if(super.requestContentUpdate(),this.toggleAttribute("hidden",this.textContent.trim()===""),this.positionTarget&&this.owner){const i=getComputedStyle(this.owner);["top","bottom","start","end"].forEach(t=>{this.style.setProperty(`--vaadin-tooltip-offset-${t}`,i.getPropertyValue(`--vaadin-tooltip-offset-${t}`))})}}_updatePosition(){if(super._updatePosition(),!!this.positionTarget){if(this.position==="bottom"||this.position==="top"){const i=this.positionTarget.getBoundingClientRect(),t=this.$.overlay.getBoundingClientRect(),r=i.width/2-t.width/2;if(this.style.left){const o=t.left+r;o>0&&(this.style.left=`${o}px`)}if(this.style.right){const o=parseFloat(this.style.right)+r;o>0&&(this.style.right=`${o}px`)}}if(this.position==="start"||this.position==="end"){const i=this.positionTarget.getBoundingClientRect(),t=this.$.overlay.getBoundingClientRect(),r=i.height/2-t.height/2;this.style.top=`${t.top+r}px`}}}}customElements.define(TooltipOverlay.is,TooltipOverlay);/**
+  `,{moduleId:"vaadin-tooltip-overlay-styles"});let memoizedTemplate$9;class TooltipOverlay extends PositionMixin(Overlay){static get is(){return"vaadin-tooltip-overlay"}static get template(){return memoizedTemplate$9||(memoizedTemplate$9=super.template.cloneNode(!0),memoizedTemplate$9.content.querySelector('[part~="overlay"]').removeAttribute("tabindex"),memoizedTemplate$9.content.querySelector('[part~="content"]').innerHTML="<slot></slot>"),memoizedTemplate$9}static get properties(){return{position:{type:String,reflectToAttribute:!0}}}ready(){super.ready(),this.owner=this.__dataHost,this.owner._overlayElement=this}requestContentUpdate(){if(super.requestContentUpdate(),this.toggleAttribute("hidden",this.textContent.trim()===""),this.positionTarget&&this.owner){const i=getComputedStyle(this.owner);["top","bottom","start","end"].forEach(t=>{this.style.setProperty(`--vaadin-tooltip-offset-${t}`,i.getPropertyValue(`--vaadin-tooltip-offset-${t}`))})}}_updatePosition(){if(super._updatePosition(),!!this.positionTarget){if(this.position==="bottom"||this.position==="top"){const i=this.positionTarget.getBoundingClientRect(),t=this.$.overlay.getBoundingClientRect(),r=i.width/2-t.width/2;if(this.style.left){const o=t.left+r;o>0&&(this.style.left=`${o}px`)}if(this.style.right){const o=parseFloat(this.style.right)+r;o>0&&(this.style.right=`${o}px`)}}if(this.position==="start"||this.position==="end"){const i=this.positionTarget.getBoundingClientRect(),t=this.$.overlay.getBoundingClientRect(),r=i.height/2-t.height/2;this.style.top=`${t.top+r}px`}}}}customElements.define(TooltipOverlay.is,TooltipOverlay);/**
  * @license
  * Copyright (c) 2022 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -6023,7 +6396,7 @@ ${this.outerHTML}`)}_parseBoardCols(i){const t=i.map(a=>a.getAttribute("board-co
       flex-direction: column;
       height: 100%;
     }
-  `,{moduleId:"vaadin-combo-box-overlay-styles"});let memoizedTemplate$9;class ComboBoxOverlay extends ComboBoxOverlayMixin(Overlay){static get is(){return"vaadin-combo-box-overlay"}static get template(){if(!memoizedTemplate$9){memoizedTemplate$9=super.template.cloneNode(!0);const i=memoizedTemplate$9.content.querySelector('[part~="overlay"]');i.removeAttribute("tabindex");const t=document.createElement("div");t.setAttribute("part","loader"),i.insertBefore(t,i.firstElementChild)}return memoizedTemplate$9}}customElements.define(ComboBoxOverlay.is,ComboBoxOverlay);/**
+  `,{moduleId:"vaadin-combo-box-overlay-styles"});let memoizedTemplate$8;class ComboBoxOverlay extends ComboBoxOverlayMixin(Overlay){static get is(){return"vaadin-combo-box-overlay"}static get template(){if(!memoizedTemplate$8){memoizedTemplate$8=super.template.cloneNode(!0);const i=memoizedTemplate$8.content.querySelector('[part~="overlay"]');i.removeAttribute("tabindex");const t=document.createElement("div");t.setAttribute("part","loader"),i.insertBefore(t,i.firstElementChild)}return memoizedTemplate$8}}customElements.define(ComboBoxOverlay.is,ComboBoxOverlay);/**
  * @license
  * Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
  * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6140,68 +6513,7 @@ ${this.outerHTML}`)}_parseBoardCols(i){const t=i.map(a=>a.getAttribute("board-co
       ></vaadin-combo-box-overlay>
 
       <slot name="tooltip"></slot>
-    `}static get properties(){return{_positionTarget:{type:Object}}}get clearElement(){return this.$.clearButton}ready(){super.ready(),this.addController(new InputController(this,i=>{this._setInputElement(i),this._setFocusElement(i),this.stateTarget=i,this.ariaTarget=i})),this.addController(new LabelledInputController(this.inputElement,this._labelController)),this._tooltipController=new TooltipController(this),this.addController(this._tooltipController),this._tooltipController.setPosition("top"),this._tooltipController.setShouldShow(i=>!i.opened),this._positionTarget=this.shadowRoot.querySelector('[part="input-field"]'),this._toggleElement=this.$.toggleButton}_setFocused(i){super._setFocused(i),!i&&document.hasFocus()&&this.validate()}_shouldRemoveFocus(i){return i.relatedTarget===this._overlayElement?(i.composedPath()[0].focus(),!1):!0}_onClearButtonClick(i){i.stopPropagation(),super._onClearButtonClick(i)}_onHostClick(i){const t=i.composedPath();(t.includes(this._labelNode)||t.includes(this._positionTarget))&&super._onHostClick(i)}}customElements.define(ComboBox.is,ComboBox);/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/class Debouncer{constructor(){this._asyncModule=null,this._callback=null,this._timer=null}setConfig(i,t){this._asyncModule=i,this._callback=t,this._timer=this._asyncModule.run(()=>{this._timer=null,debouncerQueue.delete(this),this._callback()})}cancel(){this.isActive()&&(this._cancelAsync(),debouncerQueue.delete(this))}_cancelAsync(){this.isActive()&&(this._asyncModule.cancel(this._timer),this._timer=null)}flush(){this.isActive()&&(this.cancel(),this._callback())}isActive(){return this._timer!=null}static debounce(i,t,r){return i instanceof Debouncer?i._cancelAsync():i=new Debouncer,i.setConfig(t,r),i}}let debouncerQueue=new Set;const enqueueDebouncer=function(n){debouncerQueue.add(n)},flushDebouncers=function(){const n=!!debouncerQueue.size;return debouncerQueue.forEach(i=>{try{i.flush()}catch(t){setTimeout(()=>{throw t})}}),n};/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/const flush=function(){let n,i;do n=window.ShadyDOM&&ShadyDOM.flush(),window.ShadyCSS&&window.ShadyCSS.ScopingShim&&window.ShadyCSS.ScopingShim.flush(),i=flushDebouncers();while(n||i)};/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/let elementsHidden=!1;function hideElementsGlobally(){if(legacyOptimizations&&!useShadow){if(!elementsHidden){elementsHidden=!0;const n=document.createElement("style");n.textContent="dom-bind,dom-if,dom-repeat{display:none;}",document.head.appendChild(n)}return!0}return!1}/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/function mutablePropertyChange(n,i,t,r,o){let a;o&&(a=typeof t=="object"&&t!==null,a&&(r=n.__dataTemp[i]));let s=r!==t&&(r===r||t===t);return a&&s&&(n.__dataTemp[i]=t),s}const MutableData=dedupingMixin(n=>{class i extends n{_shouldPropertyChange(r,o,a){return mutablePropertyChange(this,r,o,a,!0)}}return i}),OptionalMutableData=dedupingMixin(n=>{class i extends n{static get properties(){return{mutableData:Boolean}}_shouldPropertyChange(r,o,a){return mutablePropertyChange(this,r,o,a,this.mutableData)}}return i});MutableData._mutablePropertyChange=mutablePropertyChange;/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/let newInstance=null;function HTMLTemplateElementExtension(){return newInstance}HTMLTemplateElementExtension.prototype=Object.create(HTMLTemplateElement.prototype,{constructor:{value:HTMLTemplateElementExtension,writable:!0}});const DataTemplate=PropertyEffects(HTMLTemplateElementExtension),MutableDataTemplate=MutableData(DataTemplate);function upgradeTemplate(n,i){newInstance=n,Object.setPrototypeOf(n,i.prototype),new i,newInstance=null}const templateInstanceBase=PropertyEffects(class{});function showHideChildren(n,i){for(let t=0;t<i.length;t++){let r=i[t];if(!!n!=!!r.__hideTemplateChildren__)if(r.nodeType===Node.TEXT_NODE)n?(r.__polymerTextContent__=r.textContent,r.textContent=""):r.textContent=r.__polymerTextContent__;else if(r.localName==="slot")if(n)r.__polymerReplaced__=document.createComment("hidden-slot"),wrap$f(wrap$f(r).parentNode).replaceChild(r.__polymerReplaced__,r);else{const o=r.__polymerReplaced__;o&&wrap$f(wrap$f(o).parentNode).replaceChild(r,o)}else r.style&&(n?(r.__polymerDisplay__=r.style.display,r.style.display="none"):r.style.display=r.__polymerDisplay__);r.__hideTemplateChildren__=n,r._showHideChildren&&r._showHideChildren(n)}}class TemplateInstanceBase extends templateInstanceBase{constructor(i){super(),this._configureProperties(i),this.root=this._stampTemplate(this.__dataHost);let t=[];this.children=t;for(let o=this.root.firstChild;o;o=o.nextSibling)t.push(o),o.__templatizeInstance=this;this.__templatizeOwner&&this.__templatizeOwner.__hideTemplateChildren__&&this._showHideChildren(!0);let r=this.__templatizeOptions;(i&&r.instanceProps||!r.instanceProps)&&this._enableProperties()}_configureProperties(i){if(this.__templatizeOptions.forwardHostProp)for(let r in this.__hostProps)this._setPendingProperty(r,this.__dataHost["_host_"+r]);for(let r in i)this._setPendingProperty(r,i[r])}forwardHostProp(i,t){this._setPendingPropertyOrPath(i,t,!1,!0)&&this.__dataHost._enqueueClient(this)}_addEventListenerToNode(i,t,r){if(this._methodHost&&this.__templatizeOptions.parentModel)this._methodHost._addEventListenerToNode(i,t,o=>{o.model=this,r(o)});else{let o=this.__dataHost.__dataHost;o&&o._addEventListenerToNode(i,t,r)}}_showHideChildren(i){showHideChildren(i,this.children)}_setUnmanagedPropertyToNode(i,t,r){i.__hideTemplateChildren__&&i.nodeType==Node.TEXT_NODE&&t=="textContent"?i.__polymerTextContent__=r:super._setUnmanagedPropertyToNode(i,t,r)}get parentModel(){let i=this.__parentModel;if(!i){let t;i=this;do i=i.__dataHost.__dataHost;while((t=i.__templatizeOptions)&&!t.parentModel);this.__parentModel=i}return i}dispatchEvent(i){return!0}}TemplateInstanceBase.prototype.__dataHost;TemplateInstanceBase.prototype.__templatizeOptions;TemplateInstanceBase.prototype._methodHost;TemplateInstanceBase.prototype.__templatizeOwner;TemplateInstanceBase.prototype.__hostProps;const MutableTemplateInstanceBase=MutableData(TemplateInstanceBase);function findMethodHost(n){let i=n.__dataHost;return i&&i._methodHost||i}function createTemplatizerClass(n,i,t){let r=t.mutableData?MutableTemplateInstanceBase:TemplateInstanceBase;templatize.mixin&&(r=templatize.mixin(r));let o=class extends r{};return o.prototype.__templatizeOptions=t,o.prototype._bindTemplate(n),addNotifyEffects(o,n,i,t),o}function addPropagateEffects(n,i,t,r){let o=t.forwardHostProp;if(o&&i.hasHostProps){const a=n.localName=="template";let s=i.templatizeTemplateClass;if(!s){if(a){let h=t.mutableData?MutableDataTemplate:DataTemplate;class c extends h{}s=i.templatizeTemplateClass=c}else{const h=n.constructor;class c extends h{}s=i.templatizeTemplateClass=c}let l=i.hostProps;for(let h in l)s.prototype._addPropertyEffect("_host_"+h,s.prototype.PROPERTY_EFFECT_TYPES.PROPAGATE,{fn:createForwardHostPropEffect(h,o)}),s.prototype._createNotifyingProperty("_host_"+h);legacyWarnings&&r&&warnOnUndeclaredProperties(i,t,r)}if(n.__dataProto&&Object.assign(n.__data,n.__dataProto),a)upgradeTemplate(n,s),n.__dataTemp={},n.__dataPending=null,n.__dataOld=null,n._enableProperties();else{Object.setPrototypeOf(n,s.prototype);const l=i.hostProps;for(let h in l)if(h="_host_"+h,h in n){const c=n[h];delete n[h],n.__data[h]=c}}}}function createForwardHostPropEffect(n,i){return function(r,o,a){i.call(r.__templatizeOwner,o.substring(6),a[o])}}function addNotifyEffects(n,i,t,r){let o=t.hostProps||{};for(let a in r.instanceProps){delete o[a];let s=r.notifyInstanceProp;s&&n.prototype._addPropertyEffect(a,n.prototype.PROPERTY_EFFECT_TYPES.NOTIFY,{fn:createNotifyInstancePropEffect(a,s)})}if(r.forwardHostProp&&i.__dataHost)for(let a in o)t.hasHostProps||(t.hasHostProps=!0),n.prototype._addPropertyEffect(a,n.prototype.PROPERTY_EFFECT_TYPES.NOTIFY,{fn:createNotifyHostPropEffect()})}function createNotifyInstancePropEffect(n,i){return function(r,o,a){i.call(r.__templatizeOwner,r,o,a[o])}}function createNotifyHostPropEffect(){return function(i,t,r){i.__dataHost._setPendingPropertyOrPath("_host_"+t,r[t],!0,!0)}}function templatize(n,i,t){if(strictTemplatePolicy&&!findMethodHost(n))throw new Error("strictTemplatePolicy: template owner not trusted");if(t=t||{},n.__templatizeOwner)throw new Error("A <template> can only be templatized once");n.__templatizeOwner=i;let o=(i?i.constructor:TemplateInstanceBase)._parseTemplate(n),a=o.templatizeInstanceClass;a||(a=createTemplatizerClass(n,o,t),o.templatizeInstanceClass=a);const s=findMethodHost(n);addPropagateEffects(n,o,t,s);let l=class extends a{};return l.prototype._methodHost=s,l.prototype.__dataHost=n,l.prototype.__templatizeOwner=i,l.prototype.__hostProps=o.hostProps,l=l,l}function warnOnUndeclaredProperties(n,i,t){const r=t.constructor._properties,{propertyEffects:o}=n,{instanceProps:a}=i;for(let s in o)if(!r[s]&&!(a&&a[s])){const l=o[s];for(let h=0;h<l.length;h++){const{part:c}=l[h].info;if(!(c.signature&&c.signature.static)){console.warn(`Property '${s}' used in template but not declared in 'properties'; attribute will not be observed.`);break}}}}function modelForElement(n,i){let t;for(;i;)if(t=i.__dataHost?i:i.__templatizeInstance)if(t.__dataHost!=n)i=t.__dataHost;else return t;else i=wrap$f(i).parentNode;return null}/**
-@license
-Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/class DomIfBase extends PolymerElement{static get is(){return"dom-if"}static get template(){return null}static get properties(){return{if:{type:Boolean,observer:"__debounceRender"},restamp:{type:Boolean,observer:"__debounceRender"},notifyDomChange:{type:Boolean}}}constructor(){super(),this.__renderDebouncer=null,this._lastIf=!1,this.__hideTemplateChildren__=!1,this.__template,this._templateInfo}__debounceRender(){this.__renderDebouncer=Debouncer.debounce(this.__renderDebouncer,microTask$1,()=>this.__render()),enqueueDebouncer(this.__renderDebouncer)}disconnectedCallback(){super.disconnectedCallback();const i=wrap$f(this).parentNode;(!i||i.nodeType==Node.DOCUMENT_FRAGMENT_NODE&&!wrap$f(i).host)&&this.__teardownInstance()}connectedCallback(){super.connectedCallback(),hideElementsGlobally()||(this.style.display="none"),this.if&&this.__debounceRender()}__ensureTemplate(){if(!this.__template){const i=this;let t=i._templateInfo?i:wrap$f(i).querySelector("template");if(!t){let r=new MutationObserver(()=>{if(wrap$f(this).querySelector("template"))r.disconnect(),this.__render();else throw new Error("dom-if requires a <template> child")});return r.observe(this,{childList:!0}),!1}this.__template=t}return!0}__ensureInstance(){let i=wrap$f(this).parentNode;if(this.__hasInstance()){let t=this.__getInstanceNodes();if(t&&t.length&&wrap$f(this).previousSibling!==t[t.length-1])for(let o=0,a;o<t.length&&(a=t[o]);o++)wrap$f(i).insertBefore(a,this)}else{if(!i||!this.__ensureTemplate())return!1;this.__createAndInsertInstance(i)}return!0}render(){flush()}__render(){if(this.if){if(!this.__ensureInstance())return}else this.restamp&&this.__teardownInstance();this._showHideChildren(),(!suppressTemplateNotifications||this.notifyDomChange)&&this.if!=this._lastIf&&(this.dispatchEvent(new CustomEvent("dom-change",{bubbles:!0,composed:!0})),this._lastIf=this.if)}__hasInstance(){}__getInstanceNodes(){}__createAndInsertInstance(i){}__teardownInstance(){}_showHideChildren(){}}class DomIfFast extends DomIfBase{constructor(){super(),this.__instance=null,this.__syncInfo=null}__hasInstance(){return!!this.__instance}__getInstanceNodes(){return this.__instance.templateInfo.childNodes}__createAndInsertInstance(i){const t=this.__dataHost||this;if(strictTemplatePolicy&&!this.__dataHost)throw new Error("strictTemplatePolicy: template owner not trusted");const r=t._bindTemplate(this.__template,!0);r.runEffects=(o,a,s)=>{let l=this.__syncInfo;if(this.if)l&&(this.__syncInfo=null,this._showHideChildren(),a=Object.assign(l.changedProps,a)),o(a,s);else if(this.__instance)if(l||(l=this.__syncInfo={runEffects:o,changedProps:{}}),s)for(const h in a){const c=root(h);l.changedProps[c]=this.__dataHost[c]}else Object.assign(l.changedProps,a)},this.__instance=t._stampTemplate(this.__template,r),wrap$f(i).insertBefore(this.__instance,this)}__syncHostProperties(){const i=this.__syncInfo;i&&(this.__syncInfo=null,i.runEffects(i.changedProps,!1))}__teardownInstance(){const i=this.__dataHost||this;this.__instance&&(i._removeBoundDom(this.__instance),this.__instance=null,this.__syncInfo=null)}_showHideChildren(){const i=this.__hideTemplateChildren__||!this.if;this.__instance&&!!this.__instance.__hidden!==i&&(this.__instance.__hidden=i,showHideChildren(i,this.__instance.templateInfo.childNodes)),i||this.__syncHostProperties()}}class DomIfLegacy extends DomIfBase{constructor(){super(),this.__ctor=null,this.__instance=null,this.__invalidProps=null}__hasInstance(){return!!this.__instance}__getInstanceNodes(){return this.__instance.children}__createAndInsertInstance(i){this.__ctor||(this.__ctor=templatize(this.__template,this,{mutableData:!0,forwardHostProp:function(t,r){this.__instance&&(this.if?this.__instance.forwardHostProp(t,r):(this.__invalidProps=this.__invalidProps||Object.create(null),this.__invalidProps[root(t)]=!0))}})),this.__instance=new this.__ctor,wrap$f(i).insertBefore(this.__instance.root,this)}__teardownInstance(){if(this.__instance){let i=this.__instance.children;if(i&&i.length){let t=wrap$f(i[0]).parentNode;if(t){t=wrap$f(t);for(let r=0,o;r<i.length&&(o=i[r]);r++)t.removeChild(o)}}this.__invalidProps=null,this.__instance=null}}__syncHostProperties(){let i=this.__invalidProps;if(i){this.__invalidProps=null;for(let t in i)this.__instance._setPendingProperty(t,this.__dataHost[t]);this.__instance._flushProperties()}}_showHideChildren(){const i=this.__hideTemplateChildren__||!this.if;this.__instance&&!!this.__instance.__hidden!==i&&(this.__instance.__hidden=i,this.__instance._showHideChildren(i)),i||this.__syncHostProperties()}}const DomIf=fastDomIf?DomIfFast:DomIfLegacy;customElements.define(DomIf.is,DomIf);class FlowComponentDirective extends Directive{constructor(i){if(super(i),i.type!==PartType.CHILD)throw new Error(`${this.constructor.directiveName}() can only be used in child bindings`)}update(i,[t,r]){return this.updateContent(i,t,r),noChange}updateContent(i,t,r){const{parentNode:o,startNode:a}=i,s=r!=null,l=s?this.getNewNode(t,r):null,h=this.getOldNode(i);if(s&&!l)setTimeout(()=>this.updateContent(i,t,r));else{if(h===l)return;h&&l?o.replaceChild(l,h):h?o.removeChild(h):l&&a.after(l)}}getNewNode(i,t){return window.Vaadin.Flow.clients[i].getByNodeId(t)}getOldNode(i){const{startNode:t,endNode:r}=i;if(t.nextSibling!==r)return t.nextSibling}}const flowComponentDirective=directive(FlowComponentDirective);function getNodeInternal(n,i){return window.Vaadin.Flow.clients[n].getByNodeId(i)}function getNode(n,i){return flowComponentDirective(n,i)}function setChildNodes(n,i,t){t.textContent="",t.append(...i.map(r=>getNodeInternal(n,r)))}function patchVirtualContainer(n){const i=n.insertBefore;n.insertBefore=function(t,r){return r&&r.parentNode===this?i.call(this,t,r):i.call(this,t,null)}}window.Vaadin||(window.Vaadin={});var Qt;(Qt=window.Vaadin).FlowComponentHost||(Qt.FlowComponentHost={patchVirtualContainer,getNode,setChildNodes});class FlowComponentRenderer extends PolymerElement{static get template(){return html`
-      <style>
-        :host {
-          animation: 1ms flow-component-renderer-appear;
-        }
-
-        @keyframes flow-component-renderer-appear {
-          to {
-            opacity: 1;
-          }
-        }
-      </style>
-      <slot></slot>
-    `}static get is(){return"flow-component-renderer"}static get properties(){return{nodeid:Number,appid:String}}static get observers(){return["_attachRenderedComponentIfAble(appid, nodeid)"]}ready(){super.ready(),this.addEventListener("click",function(i){this.firstChild&&typeof this.firstChild.click=="function"&&i.target===this&&(i.stopPropagation(),this.firstChild.click())}),this.addEventListener("animationend",this._onAnimationEnd)}_asyncAttachRenderedComponentIfAble(){this._debouncer=Debouncer.debounce(this._debouncer,idlePeriod$1,()=>this._attachRenderedComponentIfAble())}_attachRenderedComponentIfAble(){if(!this.nodeid||!this.appid)return;const i=this._getRenderedComponent();this.firstChild?i?this.firstChild!==i?(this.replaceChild(i,this.firstChild),this._defineFocusTarget(),this.onComponentRendered()):(this._defineFocusTarget(),this.onComponentRendered()):this._asyncAttachRenderedComponentIfAble():i?(this.appendChild(i),this._defineFocusTarget(),this.onComponentRendered()):this._asyncAttachRenderedComponentIfAble()}_getRenderedComponent(){try{return window.Vaadin.Flow.clients[this.appid].getByNodeId(this.nodeid)}catch(i){console.error("Could not get node %s from app %s",this.nodeid,this.appid),console.error(i)}return null}onComponentRendered(){}_defineFocusTarget(){var i=this._getFirstFocusableDescendant(this.firstChild);i!==null&&i.setAttribute("focus-target","true")}_getFirstFocusableDescendant(i){if(this._isFocusable(i))return i;if(i.hasAttribute&&(i.hasAttribute("disabled")||i.hasAttribute("hidden"))||!i.children)return null;for(var t=0;t<i.children.length;t++){var r=this._getFirstFocusableDescendant(i.children[t]);if(r!==null)return r}return null}_isFocusable(i){return i.hasAttribute&&typeof i.hasAttribute=="function"&&(i.hasAttribute("disabled")||i.hasAttribute("hidden"))?!1:i.tabIndex===0}_onAnimationEnd(i){i.animationName.indexOf("flow-component-renderer-appear")===0&&this._attachRenderedComponentIfAble()}}window.customElements.define(FlowComponentRenderer.is,FlowComponentRenderer);(function(){const n=function(i){return window.Vaadin.Flow.tryCatchWrapper(i,"Vaadin Combo Box")};window.Vaadin.Flow.comboBoxConnector={initLazy:i=>n(function(t){if(t.$connector)return;t.$connector={};const r={};let o={},a="";const s=new window.Vaadin.ComboBoxPlaceholder,l=(()=>{let u="",p=!1;return{needsDataCommunicatorReset:()=>p=!0,getLastFilterSentToServer:()=>u,requestData:(m,_,y)=>{const b=_-m,x=y.filter;t.$server.setRequestedRange(m,b,x),u=x,p&&(t.$server.resetDataCommunicator(),p=!1)}}})(),h=(u=Object.keys(r))=>{u.forEach(p=>{r[p]([],t.size),delete r[p];const f=parseInt(p)*t.pageSize,v=f+t.pageSize,g=Math.min(v,t.filteredItems.length);for(let m=f;m<g;m++)t.filteredItems[m]=s})};t.dataProvider=function(u,p){if(u.pageSize!=t.pageSize)throw"Invalid pageSize";if(t._clientSideFilter)if(o[0]){d(o[0],u.filter,p);return}else u.filter="";if(u.filter!==a){o={},a=u.filter,this._filterDebouncer=Debouncer.debounce(this._filterDebouncer,timeOut$1.after(500),()=>{if(l.getLastFilterSentToServer()===u.filter&&l.needsDataCommunicatorReset(),u.filter!==a)throw new Error("Expected params.filter to be '"+a+"' but was '"+u.filter+"'");this._filterDebouncer=void 0,h(),t.dataProvider(u,p)});return}if(this._filterDebouncer){r[u.page]=p;return}if(o[u.page])c(u.page,p);else{r[u.page]=p;const v=Math.max(u.pageSize*2,500),g=Object.keys(r).map(y=>parseInt(y)),m=Math.min(...g),_=Math.max(...g);if(g.length*u.pageSize>v)u.page===m?h([String(_)]):h([String(m)]),t.dataProvider(u,p);else if(_-m+1!==g.length)h();else{const y=u.pageSize*m,b=u.pageSize*(_+1);l.requestData(y,b,u)}}},t.$connector.clear=n((u,p)=>{const f=Math.floor(u/t.pageSize),v=Math.ceil(p/t.pageSize);for(let g=f;g<f+v;g++)delete o[g]}),t.$connector.filter=n(function(u,p){return p=p?p.toString().toLowerCase():"",t._getItemLabel(u,t.itemLabelPath).toString().toLowerCase().indexOf(p)>-1}),t.$connector.set=n(function(u,p,f){if(f!=l.getLastFilterSentToServer())return;if(u%t.pageSize!=0)throw"Got new data to index "+u+" which is not aligned with the page size of "+t.pageSize;if(u===0&&p.length===0&&r[0]){o[0]=[];return}const v=u/t.pageSize,g=Math.ceil(p.length/t.pageSize);for(let m=0;m<g;m++){let _=v+m,y=p.slice(m*t.pageSize,(m+1)*t.pageSize);o[_]=y}}),t.$connector.updateData=n(function(u){const p=new Map(u.map(f=>[f.key,f]));t.filteredItems=t.filteredItems.map(f=>p.get(f.key)||f)}),t.$connector.updateSize=n(function(u){t._clientSideFilter||(t.size=u)}),t.$connector.reset=n(function(){h(),o={},t.clearCache()}),t.$connector.confirm=n(function(u,p){if(p!=l.getLastFilterSentToServer())return;let f=Object.getOwnPropertyNames(r);for(let v=0;v<f.length;v++){let g=f[v];o[g]&&c(g,r[g])}t.$server.confirmUpdate(u)});const c=n(function(u,p){let f=o[u];t._clientSideFilter?d(f,t.filter,p):(delete o[u],p(f,t.size))}),d=n(function(u,p,f){let v=u;p&&(v=u.filter(g=>t.$connector.filter(g,p))),f(v,v.length)});t.addEventListener("custom-value-set",n(u=>u.preventDefault()))})(i)}})();window.Vaadin.ComboBoxPlaceholder=ComboBoxPlaceholder;/**
+    `}static get properties(){return{_positionTarget:{type:Object}}}get clearElement(){return this.$.clearButton}ready(){super.ready(),this.addController(new InputController(this,i=>{this._setInputElement(i),this._setFocusElement(i),this.stateTarget=i,this.ariaTarget=i})),this.addController(new LabelledInputController(this.inputElement,this._labelController)),this._tooltipController=new TooltipController(this),this.addController(this._tooltipController),this._tooltipController.setPosition("top"),this._tooltipController.setShouldShow(i=>!i.opened),this._positionTarget=this.shadowRoot.querySelector('[part="input-field"]'),this._toggleElement=this.$.toggleButton}_setFocused(i){super._setFocused(i),!i&&document.hasFocus()&&this.validate()}_shouldRemoveFocus(i){return i.relatedTarget===this._overlayElement?(i.composedPath()[0].focus(),!1):!0}_onClearButtonClick(i){i.stopPropagation(),super._onClearButtonClick(i)}_onHostClick(i){const t=i.composedPath();(t.includes(this._labelNode)||t.includes(this._positionTarget))&&super._onHostClick(i)}}customElements.define(ComboBox.is,ComboBox);(function(){const n=function(i){return window.Vaadin.Flow.tryCatchWrapper(i,"Vaadin Combo Box")};window.Vaadin.Flow.comboBoxConnector={initLazy:i=>n(function(t){if(t.$connector)return;t.$connector={};const r={};let o={},a="";const s=new window.Vaadin.ComboBoxPlaceholder,l=(()=>{let u="",p=!1;return{needsDataCommunicatorReset:()=>p=!0,getLastFilterSentToServer:()=>u,requestData:(m,_,y)=>{const b=_-m,x=y.filter;t.$server.setRequestedRange(m,b,x),u=x,p&&(t.$server.resetDataCommunicator(),p=!1)}}})(),h=(u=Object.keys(r))=>{u.forEach(p=>{r[p]([],t.size),delete r[p];const f=parseInt(p)*t.pageSize,v=f+t.pageSize,g=Math.min(v,t.filteredItems.length);for(let m=f;m<g;m++)t.filteredItems[m]=s})};t.dataProvider=function(u,p){if(u.pageSize!=t.pageSize)throw"Invalid pageSize";if(t._clientSideFilter)if(o[0]){d(o[0],u.filter,p);return}else u.filter="";if(u.filter!==a){o={},a=u.filter,this._filterDebouncer=Debouncer.debounce(this._filterDebouncer,timeOut$1.after(500),()=>{if(l.getLastFilterSentToServer()===u.filter&&l.needsDataCommunicatorReset(),u.filter!==a)throw new Error("Expected params.filter to be '"+a+"' but was '"+u.filter+"'");this._filterDebouncer=void 0,h(),t.dataProvider(u,p)});return}if(this._filterDebouncer){r[u.page]=p;return}if(o[u.page])c(u.page,p);else{r[u.page]=p;const v=Math.max(u.pageSize*2,500),g=Object.keys(r).map(y=>parseInt(y)),m=Math.min(...g),_=Math.max(...g);if(g.length*u.pageSize>v)u.page===m?h([String(_)]):h([String(m)]),t.dataProvider(u,p);else if(_-m+1!==g.length)h();else{const y=u.pageSize*m,b=u.pageSize*(_+1);l.requestData(y,b,u)}}},t.$connector.clear=n((u,p)=>{const f=Math.floor(u/t.pageSize),v=Math.ceil(p/t.pageSize);for(let g=f;g<f+v;g++)delete o[g]}),t.$connector.filter=n(function(u,p){return p=p?p.toString().toLowerCase():"",t._getItemLabel(u,t.itemLabelPath).toString().toLowerCase().indexOf(p)>-1}),t.$connector.set=n(function(u,p,f){if(f!=l.getLastFilterSentToServer())return;if(u%t.pageSize!=0)throw"Got new data to index "+u+" which is not aligned with the page size of "+t.pageSize;if(u===0&&p.length===0&&r[0]){o[0]=[];return}const v=u/t.pageSize,g=Math.ceil(p.length/t.pageSize);for(let m=0;m<g;m++){let _=v+m,y=p.slice(m*t.pageSize,(m+1)*t.pageSize);o[_]=y}}),t.$connector.updateData=n(function(u){const p=new Map(u.map(f=>[f.key,f]));t.filteredItems=t.filteredItems.map(f=>p.get(f.key)||f)}),t.$connector.updateSize=n(function(u){t._clientSideFilter||(t.size=u)}),t.$connector.reset=n(function(){h(),o={},t.clearCache()}),t.$connector.confirm=n(function(u,p){if(p!=l.getLastFilterSentToServer())return;let f=Object.getOwnPropertyNames(r);for(let v=0;v<f.length;v++){let g=f[v];o[g]&&c(g,r[g])}t.$server.confirmUpdate(u)});const c=n(function(u,p){let f=o[u];t._clientSideFilter?d(f,t.filter,p):(delete o[u],p(f,t.size))}),d=n(function(u,p,f){let v=u;p&&(v=u.filter(g=>t.$connector.filter(g,p))),f(v,v.length)});t.addEventListener("custom-value-set",n(u=>u.preventDefault()))})(i)}})();window.Vaadin.ComboBoxPlaceholder=ComboBoxPlaceholder;/**
  * @license
  * Copyright (c) 2021 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -6389,7 +6701,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       display: flex;
       width: 100%;
     }
-  `,{moduleId:"vaadin-multi-select-combo-box-container-styles"});let memoizedTemplate$8;class MultiSelectComboBoxContainer extends InputContainer{static get is(){return"vaadin-multi-select-combo-box-container"}static get template(){if(!memoizedTemplate$8){memoizedTemplate$8=super.template.cloneNode(!0);const i=memoizedTemplate$8.content,t=i.querySelectorAll("slot"),r=document.createElement("div");r.setAttribute("id","wrapper"),i.insertBefore(r,t[2]),r.appendChild(t[0]),r.appendChild(t[1])}return memoizedTemplate$8}}customElements.define(MultiSelectComboBoxContainer.is,MultiSelectComboBoxContainer);/**
+  `,{moduleId:"vaadin-multi-select-combo-box-container-styles"});let memoizedTemplate$7;class MultiSelectComboBoxContainer extends InputContainer{static get is(){return"vaadin-multi-select-combo-box-container"}static get template(){if(!memoizedTemplate$7){memoizedTemplate$7=super.template.cloneNode(!0);const i=memoizedTemplate$7.content,t=i.querySelectorAll("slot"),r=document.createElement("div");r.setAttribute("id","wrapper"),i.insertBefore(r,t[2]),r.appendChild(t[0]),r.appendChild(t[1])}return memoizedTemplate$7}}customElements.define(MultiSelectComboBoxContainer.is,MultiSelectComboBoxContainer);/**
  * @license
  * Copyright (c) 2021 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -6424,7 +6736,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       flex-direction: column;
       height: 100%;
     }
-  `,{moduleId:"vaadin-multi-select-combo-box-overlay-styles"});let memoizedTemplate$7;class MultiSelectComboBoxOverlay extends ComboBoxOverlayMixin(Overlay){static get is(){return"vaadin-multi-select-combo-box-overlay"}static get template(){if(!memoizedTemplate$7){memoizedTemplate$7=super.template.cloneNode(!0);const i=memoizedTemplate$7.content.querySelector('[part~="overlay"]');i.removeAttribute("tabindex");const t=document.createElement("div");t.setAttribute("part","loader"),i.insertBefore(t,i.firstElementChild)}return memoizedTemplate$7}}customElements.define(MultiSelectComboBoxOverlay.is,MultiSelectComboBoxOverlay);/**
+  `,{moduleId:"vaadin-multi-select-combo-box-overlay-styles"});let memoizedTemplate$6;class MultiSelectComboBoxOverlay extends ComboBoxOverlayMixin(Overlay){static get is(){return"vaadin-multi-select-combo-box-overlay"}static get template(){if(!memoizedTemplate$6){memoizedTemplate$6=super.template.cloneNode(!0);const i=memoizedTemplate$6.content.querySelector('[part~="overlay"]');i.removeAttribute("tabindex");const t=document.createElement("div");t.setAttribute("part","loader"),i.insertBefore(t,i.firstElementChild)}return memoizedTemplate$6}}customElements.define(MultiSelectComboBoxOverlay.is,MultiSelectComboBoxOverlay);/**
  * @license
  * Copyright (c) 2021 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
@@ -6577,319 +6889,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           color: transparent !important;
           forced-color-adjust: none;
         }
-      `]}get clearElement(){return this.$.clearButton}get _chips(){return[...this.querySelectorAll('[slot="chip"]')]}get _hasValue(){return this.selectedItems&&this.selectedItems.length>0}ready(){super.ready(),this.addController(new InputController(this,i=>{this._setInputElement(i),this._setFocusElement(i),this.stateTarget=i,this.ariaTarget=i})),this.addController(new LabelledInputController(this.inputElement,this._labelController)),this._tooltipController=new TooltipController(this),this.addController(this._tooltipController),this._tooltipController.setPosition("top"),this._tooltipController.setShouldShow(i=>!i.opened),this._inputField=this.shadowRoot.querySelector('[part="input-field"]'),this._overflowController=new SlotController(this,"overflow","vaadin-multi-select-combo-box-chip",{initializer:i=>{i.addEventListener("mousedown",t=>this._preventBlur(t)),this._overflow=i}}),this.addController(this._overflowController),this.__updateChips(),processTemplates(this)}checkValidity(){return this.required&&!this.readonly?this._hasValue:!0}clear(){this.__updateSelection([]),announce(this.i18n.cleared)}clearCache(){this.$&&this.$.comboBox&&this.$.comboBox.clearCache()}requestContentUpdate(){this.$&&this.$.comboBox&&this.$.comboBox.requestContentUpdate()}_disabledChanged(i,t){super._disabledChanged(i,t),(i||t)&&this.__updateChips()}_inputElementChanged(i){super._inputElementChanged(i),i&&this.$.comboBox._setInputElement(i)}_setFocused(i){super._setFocused(i),!i&&document.hasFocus()&&(this._focusedChipIndex=-1,this.validate())}_onResize(){this.__updateChips()}_delegateAttribute(i,t){if(this.stateTarget){if(i==="required"){this._delegateAttribute("aria-required",t?"true":!1);return}super._delegateAttribute(i,t)}}_clearButtonVisibleChanged(i,t){(i||t)&&this.__updateChips()}_onFilteredItemsChanged(i){const{value:t}=i.detail;(Array.isArray(t)||t==null)&&(this.filteredItems=t)}_readonlyChanged(i,t){(i||t)&&this.__updateChips(),this.dataProvider&&this.clearCache()}_pageSizeChanged(i,t){(Math.floor(i)!==i||i<=0)&&(this.pageSize=t,console.error('"pageSize" value must be an integer > 0')),this.$.comboBox.pageSize=this.pageSize}_placeholderChanged(i){const t=this.__tmpA11yPlaceholder;t!==i&&(this.__savedPlaceholder=i,t&&(this.placeholder=t))}_selectedItemsChanged(i){if(this._toggleHasValue(this._hasValue),this._hasValue){const t=this._mergeItemLabels(i);this.__tmpA11yPlaceholder=t,this.placeholder=t}else delete this.__tmpA11yPlaceholder,this.placeholder=this.__savedPlaceholder;this.__updateChips(),this.requestContentUpdate()}_getItemLabel(i){return this.$.comboBox._getItemLabel(i)}_mergeItemLabels(i){return i.map(t=>this._getItemLabel(t)).join(", ")}_findIndex(i,t,r){if(r&&i){for(let o=0;o<t.length;o++)if(t[o]&&t[o][r]===i[r])return o;return-1}return t.indexOf(i)}__clearFilter(){this.filter="",this.$.comboBox.clear()}__announceItem(i,t,r){const o=t?"selected":"deselected",a=this.i18n.total.replace("{count}",r||0);announce(`${i} ${this.i18n[o]} ${a}`)}__removeItem(i){const t=[...this.selectedItems];t.splice(t.indexOf(i),1),this.__updateSelection(t);const r=this._getItemLabel(i);this.__announceItem(r,!1,t.length)}__selectItem(i){const t=[...this.selectedItems],r=this._findIndex(i,t,this.itemIdPath),o=this._getItemLabel(i);let a=!1;if(r!==-1){const s=this._lastFilter;if(s&&s.toLowerCase()===o.toLowerCase()){this.__clearFilter();return}t.splice(r,1)}else t.push(i),a=!0;this.__updateSelection(t),this.__clearFilter(),this.__announceItem(o,a,t.length)}__updateSelection(i){this.selectedItems=i,this.validate(),this.dispatchEvent(new CustomEvent("change",{bubbles:!0}))}__createChip(i){const t=document.createElement("vaadin-multi-select-combo-box-chip");t.setAttribute("slot","chip"),t.item=i,t.disabled=this.disabled,t.readonly=this.readonly;const r=this._getItemLabel(i);return t.label=r,t.setAttribute("title",r),t.addEventListener("item-removed",o=>this._onItemRemoved(o)),t.addEventListener("mousedown",o=>this._preventBlur(o)),t}__getOverflowWidth(){const i=this._overflow;i.style.visibility="hidden",i.removeAttribute("hidden");const t=i.getAttribute("count");i.setAttribute("count","99");const r=getComputedStyle(i),o=i.clientWidth+parseInt(r.marginInlineStart);return i.setAttribute("count",t),i.setAttribute("hidden",""),i.style.visibility="",o}__updateChips(){if(!this._inputField||!this.inputElement)return;this._chips.forEach(a=>{a.remove()});const i=[...this.selectedItems],t=this._inputField.$.wrapper.clientWidth,r=parseInt(getComputedStyle(this.inputElement).flexBasis);let o=t-r;i.length>1&&(o-=this.__getOverflowWidth());for(let a=i.length-1,s=null;a>=0;a--){const l=this.__createChip(i[a]);if(this.insertBefore(l,s),this.$.chips.clientWidth>o){l.remove();break}i.pop(),s=l}this._overflowItems=i}__updateOverflowChip(i,t,r,o){if(i){const a=t.length;i.label=`${a}`,i.setAttribute("count",`${a}`),i.setAttribute("title",this._mergeItemLabels(t)),i.toggleAttribute("hidden",a===0),i.disabled=r,i.readonly=o}}_onClearButtonTouchend(i){i.preventDefault(),this.clear()}_onClearButtonClick(i){i.stopPropagation(),this.clear()}_onChange(i){i.stopPropagation()}_onEscape(i){this.clearButtonVisible&&this.selectedItems&&this.selectedItems.length&&(i.stopPropagation(),this.selectedItems=[])}_onKeyDown(i){super._onKeyDown(i);const t=this._chips;if(!this.readonly&&t.length>0)switch(i.key){case"Backspace":this._onBackSpace(t);break;case"ArrowLeft":this._onArrowLeft(t,i);break;case"ArrowRight":this._onArrowRight(t,i);break;default:this._focusedChipIndex=-1;break}}_onArrowLeft(i,t){if(this.inputElement.selectionStart!==0)return;const r=this._focusedChipIndex;r!==-1&&t.preventDefault();let o;this.__isRTL?r===i.length-1?o=-1:r>-1&&(o=r+1):r===-1?o=i.length-1:r>0&&(o=r-1),o!==void 0&&(this._focusedChipIndex=o)}_onArrowRight(i,t){if(this.inputElement.selectionStart!==0)return;const r=this._focusedChipIndex;r!==-1&&t.preventDefault();let o;this.__isRTL?r===-1?o=i.length-1:r>0&&(o=r-1):r===i.length-1?o=-1:r>-1&&(o=r+1),o!==void 0&&(this._focusedChipIndex=o)}_onBackSpace(i){if(this.inputElement.selectionStart!==0)return;const t=this._focusedChipIndex;t===-1?this._focusedChipIndex=i.length-1:(this.__removeItem(i[t].item),this._focusedChipIndex=-1)}_focusedChipIndexChanged(i,t){if(i>-1||t>-1){const r=this._chips;if(r.forEach((o,a)=>{o.toggleAttribute("focused",a===i)}),i>-1){const o=r[i].item,a=this._getItemLabel(o);announce(`${a} ${this.i18n.focused}`)}}}_onComboBoxChange(){const i=this.$.comboBox.selectedItem;i&&this.__selectItem(i)}_onComboBoxItemSelected(i){this.__selectItem(i.detail.item)}_onCustomValueSet(i){i.preventDefault(),i.stopPropagation(),this.__clearFilter(),this.dispatchEvent(new CustomEvent("custom-value-set",{detail:i.detail,composed:!0,bubbles:!0}))}_onItemRemoved(i){this.__removeItem(i.detail.item)}_preventBlur(i){i.preventDefault()}__computeEffectiveItems(i,t,r){return i&&r?t:i}__computeEffectiveFilteredItems(i,t,r,o){return!i&&o?r:t}}customElements.define(MultiSelectComboBox.is,MultiSelectComboBox);const dialogOverlay=css$e`
-  /* Optical centering */
-  :host::before,
-  :host::after {
-    content: '';
-    flex-basis: 0;
-    flex-grow: 1;
-  }
-
-  :host::after {
-    flex-grow: 1.1;
-  }
-
-  [part='overlay'] {
-    border-radius: var(--lumo-border-radius-l);
-    box-shadow: 0 0 0 1px var(--lumo-shade-5pct), var(--lumo-box-shadow-xl);
-    background-image: none;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  [part='content'] {
-    padding: var(--lumo-space-l);
-  }
-
-  :host(:is([has-header], [has-title])) [part='header'] + [part='content'] {
-    padding-top: 0;
-  }
-
-  [part='header'],
-  [part='header-content'],
-  [part='footer'] {
-    gap: var(--lumo-space-xs) var(--lumo-space-s);
-    line-height: var(--lumo-line-height-s);
-  }
-
-  [part='header'] {
-    padding: var(--lumo-space-m);
-    background-color: var(--lumo-base-color);
-    border-radius: var(--lumo-border-radius-l) var(--lumo-border-radius-l) 0 0; /* Needed for Safari */
-  }
-
-  [part='footer'] {
-    padding: var(--lumo-space-s) var(--lumo-space-m);
-    background-color: var(--lumo-contrast-5pct);
-    border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l); /* Needed for Safari */
-  }
-
-  [part='title'] {
-    font-size: var(--lumo-font-size-xl);
-    font-weight: 600;
-    color: var(--lumo-header-text-color);
-    margin-inline-start: calc(var(--lumo-space-l) - var(--lumo-space-m));
-  }
-
-  /* No padding */
-  :host([theme~='no-padding']) [part='content'] {
-    padding: 0;
-  }
-
-  @media (min-height: 320px) {
-    :host([overflow~='top']) [part='header'] {
-      box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct);
-    }
-  }
-
-  /* Animations */
-
-  :host([opening]),
-  :host([closing]) {
-    animation: 0.25s lumo-overlay-dummy-animation;
-  }
-
-  :host([opening]) [part='overlay'] {
-    animation: 0.12s 0.05s vaadin-dialog-enter cubic-bezier(0.215, 0.61, 0.355, 1) both;
-  }
-
-  @keyframes vaadin-dialog-enter {
-    0% {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-  }
-
-  :host([closing]) [part='overlay'] {
-    animation: 0.1s 0.03s vaadin-dialog-exit cubic-bezier(0.55, 0.055, 0.675, 0.19) both;
-  }
-
-  :host([closing]) [part='backdrop'] {
-    animation-delay: 0.05s;
-  }
-
-  @keyframes vaadin-dialog-exit {
-    100% {
-      opacity: 0;
-      transform: scale(1.02);
-    }
-  }
-`;registerStyles$1("vaadin-dialog-overlay",[overlay,dialogOverlay],{moduleId:"lumo-dialog"});/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */registerStyles$1("vaadin-dialog-overlay",css$e`
-    [part='header'],
-    [part='header-content'],
-    [part='footer'] {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      flex: none;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    [part='header'] {
-      flex-wrap: nowrap;
-    }
-
-    ::slotted([slot='header-content']),
-    ::slotted([slot='title']),
-    ::slotted([slot='footer']) {
-      display: contents;
-      pointer-events: auto;
-    }
-
-    ::slotted([slot='title']) {
-      font: inherit !important;
-      overflow-wrap: anywhere;
-    }
-
-    [part='header-content'] {
-      flex: 1;
-    }
-
-    :host([has-title]) [part='header-content'],
-    [part='footer'] {
-      justify-content: flex-end;
-    }
-
-    :host(:not([has-title]):not([has-header])) [part='header'],
-    :host(:not([has-header])) [part='header-content'],
-    :host(:not([has-title])) [part='title'],
-    :host(:not([has-footer])) [part='footer'] {
-      display: none !important;
-    }
-
-    :host(:is([has-title], [has-header], [has-footer])) [part='content'] {
-      height: auto;
-    }
-
-    @media (min-height: 320px) {
-      :host(:is([has-title], [has-header], [has-footer])) .resizer-container {
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      :host(:is([has-title], [has-header], [has-footer])) [part='content'] {
-        flex: 1;
-        overflow: auto;
-      }
-    }
-
-    /*
-      NOTE(platosha): Make some min-width to prevent collapsing of the content
-      taking the parent width, e. g., <vaadin-grid> and such.
-    */
-    [part='content'] {
-      min-width: 12em; /* matches the default <vaadin-text-field> width */
-    }
-
-    :host([has-bounds-set]) [part='overlay'] {
-      max-width: none;
-    }
-
-    @media (forced-colors: active) {
-      [part='overlay'] {
-        outline: 3px solid !important;
-      }
-    }
-  `,{moduleId:"vaadin-dialog-overlay-styles"});let memoizedTemplate$6;class DialogOverlay extends Overlay{static get is(){return"vaadin-dialog-overlay"}static get template(){if(!memoizedTemplate$6){memoizedTemplate$6=super.template.cloneNode(!0);const i=memoizedTemplate$6.content.querySelector('[part="content"]'),t=memoizedTemplate$6.content.querySelector('[part="overlay"]'),r=document.createElement("section");r.id="resizerContainer",r.classList.add("resizer-container"),r.appendChild(i),t.appendChild(r);const o=document.createElement("header");o.setAttribute("part","header"),r.insertBefore(o,i);const a=document.createElement("div");a.setAttribute("part","title"),o.appendChild(a);const s=document.createElement("slot");s.setAttribute("name","title"),a.appendChild(s);const l=document.createElement("div");l.setAttribute("part","header-content"),o.appendChild(l);const h=document.createElement("slot");h.setAttribute("name","header-content"),l.appendChild(h);const c=document.createElement("footer");c.setAttribute("part","footer"),r.appendChild(c);const d=document.createElement("slot");d.setAttribute("name","footer"),c.appendChild(d)}return memoizedTemplate$6}static get observers(){return["_headerFooterRendererChange(headerRenderer, footerRenderer, opened)","_headerTitleChanged(headerTitle, opened)"]}static get properties(){return{modeless:Boolean,withBackdrop:Boolean,headerTitle:String,headerRenderer:Function,footerRenderer:Function}}ready(){super.ready(),this.__resizeObserver=new ResizeObserver(()=>{this.__updateOverflow()}),this.__resizeObserver.observe(this.$.resizerContainer),this.$.content.addEventListener("scroll",()=>{this.__updateOverflow()})}__createContainer(i){const t=document.createElement("div");return t.setAttribute("slot",i),t}__clearContainer(i){i.innerHTML="",delete i._$litPart$}__initContainer(i,t){return i?this.__clearContainer(i):i=this.__createContainer(t),i}_headerFooterRendererChange(i,t,r){const o=this.__oldHeaderRenderer!==i;this.__oldHeaderRenderer=i;const a=this.__oldFooterRenderer!==t;this.__oldFooterRenderer=t;const s=this._oldOpenedFooterHeader!==r;this._oldOpenedFooterHeader=r,this.toggleAttribute("has-header",!!i),this.toggleAttribute("has-footer",!!t),o&&(i?this.headerContainer=this.__initContainer(this.headerContainer,"header-content"):this.headerContainer&&(this.headerContainer.remove(),this.headerContainer=null,this.__updateOverflow())),a&&(t?this.footerContainer=this.__initContainer(this.footerContainer,"footer"):this.footerContainer&&(this.footerContainer.remove(),this.footerContainer=null,this.__updateOverflow())),(i&&(o||s)||t&&(a||s))&&r&&this.requestContentUpdate()}_headerTitleChanged(i,t){this.toggleAttribute("has-title",!!i),t&&(i||this._oldHeaderTitle)&&this.requestContentUpdate(),this._oldHeaderTitle=i}_headerTitleRenderer(){this.headerTitle?(this.headerTitleElement||(this.headerTitleElement=document.createElement("h2"),this.headerTitleElement.setAttribute("slot","title"),this.headerTitleElement.classList.add("draggable")),this.appendChild(this.headerTitleElement),this.headerTitleElement.textContent=this.headerTitle):this.headerTitleElement&&(this.headerTitleElement.remove(),this.headerTitleElement=null)}requestContentUpdate(){super.requestContentUpdate(),this.headerContainer&&(this.headerContainer.parentElement||this.appendChild(this.headerContainer),this.headerRenderer&&this.headerRenderer.call(this.owner,this.headerContainer,this.owner)),this.footerContainer&&(this.footerContainer.parentElement||this.appendChild(this.footerContainer),this.footerRenderer&&this.footerRenderer.call(this.owner,this.footerContainer,this.owner)),this._headerTitleRenderer(),this.__updateOverflow()}setBounds(i){const t=this.$.overlay,r={...i};t.style.position!=="absolute"&&(t.style.position="absolute",this.setAttribute("has-bounds-set","")),Object.keys(r).forEach(o=>{typeof r[o]=="number"&&(r[o]=`${r[o]}px`)}),Object.assign(t.style,r)}getBounds(){const i=this.$.overlay.getBoundingClientRect(),t=this.getBoundingClientRect(),r=i.top-t.top,o=i.left-t.left,a=i.width,s=i.height;return{top:r,left:o,width:a,height:s}}__updateOverflow(){let i="";if(this.hasAttribute("has-header")||this.hasAttribute("has-footer")||this.headerTitle){const r=this.$.content;r.scrollTop>0&&(i+=" top"),r.scrollTop<r.scrollHeight-r.clientHeight&&(i+=" bottom")}const t=i.trim();t.length>0&&this.getAttribute("overflow")!==t?this.setAttribute("overflow",t):t.length===0&&this.hasAttribute("overflow")&&this.removeAttribute("overflow")}}customElements.define(DialogOverlay.is,DialogOverlay);/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */function getMouseOrFirstTouchEvent(n){return n.touches?n.touches[0]:n}function eventInWindow(n){return n.clientX>=0&&n.clientX<=window.innerWidth&&n.clientY>=0&&n.clientY<=window.innerHeight}/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */const DialogDraggableMixin=n=>class extends n{static get properties(){return{draggable:{type:Boolean,value:!1,reflectToAttribute:!0},_touchDevice:{type:Boolean,value:isTouch},__dragHandleClassName:{type:String}}}ready(){super.ready(),this._originalBounds={},this._originalMouseCoords={},this._startDrag=this._startDrag.bind(this),this._drag=this._drag.bind(this),this._stopDrag=this._stopDrag.bind(this),this.$.overlay.$.overlay.addEventListener("mousedown",this._startDrag),this.$.overlay.$.overlay.addEventListener("touchstart",this._startDrag)}_startDrag(t){if(!(t.type==="touchstart"&&t.touches.length>1)&&this.draggable&&(t.button===0||t.touches)){const r=this.$.overlay.$.resizerContainer,o=t.target===r,a=t.offsetX>r.clientWidth||t.offsetY>r.clientHeight,s=t.target===this.$.overlay.$.content,l=t.composedPath().some((h,c)=>{if(!h.classList)return!1;const d=h.classList.contains(this.__dragHandleClassName||"draggable"),u=h.classList.contains("draggable-leaf-only"),p=c===0;return u&&p||d&&(!u||p)});if(o&&!a||s||l){l||t.preventDefault(),this._originalBounds=this.$.overlay.getBounds();const h=getMouseOrFirstTouchEvent(t);this._originalMouseCoords={top:h.pageY,left:h.pageX},window.addEventListener("mouseup",this._stopDrag),window.addEventListener("touchend",this._stopDrag),window.addEventListener("mousemove",this._drag),window.addEventListener("touchmove",this._drag),this.$.overlay.$.overlay.style.position!=="absolute"&&this.$.overlay.setBounds(this._originalBounds)}}}_drag(t){const r=getMouseOrFirstTouchEvent(t);if(eventInWindow(r)){const o=this._originalBounds.top+(r.pageY-this._originalMouseCoords.top),a=this._originalBounds.left+(r.pageX-this._originalMouseCoords.left);this.$.overlay.setBounds({top:o,left:a})}}_stopDrag(){window.removeEventListener("mouseup",this._stopDrag),window.removeEventListener("touchend",this._stopDrag),window.removeEventListener("mousemove",this._drag),window.removeEventListener("touchmove",this._drag)}};/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */registerStyles$1("vaadin-dialog-overlay",css$e`
-    [part='overlay'] {
-      position: relative;
-      overflow: visible;
-      max-height: 100%;
-      display: flex;
-    }
-
-    [part='content'] {
-      box-sizing: border-box;
-      height: 100%;
-    }
-
-    .resizer-container {
-      overflow: auto;
-      flex-grow: 1;
-      border-radius: inherit; /* prevent child elements being drawn outside part=overlay */
-    }
-
-    [part='overlay'][style] .resizer-container {
-      min-height: 100%;
-      width: 100%;
-    }
-
-    :host(:not([resizable])) .resizer {
-      display: none;
-    }
-
-    :host([resizable]) [part='title'] {
-      cursor: move;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .resizer {
-      position: absolute;
-      height: 16px;
-      width: 16px;
-    }
-
-    .resizer.edge {
-      height: 8px;
-      width: 8px;
-      top: -4px;
-      right: -4px;
-      bottom: -4px;
-      left: -4px;
-    }
-
-    .resizer.edge.n {
-      width: auto;
-      bottom: auto;
-      cursor: ns-resize;
-    }
-
-    .resizer.ne {
-      top: -4px;
-      right: -4px;
-      cursor: nesw-resize;
-    }
-
-    .resizer.edge.e {
-      height: auto;
-      left: auto;
-      cursor: ew-resize;
-    }
-
-    .resizer.se {
-      bottom: -4px;
-      right: -4px;
-      cursor: nwse-resize;
-    }
-
-    .resizer.edge.s {
-      width: auto;
-      top: auto;
-      cursor: ns-resize;
-    }
-
-    .resizer.sw {
-      bottom: -4px;
-      left: -4px;
-      cursor: nesw-resize;
-    }
-
-    .resizer.edge.w {
-      height: auto;
-      right: auto;
-      cursor: ew-resize;
-    }
-
-    .resizer.nw {
-      top: -4px;
-      left: -4px;
-      cursor: nwse-resize;
-    }
-  `,{moduleId:"vaadin-dialog-resizable-overlay-styles"});const DialogResizableMixin=n=>class extends n{static get properties(){return{resizable:{type:Boolean,value:!1,reflectToAttribute:!0}}}ready(){super.ready(),this._originalBounds={},this._originalMouseCoords={},this._resizeListeners={start:{},resize:{},stop:{}},this._addResizeListeners()}_addResizeListeners(){["n","e","s","w","nw","ne","se","sw"].forEach(t=>{const r=document.createElement("div");this._resizeListeners.start[t]=o=>this._startResize(o,t),this._resizeListeners.resize[t]=o=>this._resize(o,t),this._resizeListeners.stop[t]=()=>this._stopResize(t),t.length===1&&r.classList.add("edge"),r.classList.add("resizer"),r.classList.add(t),r.addEventListener("mousedown",this._resizeListeners.start[t]),r.addEventListener("touchstart",this._resizeListeners.start[t]),this.$.overlay.$.resizerContainer.appendChild(r)})}_startResize(t,r){if(!(t.type==="touchstart"&&t.touches.length>1)&&(t.button===0||t.touches)){t.preventDefault(),this._originalBounds=this.$.overlay.getBounds();const o=getMouseOrFirstTouchEvent(t);this._originalMouseCoords={top:o.pageY,left:o.pageX},window.addEventListener("mousemove",this._resizeListeners.resize[r]),window.addEventListener("touchmove",this._resizeListeners.resize[r]),window.addEventListener("mouseup",this._resizeListeners.stop[r]),window.addEventListener("touchend",this._resizeListeners.stop[r]),this.$.overlay.$.overlay.style.position!=="absolute"&&this.$.overlay.setBounds(this._originalBounds)}}_resize(t,r){const o=getMouseOrFirstTouchEvent(t);eventInWindow(o)&&r.split("").forEach(s=>{switch(s){case"n":{const l=this._originalBounds.height-(o.pageY-this._originalMouseCoords.top),h=this._originalBounds.top+(o.pageY-this._originalMouseCoords.top);l>40&&this.$.overlay.setBounds({top:h,height:l});break}case"e":{const l=this._originalBounds.width+(o.pageX-this._originalMouseCoords.left);l>40&&this.$.overlay.setBounds({width:l});break}case"s":{const l=this._originalBounds.height+(o.pageY-this._originalMouseCoords.top);l>40&&this.$.overlay.setBounds({height:l});break}case"w":{const l=this._originalBounds.width-(o.pageX-this._originalMouseCoords.left),h=this._originalBounds.left+(o.pageX-this._originalMouseCoords.left);l>40&&this.$.overlay.setBounds({left:h,width:l});break}}})}_stopResize(t){window.removeEventListener("mousemove",this._resizeListeners.resize[t]),window.removeEventListener("touchmove",this._resizeListeners.resize[t]),window.removeEventListener("mouseup",this._resizeListeners.stop[t]),window.removeEventListener("touchend",this._resizeListeners.stop[t]),this.dispatchEvent(new CustomEvent("resize",{detail:this._getResizeDimensions()}))}_getResizeDimensions(){const t=this.$.overlay.$.resizerContainer.scrollTop,{width:r,height:o}=getComputedStyle(this.$.overlay.$.overlay),a=this.$.overlay.$.content;a.setAttribute("style","position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: content-box; height: auto;");const{width:s,height:l}=getComputedStyle(a);return a.removeAttribute("style"),this.$.overlay.$.resizerContainer.scrollTop=t,{width:r,height:o,contentWidth:s,contentHeight:l}}};/**
- * @license
- * Copyright (c) 2017 - 2023 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */class Dialog extends OverlayClassMixin(ThemePropertyMixin(ElementMixin(DialogDraggableMixin(DialogResizableMixin(PolymerElement))))){static get template(){return html`
-      <style>
-        :host {
-          display: none !important;
-        }
-      </style>
-
-      <vaadin-dialog-overlay
-        id="overlay"
-        header-title="[[headerTitle]]"
-        on-opened-changed="_onOverlayOpened"
-        on-mousedown="_bringOverlayToFront"
-        on-touchstart="_bringOverlayToFront"
-        theme$="[[_theme]]"
-        modeless="[[modeless]]"
-        with-backdrop="[[!modeless]]"
-        resizable$="[[resizable]]"
-        restore-focus-on-close
-        focus-trap
-      ></vaadin-dialog-overlay>
-    `}static get is(){return"vaadin-dialog"}static get properties(){return{opened:{type:Boolean,value:!1,notify:!0},noCloseOnOutsideClick:{type:Boolean,value:!1},noCloseOnEsc:{type:Boolean,value:!1},ariaLabel:{type:String,value:""},renderer:Function,headerTitle:String,headerRenderer:Function,footerRenderer:Function,modeless:{type:Boolean,value:!1}}}static get observers(){return["_openedChanged(opened)","_ariaLabelChanged(ariaLabel, headerTitle)","_rendererChanged(renderer, headerRenderer, footerRenderer)"]}ready(){super.ready();const i=this.$.overlay;i.setAttribute("role","dialog"),i.addEventListener("vaadin-overlay-outside-click",this._handleOutsideClick.bind(this)),i.addEventListener("vaadin-overlay-escape-press",this._handleEscPress.bind(this)),this._overlayElement=i,processTemplates(this)}requestContentUpdate(){this.$&&this.$.overlay.requestContentUpdate()}_rendererChanged(i,t,r){this.$.overlay.setProperties({owner:this,renderer:i,headerRenderer:t,footerRenderer:r})}connectedCallback(){super.connectedCallback(),this.__restoreOpened&&(this.opened=!0)}disconnectedCallback(){super.disconnectedCallback(),setTimeout(()=>{this.isConnected||(this.__restoreOpened=this.opened,this.opened=!1)})}_openedChanged(i){this.$.overlay.opened=i}_ariaLabelChanged(i,t){i||t?this.$.overlay.setAttribute("aria-label",i||t):this.$.overlay.removeAttribute("aria-label")}_onOverlayOpened(i){i.detail.value===!1&&(this.opened=!1)}_handleOutsideClick(i){this.noCloseOnOutsideClick&&i.preventDefault()}_handleEscPress(i){this.noCloseOnEsc&&i.preventDefault()}_bringOverlayToFront(){this.modeless&&this.$.overlay.bringToFront()}}customElements.define(Dialog.is,Dialog);registerStyles$1("vaadin-confirm-dialog-overlay",css$e`
+      `]}get clearElement(){return this.$.clearButton}get _chips(){return[...this.querySelectorAll('[slot="chip"]')]}get _hasValue(){return this.selectedItems&&this.selectedItems.length>0}ready(){super.ready(),this.addController(new InputController(this,i=>{this._setInputElement(i),this._setFocusElement(i),this.stateTarget=i,this.ariaTarget=i})),this.addController(new LabelledInputController(this.inputElement,this._labelController)),this._tooltipController=new TooltipController(this),this.addController(this._tooltipController),this._tooltipController.setPosition("top"),this._tooltipController.setShouldShow(i=>!i.opened),this._inputField=this.shadowRoot.querySelector('[part="input-field"]'),this._overflowController=new SlotController(this,"overflow","vaadin-multi-select-combo-box-chip",{initializer:i=>{i.addEventListener("mousedown",t=>this._preventBlur(t)),this._overflow=i}}),this.addController(this._overflowController),this.__updateChips(),processTemplates(this)}checkValidity(){return this.required&&!this.readonly?this._hasValue:!0}clear(){this.__updateSelection([]),announce(this.i18n.cleared)}clearCache(){this.$&&this.$.comboBox&&this.$.comboBox.clearCache()}requestContentUpdate(){this.$&&this.$.comboBox&&this.$.comboBox.requestContentUpdate()}_disabledChanged(i,t){super._disabledChanged(i,t),(i||t)&&this.__updateChips()}_inputElementChanged(i){super._inputElementChanged(i),i&&this.$.comboBox._setInputElement(i)}_setFocused(i){super._setFocused(i),!i&&document.hasFocus()&&(this._focusedChipIndex=-1,this.validate())}_onResize(){this.__updateChips()}_delegateAttribute(i,t){if(this.stateTarget){if(i==="required"){this._delegateAttribute("aria-required",t?"true":!1);return}super._delegateAttribute(i,t)}}_clearButtonVisibleChanged(i,t){(i||t)&&this.__updateChips()}_onFilteredItemsChanged(i){const{value:t}=i.detail;(Array.isArray(t)||t==null)&&(this.filteredItems=t)}_readonlyChanged(i,t){(i||t)&&this.__updateChips(),this.dataProvider&&this.clearCache()}_pageSizeChanged(i,t){(Math.floor(i)!==i||i<=0)&&(this.pageSize=t,console.error('"pageSize" value must be an integer > 0')),this.$.comboBox.pageSize=this.pageSize}_placeholderChanged(i){const t=this.__tmpA11yPlaceholder;t!==i&&(this.__savedPlaceholder=i,t&&(this.placeholder=t))}_selectedItemsChanged(i){if(this._toggleHasValue(this._hasValue),this._hasValue){const t=this._mergeItemLabels(i);this.__tmpA11yPlaceholder=t,this.placeholder=t}else delete this.__tmpA11yPlaceholder,this.placeholder=this.__savedPlaceholder;this.__updateChips(),this.requestContentUpdate()}_getItemLabel(i){return this.$.comboBox._getItemLabel(i)}_mergeItemLabels(i){return i.map(t=>this._getItemLabel(t)).join(", ")}_findIndex(i,t,r){if(r&&i){for(let o=0;o<t.length;o++)if(t[o]&&t[o][r]===i[r])return o;return-1}return t.indexOf(i)}__clearFilter(){this.filter="",this.$.comboBox.clear()}__announceItem(i,t,r){const o=t?"selected":"deselected",a=this.i18n.total.replace("{count}",r||0);announce(`${i} ${this.i18n[o]} ${a}`)}__removeItem(i){const t=[...this.selectedItems];t.splice(t.indexOf(i),1),this.__updateSelection(t);const r=this._getItemLabel(i);this.__announceItem(r,!1,t.length)}__selectItem(i){const t=[...this.selectedItems],r=this._findIndex(i,t,this.itemIdPath),o=this._getItemLabel(i);let a=!1;if(r!==-1){const s=this._lastFilter;if(s&&s.toLowerCase()===o.toLowerCase()){this.__clearFilter();return}t.splice(r,1)}else t.push(i),a=!0;this.__updateSelection(t),this.__clearFilter(),this.__announceItem(o,a,t.length)}__updateSelection(i){this.selectedItems=i,this.validate(),this.dispatchEvent(new CustomEvent("change",{bubbles:!0}))}__createChip(i){const t=document.createElement("vaadin-multi-select-combo-box-chip");t.setAttribute("slot","chip"),t.item=i,t.disabled=this.disabled,t.readonly=this.readonly;const r=this._getItemLabel(i);return t.label=r,t.setAttribute("title",r),t.addEventListener("item-removed",o=>this._onItemRemoved(o)),t.addEventListener("mousedown",o=>this._preventBlur(o)),t}__getOverflowWidth(){const i=this._overflow;i.style.visibility="hidden",i.removeAttribute("hidden");const t=i.getAttribute("count");i.setAttribute("count","99");const r=getComputedStyle(i),o=i.clientWidth+parseInt(r.marginInlineStart);return i.setAttribute("count",t),i.setAttribute("hidden",""),i.style.visibility="",o}__updateChips(){if(!this._inputField||!this.inputElement)return;this._chips.forEach(a=>{a.remove()});const i=[...this.selectedItems],t=this._inputField.$.wrapper.clientWidth,r=parseInt(getComputedStyle(this.inputElement).flexBasis);let o=t-r;i.length>1&&(o-=this.__getOverflowWidth());for(let a=i.length-1,s=null;a>=0;a--){const l=this.__createChip(i[a]);if(this.insertBefore(l,s),this.$.chips.clientWidth>o){l.remove();break}i.pop(),s=l}this._overflowItems=i}__updateOverflowChip(i,t,r,o){if(i){const a=t.length;i.label=`${a}`,i.setAttribute("count",`${a}`),i.setAttribute("title",this._mergeItemLabels(t)),i.toggleAttribute("hidden",a===0),i.disabled=r,i.readonly=o}}_onClearButtonTouchend(i){i.preventDefault(),this.clear()}_onClearButtonClick(i){i.stopPropagation(),this.clear()}_onChange(i){i.stopPropagation()}_onEscape(i){this.clearButtonVisible&&this.selectedItems&&this.selectedItems.length&&(i.stopPropagation(),this.selectedItems=[])}_onKeyDown(i){super._onKeyDown(i);const t=this._chips;if(!this.readonly&&t.length>0)switch(i.key){case"Backspace":this._onBackSpace(t);break;case"ArrowLeft":this._onArrowLeft(t,i);break;case"ArrowRight":this._onArrowRight(t,i);break;default:this._focusedChipIndex=-1;break}}_onArrowLeft(i,t){if(this.inputElement.selectionStart!==0)return;const r=this._focusedChipIndex;r!==-1&&t.preventDefault();let o;this.__isRTL?r===i.length-1?o=-1:r>-1&&(o=r+1):r===-1?o=i.length-1:r>0&&(o=r-1),o!==void 0&&(this._focusedChipIndex=o)}_onArrowRight(i,t){if(this.inputElement.selectionStart!==0)return;const r=this._focusedChipIndex;r!==-1&&t.preventDefault();let o;this.__isRTL?r===-1?o=i.length-1:r>0&&(o=r-1):r===i.length-1?o=-1:r>-1&&(o=r+1),o!==void 0&&(this._focusedChipIndex=o)}_onBackSpace(i){if(this.inputElement.selectionStart!==0)return;const t=this._focusedChipIndex;t===-1?this._focusedChipIndex=i.length-1:(this.__removeItem(i[t].item),this._focusedChipIndex=-1)}_focusedChipIndexChanged(i,t){if(i>-1||t>-1){const r=this._chips;if(r.forEach((o,a)=>{o.toggleAttribute("focused",a===i)}),i>-1){const o=r[i].item,a=this._getItemLabel(o);announce(`${a} ${this.i18n.focused}`)}}}_onComboBoxChange(){const i=this.$.comboBox.selectedItem;i&&this.__selectItem(i)}_onComboBoxItemSelected(i){this.__selectItem(i.detail.item)}_onCustomValueSet(i){i.preventDefault(),i.stopPropagation(),this.__clearFilter(),this.dispatchEvent(new CustomEvent("custom-value-set",{detail:i.detail,composed:!0,bubbles:!0}))}_onItemRemoved(i){this.__removeItem(i.detail.item)}_preventBlur(i){i.preventDefault()}__computeEffectiveItems(i,t,r){return i&&r?t:i}__computeEffectiveFilteredItems(i,t,r,o){return!i&&o?r:t}}customElements.define(MultiSelectComboBox.is,MultiSelectComboBox);registerStyles$1("vaadin-confirm-dialog-overlay",css$e`
     [part='header'] ::slotted(h3) {
       margin-top: 0 !important;
       margin-bottom: 0 !important;

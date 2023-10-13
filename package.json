@@ -51,7 +51,7 @@
     "@vaadin/number-field": "24.1.3",
     "@vaadin/overlay": "24.1.3",
     "@vaadin/password-field": "24.1.3",
-    "@vaadin/polymer-legacy-adapter": "24.1.2",
+    "@vaadin/polymer-legacy-adapter": "24.1.3",
     "@vaadin/progress-bar": "24.1.3",
     "@vaadin/radio-group": "24.1.3",
     "@vaadin/rich-text-editor": "24.1.3",
@@ -148,7 +148,7 @@
       "@vaadin/number-field": "24.1.3",
       "@vaadin/overlay": "24.1.3",
       "@vaadin/password-field": "24.1.3",
-      "@vaadin/polymer-legacy-adapter": "24.1.2",
+      "@vaadin/polymer-legacy-adapter": "24.1.3",
       "@vaadin/progress-bar": "24.1.3",
       "@vaadin/radio-group": "24.1.3",
       "@vaadin/rich-text-editor": "24.1.3",
@@ -195,7 +195,7 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "dea6740bd5bce6eaee56457647b08dfbe89ed8caefcd9c6920d23586883426f4"
+    "hash": "6690be1e9cb90f15f58b4d3e050af70a355967a8922a59756b738c8961e54eaf"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",

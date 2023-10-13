@@ -3,15 +3,62 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 10px;
+    grid-template-rows: 1fr; 
     width: 100%;
+    align-items: center;
 }
 
 .messages-container, .read-messages-container {
     background-color: rgb(255, 255, 255);
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin: 10px auto;
 }
 
-@media screen {
+.header4 {
+    padding:10px;
+    margin:10px auto;
+    color: rgb(44, 102, 169);
+    text-align: center;
+}
+
+.inbox-grid{
+    margin: 20px;
+    max-height: 350px;
+}
+
+.inbox-grid::part(header-cell) {
+    background-color: #673FB4;
+    color:#fff;
+    border: 1px solid #fff;
+}
+
+.dialog-title {
+    background-color: red;
+    color:#fff;
+    width: 100%;
+    padding:10px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.dialog-form-layout {
+    border: 1px solid #dfdfdf;
+    padding:10px;
+    border-radius: 5px;
+}
+
+.dialog-button-container {
+    margin: 5px 10px;
+}
+
+@media only screen and (max-width: 600px)  {
+    .page-section {
+        display: block;
+        
+    }
+   .header4 {
+    font-size: 12px; margin: 10px auto;
     
+   }
 }
