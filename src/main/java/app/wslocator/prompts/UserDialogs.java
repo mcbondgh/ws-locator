@@ -17,6 +17,7 @@ public class UserDialogs extends ConfirmDialog{
     boolean isConfirmed = false;
 
     public UserDialogs(String headerText, String bodyText, String descString) {
+        
         setCloseOnEsc(true);
         setCancelButton(cancelButton);
         setConfirmButton(confirmButton);
@@ -24,6 +25,8 @@ public class UserDialogs extends ConfirmDialog{
         cancelButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         confirmButton.addClassName("saveButton");
         confirmButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+        setHeader(title);
+        setText(body);
         open();
     }
 

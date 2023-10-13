@@ -42,6 +42,7 @@ public class SettingsView extends VerticalLayout {
 
     public SettingsView() {
         
+        
     }
 
 }//end of class...
