@@ -1,0 +1,13 @@
+.settings-form-layout {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding:20px;
+    margin:10px 5px;
+    max-width: 760px;
+}
+
+.dialog-header-container{
+    background-color: rgb(218, 231, 255);
+    padding: 20px;
+    border-radius: 5px;
+}

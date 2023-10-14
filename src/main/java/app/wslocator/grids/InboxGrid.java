@@ -44,7 +44,6 @@ public class InboxGrid extends Component{
         dataItems.add(new InboxEntity(5, "CALL FOR SPONSORSHIP", "Your service is need at LOCATION for a paid contract.", "contract@gmail.com", "11110000", localDateTime));
 
         ListDataProvider<InboxEntity> dataProvider = new ListDataProvider<>(dataItems); 
-        inboxGrid.setItems(dataProvider);
         return dataProvider;
     }
 

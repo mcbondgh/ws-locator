@@ -272,8 +272,7 @@ public class AddSupplier extends VerticalLayout {
                 String areaOfSupply = supplyAreas.getValue();
                 String description = descriptionField.getValue();
                 LocalDate establishedDate = establishedDatePicker.getValue();
-                 UserDialogs dialog = new UserDialogs("CONFIRM ACTION ", "Are you sure you want to confirm your action ?", "please confirm your action to proceed else abort to cancel");
-                 dialog.showConfirmation();
+                
              }
          });
 
