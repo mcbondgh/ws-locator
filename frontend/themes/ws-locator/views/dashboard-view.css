@@ -159,8 +159,8 @@
   border-radius: 5px;
   border: 1px solid rgb(236, 236, 236) !important;
   margin: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;;
-  display: flex !important;
+ box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px;
+  display: block !important;
   align-items: center !important;
   justify-content: center !important;
 }
@@ -169,13 +169,14 @@
 .item-container-label {
   color:#673FB4;
   margin-right: 10px;
+  text-align:center;
 }
 
 .item-container-values {
-  background-color: #C8DDFF;
   color: #19157A;
   font-size: 24px;
   border-radius: 5px;
+  text-align:center;
   padding: 5px;  
 }
 

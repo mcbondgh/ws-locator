@@ -1,0 +1,66 @@
+.homepage-header, .homepage-footer{
+    background-color: rgb(117, 7, 158);
+    padding:10px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.homepageImage {
+    width:120px;
+}
+
+#login-button {
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+}
+
+.homepage-buttons-container {
+    display: flex;
+    gap:10px;
+    margin: auto 10px;
+    font-size: 11px;
+}
+.contactUs-button, .about-button {
+    border: 1px solid #fff;
+    color:#fff;
+    font-size: 11px;
+}
+
+.about-button:hover, .contactUs-button:hover {
+    background-color: #fff;
+    color: rgb(117, 7, 158);
+    cursor: pointer;
+}
+
+#login-button:hover {
+    background-color: rgb(158, 5, 5) !important;
+}
+
+.container {
+    display:flex;
+    flex-direction: column;
+    margin: 15px auto;
+}
+
+.search-container {
+    background-color: #e8efff;
+    border-radius: 5px !important;
+    
+}
+
+.search-button {
+    color:#fff;
+    background-color: rgb(46, 25, 131);
+    width:200px;
+    text-align: center !important;
+    cursor: pointer;
+    margin: 10px auto !important;  
+    font-size: 12px;  
+}
+
+.search-field::part(input-field) {
+    padding:5px;
+    
+}
