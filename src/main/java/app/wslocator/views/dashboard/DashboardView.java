@@ -1,8 +1,8 @@
 package app.wslocator.views.dashboard;
 
 import app.wslocator.data.entity.SuppliersEntity;
-import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
+import app.wslocator.views.layouts.MainLayout;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
@@ -16,8 +16,10 @@ import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import com.vaadin.flow.component.formlayout.*;
 
@@ -25,9 +27,9 @@ import java.util.List;
 
 
 @PageTitle("Dashboard")
-@Route(value = "dashboard", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@Route(value = "/dashboard", layout = MainLayout.class)
+@RouteAlias(value = "/dashboard", layout = MainLayout.class)
+@AnonymousAllowed
 @Uses(Icon.class)
 public class DashboardView extends Composite<VerticalLayout> implements HeaderAndFooter{
 

@@ -22,9 +22,7 @@ import javax.sql.DataSource;
 @Theme(value = "ws-locator")
 public class Application implements AppShellConfigurator {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+    public static void main(String[] args) {SpringApplication.run(Application.class, args);}
 
     @Bean
     SqlDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(DataSource dataSource,
@@ -41,4 +39,5 @@ public class Application implements AppShellConfigurator {
             }
         };
     }
+
 }

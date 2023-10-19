@@ -1,8 +1,10 @@
 package app.wslocator.views.visitors;
 
 import app.wslocator.data.entity.VisitorsEntity;
-import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
+import app.wslocator.views.layouts.MainLayout;
+import jakarta.annotation.security.PermitAll;
+
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.charts.model.TextAlign;
@@ -29,7 +31,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 
 @PageTitle("Visitors")
 @Route(value = "/visitors", layout = MainLayout.class)
-@AnonymousAllowed
+@PermitAll
 @Uses(Icon.class)
 public class VisitorsView extends Composite<VerticalLayout> implements HeaderAndFooter{
 

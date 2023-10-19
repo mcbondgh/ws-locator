@@ -9,6 +9,7 @@
 @import url('./views/visitors-view.css');  
 @import url('./views/inbox-view.css'); 
 @import url('./views/settings.css');
+@import url('./views/homepage-view.css');
 
 html {
       --lumo-font-size: 1rem;

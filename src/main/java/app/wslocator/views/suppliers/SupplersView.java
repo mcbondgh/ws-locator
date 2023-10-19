@@ -1,7 +1,8 @@
 package app.wslocator.views.suppliers;
 
 import app.wslocator.data.entity.SuppliersEntity;
-import app.wslocator.views.MainLayout;
+import app.wslocator.views.layouts.MainLayout;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -21,10 +22,11 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Suppliers")
 @Route(value = "/suppiers", layout = MainLayout.class)
-@PermitAll
+@RolesAllowed("ADMIN")
 @Uses(Icon.class)
 public class SupplersView extends Composite<VerticalLayout> {
 

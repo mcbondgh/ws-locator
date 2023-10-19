@@ -24,6 +24,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 
@@ -31,13 +32,14 @@ import app.wslocator.data.entity.InboxEntity;
 import app.wslocator.dialogboxs.CustomDialogBoxes;
 import app.wslocator.grids.InboxGrid;
 import app.wslocator.prompts.UserNotifications;
-import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
+import app.wslocator.views.layouts.MainLayout;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Inbox")
 @Route(value = "/inbox", layout = MainLayout.class)
-@PermitAll
+@AnonymousAllowed()
 public class InboxView extends Composite<VerticalLayout> implements HeaderAndFooter{
 
     private Grid<InboxEntity> inboxTable = new Grid<>(InboxEntity.class);

@@ -3,8 +3,10 @@ package app.wslocator.views.settings;
 import app.wslocator.data.entity.EmployeesEntity;
 import app.wslocator.prompts.UserDialogs;
 import app.wslocator.specialMehods.SpecialMethods;
-import app.wslocator.views.MainLayout;
 import app.wslocator.views.includes.HeaderAndFooter;
+import app.wslocator.views.layouts.MainLayout;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -32,7 +34,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 
 
 @PageTitle("Settings")
-@AnonymousAllowed
+@RolesAllowed("ADMIN")
 @Route(value = "/settings", layout = MainLayout.class)
 public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 

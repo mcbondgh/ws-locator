@@ -1,7 +1,7 @@
 package app.wslocator.views.regions_districts;
 
 import app.wslocator.data.entity.RegionalAndDistrictEntity;
-import app.wslocator.views.MainLayout;
+import app.wslocator.views.layouts.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -9,22 +9,20 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Section;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.PermitAll;
 
 @PageTitle("Regions | Districts")
 @Route(value = "/regions_districts", layout = MainLayout.class)
-@AnonymousAllowed
+@PermitAll
 public class RegionsAndDistricts extends VerticalLayout {
 
 
@@ -77,8 +75,9 @@ public class RegionsAndDistricts extends VerticalLayout {
     // VERTICAL LAYOUT THAT HOLDS ITEMS IN THE REGIONS LAYOUT...
     private VerticalLayout regionsLayout() {
         VerticalLayout verticalLayout = new VerticalLayout(getDefaultHorizontalComponentAlignment());
-        
-        H4 headerLabel = new H4("REGIONS & CAPITAL");
+        verticalLayout.setHeightFull();
+
+        H4 headerLabel = new H4("REGIONS & CAPITALS");
         filterRegionsField.setPlaceholder("Filter regions by name...");
 
         verticalLayout.add(
@@ -114,7 +113,6 @@ public class RegionsAndDistricts extends VerticalLayout {
         
 
 
-
         //SET REQUIRED FIELDS...
         districtField.setRequired(true);
         sizeField.setRequired(true);
@@ -145,9 +143,9 @@ public class RegionsAndDistricts extends VerticalLayout {
     //REGIONAL GRID CONFIGURATION 
     private Grid<RegionalAndDistrictEntity> setRegionsGrid() {
         regionsTable.setColumns("regionId", "regionName", "capital");
+        
 
-
-        regionsTable.setMaxHeight("500px");   
+        regionsTable.setMaxHeight("100%");   
         return regionsTable;
     }
 

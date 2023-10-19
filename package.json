@@ -1,7 +1,6 @@
 {
-  "name": "no-name",
   "license": "UNLICENSED",
-  "type": "module",
+  "name": "no-name",
   "dependencies": {
     "@polymer/polymer": "3.5.1",
     "@vaadin/a11y-base": "24.1.3",
@@ -81,6 +80,7 @@
     "proj4": "2.9.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.2.0",
     "@rollup/plugin-replace": "5.0.2",
     "@rollup/pluginutils": "5.0.2",
     "@vitejs/plugin-react": "4.0.0",
@@ -88,6 +88,8 @@
     "glob": "7.2.3",
     "mkdirp": "1.0.4",
     "rollup-plugin-brotli": "3.1.0",
+    "rollup-plugin-lit-css": "^2.1.0",
+    "rollup-plugin-styles": "^3.14.1",
     "rollup-plugin-visualizer": "5.9.0",
     "strip-css-comments": "5.0.0",
     "transform-ast": "2.4.4",
@@ -195,7 +197,7 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "6690be1e9cb90f15f58b4d3e050af70a355967a8922a59756b738c8961e54eaf"
+    "hash": "dc29421d15e910c5798109c26bd26bcb62683089bc8088434e766bcf55ae24d7"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -266,13 +268,13 @@
     "@vaadin/grid-pro": "$@vaadin/grid-pro",
     "@vaadin/map": "$@vaadin/map",
     "@vaadin/rich-text-editor": "$@vaadin/rich-text-editor",
-    "@vaadin/common-frontend": "$@vaadin/common-frontend",
-    "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
-    "lit": "$lit",
     "@polymer/polymer": "$@polymer/polymer",
-    "proj4": "$proj4",
+    "@vaadin/common-frontend": "$@vaadin/common-frontend",
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
+    "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
     "date-fns": "$date-fns",
-    "mobile-drag-drop": "$mobile-drag-drop"
+    "lit": "$lit",
+    "mobile-drag-drop": "$mobile-drag-drop",
+    "proj4": "$proj4"
   }
 }

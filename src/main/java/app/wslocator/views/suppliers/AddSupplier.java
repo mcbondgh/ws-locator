@@ -2,7 +2,8 @@ package app.wslocator.views.suppliers;
 
 import app.wslocator.prompts.UserDialogs;
 import app.wslocator.specialMehods.SpecialMethods;
-import app.wslocator.views.MainLayout;
+import app.wslocator.views.layouts.MainLayout;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -24,18 +25,17 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import javax.swing.GroupLayout;
 
 
 @PageTitle("Add Supplier")
 @Route(value = "/add_supplier", layout = MainLayout.class)
-@PermitAll
-
+@RolesAllowed("ADMIN")
 public class AddSupplier extends VerticalLayout {
 
     //PRIVATE LAYOUT COMPONENTS
