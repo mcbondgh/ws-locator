@@ -222,12 +222,42 @@
 }
 .header-layout-container {
     display:grid;
-    grid-template-columns: repeat(1, 1fr);
+
 }
 .page-content-container {
-    border:1px solid orange;
+    padding:0 10%;
+
 }
 
+.contact-information-layout {
+    background-color:#f2f6fa;
+    border-radius:8px;
+    padding:10px;
+    align-items:center;
+}
+
+.numbers-container, .email-container{
+    align-items:center;
+    text-align:center;
+    margin-top:10px;
+}
+.number-text{
+    font-size:18px;
+    font-weight:600;
+    margin:1px;
+    color:#0275a9;
+}
+.div-containers {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:flex-start;
+}
+
+.social-media-icons {
+    width:30px;
+    height:30px;
+}
 /* END OF CONTACT PAGE STYLING...*/
 
 
@@ -241,8 +271,13 @@
     font-size:14px;
     padding: 0 10px;
   }
-  .hero-text {
-
+ .page-content-container {
+    display: block;
+    width:100%;
+ }
+  .contact-information-layout {
+    margin-top:10px;
+    align-items:center;
+    width:100%;
   }
-
 }

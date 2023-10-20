@@ -2,6 +2,7 @@ package app.wslocator.views.login;
 
 import app.wslocator.security.AuthenticatedUser;
 import app.wslocator.views.Homepage;
+import app.wslocator.views.dashboard.DashboardView;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.HeaderFooterLayouts;
 
@@ -59,7 +60,7 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
         if (authenticatedUser.get().isPresent()) {
             // Already logged in
             setOpened(false);
-            event.forwardTo("/dashboard");
+            event.forwardTo(DashboardView.class);
         }
 
         setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));
