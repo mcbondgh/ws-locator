@@ -7,6 +7,7 @@ import app.wslocator.views.layouts.HeaderFooterLayouts;
 
 import java.util.Collection;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H5;
@@ -33,11 +34,8 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
     private final AuthenticatedUser authenticatedUser;
 
-    private Anchor anchorButton = new Anchor("/", "Return To Homepage");
-            H5 linkText = new H5("Return To Homepage");
-
     public LoginView(AuthenticatedUser authenticatedUser) {
-        anchorButtonClicked();
+
         this.authenticatedUser = authenticatedUser;
         setAction(RouteUtil.getRoutePath(VaadinService.getCurrent().getContext(), getClass()));
 
@@ -49,7 +47,6 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
         header6.getStyle().setTextAlign(Style.TextAlign.CENTER);
         loginForm.getHeader().setDescription(header6.getText());
-        loginForm.setAdditionalInformation(linkText.getText());
         setI18n(loginForm);
         
         setForgotPasswordButtonVisible(false);
@@ -68,9 +65,4 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
         setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));
     }
 
-    private void anchorButtonClicked() {
-        linkText.addClickListener(click ->  {
-            getUI().flatMap(e -> e.navigate(Homepage.class));
-        });  
-    }
 }

@@ -131,6 +131,7 @@ public class DashboardView extends Composite<VerticalLayout> implements HeaderAn
 
 
     //This method shall implement the grid configuration;
+
     private Component gridConfiguration() {
         suppliersGrid.addClassName("suppliers-grid");
         suppliersGrid.setWidthFull();

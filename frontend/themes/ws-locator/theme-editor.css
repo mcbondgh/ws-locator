@@ -2,6 +2,10 @@
  * This file has been created by the Vaadin Theme Editor. Please note that
  * manual changes to individual CSS properties may be overwritten by the theme editor.
  */
+vaadin-app-layout.contact-page { background-color:rgba(251,254,255,0.81); }
+
 vaadin-horizontal-layout {}
 
 vaadin-vertical-layout {}
+
+vaadin-vertical-layout.contact-view-vertical-layout-1 { background-color:rgba(242,242,242,0.72); }

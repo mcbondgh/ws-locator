@@ -158,12 +158,12 @@
   padding: 20px !important;
   border-radius: 5px;
   border: 1px solid rgb(236, 236, 236) !important;
- box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px;
   display: block !important;
   align-items: center !important;
   justify-content: center !important;
+  margin:10px;
 }
-
 
 .item-container-label {
   color:#333;
@@ -179,6 +179,8 @@
   padding: 5px;
   margin-top:10px;
 }
+
+/* GRID VIEW STYLING */
 .suppliers-grid::part(header-cell){
    background-color: #673FB4;
    color:#fff;
@@ -186,7 +188,47 @@
    text-align:center;
 }
 
-/* GRID VIEW STYLING */
+.header-layout-container{
+      margin-top:5%;
+}
+
+/*
+    CONTACT PAGE LAYOUT
+*/
+.hero-div, .hero-text, .content-text{
+    margin:auto;
+    text-align:center;
+    color: #333;
+}
+.hero-text {
+    font-size:50px;
+}
+.content-text {
+    margin-top:10px;
+    font-size:20px;
+    padding:0 10%;
+    color:#666;
+}
+.contact-form-layout {
+    border:1px solid #ddd;
+    background-color:#fff;
+    padding:15px;
+    border-radius:10px;
+}
+.content-field::part(input-field) {
+    height:100px;
+    background-color:#fff;
+    border:1.1px solid #ddd;
+}
+.header-layout-container {
+    display:grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+.page-content-container {
+    border:1px solid orange;
+}
+
+/* END OF CONTACT PAGE STYLING...*/
 
 
 /* MEDIA QUERY */ 
@@ -195,4 +237,12 @@
   .dashboard-page-section {
     display:block !important;
   }
+  .content-text{
+    font-size:14px;
+    padding: 0 10px;
+  }
+  .hero-text {
+
+  }
+
 }

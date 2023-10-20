@@ -33,7 +33,9 @@ public class HeaderFooterLayouts extends AppLayout{
         aboutButtonClicked();
         contactUsButtonClicked();
         logoButtonClicked();
-        
+        //<theme-editor-local-classname>
+        addClassName("contact-page");
+
     }
 
     //PAGE HEADER
