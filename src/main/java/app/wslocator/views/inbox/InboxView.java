@@ -34,12 +34,13 @@ import app.wslocator.grids.InboxGrid;
 import app.wslocator.prompts.UserNotifications;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.MainLayout;
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Inbox")
 @Route(value = "/inbox", layout = MainLayout.class)
-@AnonymousAllowed()
+@DeclareRoles("ADMIN")
 public class InboxView extends Composite<VerticalLayout> implements HeaderAndFooter{
 
     private Grid<InboxEntity> inboxTable = new Grid<>(InboxEntity.class);

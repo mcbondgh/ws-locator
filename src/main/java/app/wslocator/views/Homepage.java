@@ -1,5 +1,6 @@
 package app.wslocator.views;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -22,7 +23,6 @@ import app.wslocator.views.layouts.HeaderFooterLayouts;
 public class Homepage extends VerticalLayout {
 
 
-
     //PRIVATE FIELDS;
 
     private TextField searchField = new TextField();
@@ -34,6 +34,11 @@ public class Homepage extends VerticalLayout {
     }
 
 
+    @Override
+    public void onAttach(AttachEvent attachEvent){
+        super.onAttach(attachEvent);
+        attachEvent.getUI().getPage().executeJs("window.location.href = 'frontend://template.html';");
+    }
 
     public Component searchLayout() {
         VerticalLayout layout = new VerticalLayout(getDefaultHorizontalComponentAlignment());

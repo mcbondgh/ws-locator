@@ -212,6 +212,7 @@ public class AddSupplier extends VerticalLayout {
 
     void inputFieldsValidation() {
         firstNameField.setInvalid(firstNameField.getValue().isEmpty());
+        firstNameField.setRequiredIndicatorVisible(firstNameField.getValue().isEmpty());
         lastNameField.setInvalid(lastNameField.getValue().isEmpty());
         mobileNumberField.setInvalid(mobileNumberField.isEmpty());
         hotLineField.setInvalid(hotLineField.isEmpty());

@@ -7,7 +7,21 @@
 }
 
 .dialog-header-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     background-color: rgb(218, 231, 255);
     padding: 20px;
     border-radius: 5px;
+}
+
+.exit-button{
+    color:black;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.notification-variable {
+    display:flex
+    justify-content:space-between;
 }

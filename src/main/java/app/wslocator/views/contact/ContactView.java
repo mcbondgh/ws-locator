@@ -19,6 +19,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import app.wslocator.views.layouts.HeaderFooterLayouts;
+import jakarta.annotation.security.DeclareRoles;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -121,22 +122,22 @@ public class ContactView extends VerticalLayout {
         H5 mediaHeader = new H5("Follow Us On Our Handles.");
         Div facebookDiv = new Div();
         facebookDiv.addClassName("div-containers");
-        Image facebookIcon = new Image("/icons/facebook-icon.png", "facebook");
+        Image facebookIcon = new Image("/icons/facebook-icon.png", "");
         facebookIcon.setClassName("social-media-icons");
-        Anchor facebookText = new Anchor("https://facebook.com/ws_locator", "facebook");
+        Anchor facebookText = new Anchor("https://facebook.com/ws_locator", "Facebook");
         facebookDiv.add(facebookIcon, facebookText);
 
         Div instagramDiv = new Div();
-        Image instagramImage = new Image("/icons/instagram.png", "Instagram");
+        Image instagramImage = new Image("/icons/instagram.png", "");
         instagramImage.setClassName("social-media-icons");
-        Anchor instagramText = new Anchor("https://instagram.com/wslocator_official", "instagram");
+        Anchor instagramText = new Anchor("https://instagram.com/wslocator_official", "Instagram");
         instagramDiv.add(instagramImage, instagramText);
         instagramDiv.addClassName("div-containers");
 
         Div twitterDiv = new Div();
-        Image twitterImage = new Image("/icons/twitter.png", "Instagram");
+        Image twitterImage = new Image("/icons/twitter.png", "");
         twitterImage.setClassName("social-media-icons");
-        Anchor twitterText = new Anchor("https://x.com/wslocator_gh", "twitter");
+        Anchor twitterText = new Anchor("https://x.com/wslocator_gh", "Twitter");
         twitterDiv.add(twitterImage, twitterText);
         twitterDiv.addClassName("div-containers");
 

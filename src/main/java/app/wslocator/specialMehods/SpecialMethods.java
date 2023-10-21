@@ -44,6 +44,10 @@ public class SpecialMethods extends Component {
         comboBox.setItems(values);
     }
 
+    public static void setUserRoles(ComboBox<String> comboBox){
+        comboBox.setItems("ADMIN", "USER");
+    }
+
 
 
 

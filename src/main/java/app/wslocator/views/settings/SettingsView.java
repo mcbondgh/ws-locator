@@ -2,10 +2,11 @@ package app.wslocator.views.settings;
 
 import app.wslocator.data.entity.EmployeesEntity;
 import app.wslocator.prompts.UserDialogs;
+import app.wslocator.prompts.UserNotifications;
 import app.wslocator.specialMehods.SpecialMethods;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.MainLayout;
-import jakarta.annotation.security.PermitAll;
+import com.vaadin.flow.router.RouteAlias;
 import jakarta.annotation.security.RolesAllowed;
 
 import com.vaadin.flow.component.Component;
@@ -14,21 +15,16 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.dialog.DialogVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 
@@ -36,7 +32,11 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 @PageTitle("Settings")
 @RolesAllowed("ADMIN")
 @Route(value = "/settings", layout = MainLayout.class)
+@RouteAlias(value = "app_settings", layout = MainLayout.class)
 public class SettingsView extends VerticalLayout implements HeaderAndFooter{
+
+    UserNotifications NOTIFY;
+    UserDialogs DIALOG;
 
     private FormLayout formLayout = new FormLayout();
     UserDialogs CONFIRM;
@@ -55,27 +55,34 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
     private TextField usernameField = new TextField("Username");
     private PasswordField passwordField = new PasswordField("Password");
     private PasswordField confirmPasswordField = new PasswordField("Confirm Password");
-    private ComboBox<String> userRolePicker = new ComboBox<>("User Role");
-    private ComboBox<String> genderPicker = new ComboBox<>("Gender");
-
+    private final ComboBox<String> userRolePicker = new ComboBox<>("User Role");
+    private final ComboBox<String> genderPicker = new ComboBox<>("Gender");
+    Dialog addEmployeeFormDialog = new Dialog();
     private Button addButton = new Button("Add Employee");
+    private Button exitButton = new Button("X");
     private Button clearButton = new Button("Clear");
     private Button addEmployeeButton = new Button("Add Employee");
     private Grid<EmployeesEntity> employeesTable = new Grid<>();
+
+/***********************************************************************************************************************
+            TRUE OR FALSE STATEMENTS.
+ ***********************************************************************************************************************/
+    boolean isFirstnameEmpty() {return firstNameField.getValue().isEmpty();}
     
 
     public SettingsView() {
-
+        exitFormButtonClicked();
+        setAddEmployeeButtonClicked();
         add(
             buildAddEmployeeButton(),
             pageHeaderLayout(), 
             pageBodyLayout(),
             pageFooterLayout()
        );
-
        SpecialMethods.setGender(genderPicker);
-                
+       SpecialMethods.setUserRoles(userRolePicker);
        addEmployeesButtonClicked();
+       setRequiredFields();
     }
 
 
@@ -103,7 +110,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         return layout;
     }
 
-
+    @RolesAllowed("USER")
     //page body
     private HorizontalLayout pageBodyLayout() {
         HorizontalLayout layout = new HorizontalLayout();
@@ -118,8 +125,6 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         employeesTable.addColumn(EmployeesEntity::getMobileNumber).setHeader("MOBILE NUMBER");
         employeesTable.addColumn(EmployeesEntity::getUserRole).setHeader("ROLE");
         employeesTable.getColumns().forEach(col -> col.setResizable(true));
-        
-        
 
         layout.add(employeesTable);
         return layout;
@@ -143,20 +148,47 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
     /******************************************************************************************************************************
      * IMPLEMENTATION OF ACTION EVENT METHODS
      *****************************************************************************************************************************/
-    private void addEmployeesButtonClicked() {
-        Dialog dialog = new Dialog();
-        dialog.setModal(true);
-        dialog.setDraggable(true);
-        dialog.setCloseOnEsc(true);
 
-        dialog.setClassName("employees-dialog-box");
+    private void setRequiredFields() {
+        //SET REQUIRED FIELDS
+        firstNameField.setRequired(firstNameField.getValue().isEmpty());
+        firstNameField.setRequiredIndicatorVisible(firstNameField.getValue().isBlank());
+        lastNameField.setRequired(lastNameField.getValue().isBlank());
+        lastNameField.setRequiredIndicatorVisible(lastNameField.getValue().isBlank());
+        numberField.setRequiredIndicatorVisible(numberField.getValue().isBlank());
+        numberField.setRequired(numberField.getValue().isBlank());
+        emailField.setRequired(emailField.getValue().isBlank());
+        emailField.setRequiredIndicatorVisible(emailField.getValue().isBlank());
+        genderPicker.setRequired(genderPicker.getOptionalValue().isEmpty());
+        genderPicker.setRequiredIndicatorVisible(genderPicker.getOptionalValue().isEmpty());
+        digitalAddressField.setRequired(digitalAddressField.getValue().isBlank());
+        digitalAddressField.setRequiredIndicatorVisible(digitalAddressField.getValue().isBlank());
+        employmentDatePicker.setRequired(employmentDatePicker.getOptionalValue().isEmpty());
+        employmentDatePicker.setRequiredIndicatorVisible(employmentDatePicker.getOptionalValue().isEmpty());
+        usernameField.setRequired(usernameField.getValue().isBlank());
+        passwordField.setRequired(passwordField.getValue().isBlank());
+        passwordField.setRequiredIndicatorVisible(passwordField.getValue().isBlank());
+        confirmPasswordField.setRequiredIndicatorVisible(confirmPasswordField.getValue().isBlank());
+        userRolePicker.setRequiredIndicatorVisible(userRolePicker.getOptionalValue().isEmpty());
+    }
+
+    private void addEmployeesButtonClicked() {
+        addEmployeeFormDialog.setModal(true);
+        addEmployeeFormDialog.setDraggable(true);
+        addEmployeeFormDialog.setCloseOnEsc(true);
+
+        addEmployeeFormDialog.setClassName("employees-dialog-box");
         formLayout.setClassName("settings-form-layout");
 
         HorizontalLayout dialogHeaderContaier = new HorizontalLayout();
         dialogHeaderContaier.setClassName("dialog-header-container");
         H4 headerText = new H4("ADD NEW EMPLOYEE TO LIST");
         dialogHeaderContaier.setWidthFull();
-        dialogHeaderContaier.add(headerText);
+
+        exitButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+
+        exitButton.setClassName("exit-button");
+        dialogHeaderContaier.add(headerText, exitButton);
 
         formLayout.setResponsiveSteps(
             new FormLayout.ResponsiveStep("0", 1),
@@ -179,12 +211,32 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         addButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
 
 
-        dialog.add(dialogHeaderContaier, formLayout, buttonsContainer);
+        addEmployeeFormDialog.add(dialogHeaderContaier, formLayout, buttonsContainer);
 
         addEmployeeButton.addClickListener(e -> {
-            dialog.open();
+            addEmployeeFormDialog.open();
         });
     }
+
+/***********************************************************************************************************************
+******************************************** ACTION EVENT METHODS IMPLEMENTATION ***************************************
+************************************************************************************************************************/
+private void exitFormButtonClicked() {
+    exitButton.addSingleClickListener(buttonClickEvent -> {
+       addEmployeeFormDialog.close();
+    });
+}
+
+private void setAddEmployeeButtonClicked() {
+        addButton.addClickListener(buttonClickEvent -> {
+            NOTIFY = new UserNotifications("You have empty fields please fill out all required fields.");
+            if (isFirstnameEmpty()){
+                NOTIFY.showError();
+            }
+        });
+
+
+}
 
 
 

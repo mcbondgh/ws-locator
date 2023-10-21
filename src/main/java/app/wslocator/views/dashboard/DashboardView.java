@@ -29,7 +29,7 @@ import java.util.List;
 @PageTitle("Dashboard")
 @Route(value = "/dashboard", layout = MainLayout.class)
 @RouteAlias(value = "/dashboard", layout = MainLayout.class)
-@AnonymousAllowed
+@RolesAllowed("ADMIN")
 @Uses(Icon.class)
 public class DashboardView extends Composite<VerticalLayout> implements HeaderAndFooter{
 
