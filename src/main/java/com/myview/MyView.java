@@ -2,7 +2,9 @@ package com.myview;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.template.Id;
 
 /**
  * A Designer generated component for the my-view template.
@@ -13,6 +15,9 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 @Tag("my-view")
 @JsModule("./themes/ws-locator/components/my-view.ts")
 public class MyView extends LitTemplate {
+
+    @Id("vaadinDialog")
+    private Dialog vaadinDialog;
 
     /**
      * Creates a new MyView.

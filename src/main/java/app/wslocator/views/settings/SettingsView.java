@@ -1,5 +1,6 @@
 package app.wslocator.views.settings;
 
+import app.wslocator.config.PasswordValidation;
 import app.wslocator.data.entity.EmployeesEntity;
 import app.wslocator.prompts.UserDialogs;
 import app.wslocator.prompts.UserNotifications;
@@ -17,6 +18,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -34,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 
-
+@JavaScript("frontend://scripts/customJs.js")
 @PageTitle("Settings")
 @RolesAllowed("ADMIN")
 @Route(value = "/settings", layout = MainLayout.class)
@@ -43,6 +45,8 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 
     UserNotifications NOTIFY;
     UserDialogs DIALOG;
+
+    // *******************************************************************************************************
 
     private FormLayout formLayout = new FormLayout();
     UserDialogs CONFIRM;
@@ -125,12 +129,12 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         layout.setSizeFull();
 
         employeesTable.addClassName("inbox-grid");
-        employeesTable.addColumn(EmployeesEntity::getId).setHeader("ID");
-        employeesTable.addColumn(EmployeesEntity::getFullname).setHeader("FULLNAME");
+        employeesTable.addColumn(EmployeesEntity::getEmp_id).setHeader("ID");
+        employeesTable.addColumn(EmployeesEntity::getFullName).setHeader("FULLNAME");
         employeesTable.addColumn(EmployeesEntity::getEmail).setHeader("EMAIL");
         employeesTable.addColumn(EmployeesEntity::getFormattedDate).setHeader("DATE JOINED");
-        employeesTable.addColumn(EmployeesEntity::getMobileNumber).setHeader("MOBILE NUMBER");
-        employeesTable.addColumn(EmployeesEntity::getUserRole).setHeader("ROLE");
+        employeesTable.addColumn(EmployeesEntity::getMobile).setHeader("MOBILE NUMBER");
+        employeesTable.addColumn(EmployeesEntity::getRole_name).setHeader("ROLE");
         employeesTable.getColumns().forEach(col -> col.setResizable(true));
 
         layout.add(employeesTable);
@@ -153,7 +157,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 
 
     /******************************************************************************************************************************
-     * IMPLEMENTATION OF ACTION EVENT METHODS
+     * IMPLEMENTATION OF ACTION RELATED METHODS
      *****************************************************************************************************************************/
 
     private void setRequiredFields() {
@@ -185,7 +189,34 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         userRolePicker.setInvalid(userRolePicker.getOptionalValue().isEmpty());
     }
 
-    private void addEmployeesButtonClicked() {
+    void clearFields() {
+        firstNameField.clear();
+        lastNameField.clear();
+        emailField.clear();
+        genderPicker.clear();
+        userRolePicker.clear();
+        digitalAddressField.clear();
+        employmentDatePicker.clear();
+        usernameField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        numberField.clear();
+    }
+
+    boolean matchPasswords() {
+        return passwordField.getValue().equals(confirmPasswordField.getValue());
+    }
+
+/***********************************************************************************************************************
+******************************************** ACTION EVENT METHODS IMPLEMENTATION ***************************************
+************************************************************************************************************************/
+private void exitFormButtonClicked() {
+    exitButton.addSingleClickListener(buttonClickEvent -> {
+       addEmployeeFormDialog.close();
+    });
+}
+
+private void addEmployeesButtonClicked() {
         addEmployeeFormDialog.setModal(true);
         addEmployeeFormDialog.setDraggable(true);
         addEmployeeFormDialog.setCloseOnEsc(true);
@@ -231,19 +262,6 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         });
     }
 
-    boolean matchPasswords() {
-        return passwordField.getValue().equals(confirmPasswordField.getValue());
-    }
-
-/***********************************************************************************************************************
-******************************************** ACTION EVENT METHODS IMPLEMENTATION ***************************************
-************************************************************************************************************************/
-private void exitFormButtonClicked() {
-    exitButton.addSingleClickListener(buttonClickEvent -> {
-       addEmployeeFormDialog.close();
-    });
-}
-
 private void setAddEmployeeButtonClicked() {
         saveEmployee.addClickListener(buttonClickEvent -> {
             setRequiredFields();
@@ -267,6 +285,15 @@ private void setAddEmployeeButtonClicked() {
                    String username = usernameField.getValue();
                    String password = passwordField.getValue();
                    String userRole = userRolePicker.getValue();
+
+                   String hashedPassword = PasswordValidation.hashPlainText(password);
+                   
+                   DIALOG = new UserDialogs("SAVE EMPLOYEE", "ARE YOU SURE YOU WANT TO ADD THIS EMPLOYEE TO YOUR LIST OF EMPLOYEES? ");
+                   System.out.println(DIALOG.isConfirmed());
+                   if (!DIALOG.isConfirmed()) {
+                        NOTIFY = new UserNotifications("Approved f clicked.");
+                        NOTIFY.showSuccess();
+                   }
                }
            }
 

@@ -1,6 +1,9 @@
 package app.wslocator.config;
 
+import com.helger.commons.io.file.IFileFilter;
 import com.mysql.cj.protocol.Resultset;
+
+import app.wslocator.models.MainModel;
 
 import java.sql.*;
 
@@ -41,5 +44,19 @@ public class DAO extends Variables {
         }
 
     }
+
+    // public static void main(String[] args) {
+    //     MainModel dao = new MainModel();
+    //     try {
+    //        if (dao.insertRecord()> 0) {
+    //             System.out.println("Table successfully created");
+    //        } else {
+    //         System.out.println("failed to create table...");
+    //        }
+
+    //     }catch(Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
 }//end of class..

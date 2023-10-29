@@ -22,17 +22,20 @@ public class UserDialogs extends Dialog{
         body = bodyText;
 
         setHeaderTitle(title);
+    
         setCloseOnEsc(true);
         setCloseOnOutsideClick(false);
         setModal(true);
         getFooter().add(cancelButton, confirmButton);
+        add(body);
 
         confirmButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         confirmButton.addClassName("save-button");
         confirmButton.addClickShortcut(Key.ENTER);
-
+        open();
+        
         cancelButton.addClickListener(e -> {
             buttonStatus = false;
             close();

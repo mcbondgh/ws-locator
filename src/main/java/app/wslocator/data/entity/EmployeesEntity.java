@@ -1,48 +1,52 @@
 package app.wslocator.data.entity;
 
 import java.sql.Timestamp;
-import java.util.LinkedList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.data.provider.ListDataProvider;
 
-public class EmployeesEntity   {
-    private int id;
-    private String firstname;
-    private String lastname;
-    private String fullname;
-    private String mobileNumber;
-    private String email;
-    private String digitalAddress;
+public class EmployeesEntity {
+
+    private int emp_id;
+    private String firstname, lastname, gender;
+    private String mobile, email, digital_add;
+    private LocalDate date_employed;
+    private String username, passwword, role_name;
+    private Timestamp date_added;
+    private int added_by;
+    private String fullName;
+
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
     private String formattedDate;
-    private DateTimeFormat formatter;
-    private Timestamp emplymentDate;
-    private String password;
-    private String username;
-    private String userRole;
-    public EmployeesEntity(int id, String firstname, String lastname, String mobileNumber, String email,
-            String digitalAddress, DateTimeFormat formatter, Timestamp emplymentDate, String password, String username,
-            String userRole) {
-        this.id = id;
+
+    public EmployeesEntity(){}
+
+    public EmployeesEntity(int emp_id, String firstname, String lastname, String gender, String mobile, String email,
+            String digital_add, LocalDate date_employed, String username, String passwword, String role_name,
+            Timestamp date_added, int added_by) {
+        this.emp_id = emp_id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.fullname = firstname.concat(" " + lastname);
-        this.mobileNumber = mobileNumber;
+        this.gender = gender;
+        this.mobile = mobile;
         this.email = email;
-        this.digitalAddress = digitalAddress;
-        this.formatter = formatter;
-        this.emplymentDate = emplymentDate;
-        this.password = password;
+        this.digital_add = digital_add;
+        this.date_employed = date_employed;
         this.username = username;
-        this.userRole = userRole;
+        this.passwword = passwword;
+        this.role_name = role_name;
+        this.date_added = date_added;
+        this.added_by = added_by;
+        this.fullName = this.firstname.concat(" ").concat(lastname);
+        formattedDate = this.date_employed.format(dateFormatter);
     }
-    public int getId() {
-        return id;
+    public int getEmp_id() {
+        return emp_id;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setEmp_id(int emp_id) {
+        this.emp_id = emp_id;
     }
     public String getFirstname() {
         return firstname;
@@ -56,48 +60,35 @@ public class EmployeesEntity   {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getGender() {
+        return gender;
     }
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public String getMobile() {
+        return mobile;
+    }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
     public String getEmail() {
         return email;
     }
-    
-    public String getFullname() {
-        return fullname;
-    }
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getDigitalAddress() {
-        return digitalAddress;
+    public String getDigital_add() {
+        return digital_add;
     }
-    public void setDigitalAddress(String digitalAddress) {
-        this.digitalAddress = digitalAddress;
+    public void setDigital_add(String digital_add) {
+        this.digital_add = digital_add;
     }
-    public String getFormattedDate() {
-        return formattedDate;
+    public LocalDate getDate_employed() {
+        return date_employed;
     }
-    public void setFormattedDate(String formattedDate) {
-        this.formattedDate = formattedDate;
-    }
-    public DateTimeFormat getFormatter() {
-        return formatter;
-    }
-    public void setFormatter(DateTimeFormat formatter) {
-        this.formatter = formatter;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDate_employed(LocalDate date_employd) {
+        this.date_employed = date_employd;
     }
     public String getUsername() {
         return username;
@@ -105,29 +96,46 @@ public class EmployeesEntity   {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getUserRole() {
-        return userRole;
+    public String getPasswword() {
+        return passwword;
     }
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setPasswword(String passwword) {
+        this.passwword = passwword;
+    }
+    public String getRole_name() {
+        return role_name;
+    }
+    public void setRole_name(String role_name) {
+        this.role_name = role_name;
+    }
+    public Timestamp getDate_added() {
+        return date_added;
+    }
+    public void setDate_added(Timestamp date_added) {
+        this.date_added = date_added;
+    }
+    public int getAdded_by() {
+        return added_by;
+    }
+    public void setAdded_by(int added_by) {
+        this.added_by = added_by;
+    }
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     
-    //generate grid for settings UI;
-    private Grid<EmployeesEntity> employess = new Grid<EmployeesEntity>(); 
 
-    public ListDataProvider<EmployeesEntity> populateEmployeesTable() {
-
-        LinkedList<EmployeesEntity> listItems = new LinkedList<EmployeesEntity>();
-
-        //load dataProvider with data from database...
-
-        //
-
-        ListDataProvider<EmployeesEntity> dataProvider = new ListDataProvider<>(listItems);
-
-        return dataProvider;
-    }
-    
     
 }
