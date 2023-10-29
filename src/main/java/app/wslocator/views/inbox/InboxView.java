@@ -40,7 +40,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Inbox")
 @Route(value = "/inbox", layout = MainLayout.class)
-@DeclareRoles("ADMIN")
+@RolesAllowed("ADMIN")
 public class InboxView extends Composite<VerticalLayout> implements HeaderAndFooter{
 
     private Grid<InboxEntity> inboxTable = new Grid<>(InboxEntity.class);
@@ -201,7 +201,7 @@ public class InboxView extends Composite<VerticalLayout> implements HeaderAndFoo
 
             //Check if the email field is empty, if true display prompt else show dialog box...
             if(selectedCustomerMail.isBlank()) {
-                NOTIFY = new UserNotifications("No selection made, please select a message to repy");
+                NOTIFY = new UserNotifications("No selection made, please select a message to reply");
                 NOTIFY.showError();
             }else {
                 dialogBoxes = new CustomDialogBoxes(title.getText(), layout);

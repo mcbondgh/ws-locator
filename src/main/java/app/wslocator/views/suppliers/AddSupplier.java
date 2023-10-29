@@ -241,7 +241,6 @@ public class AddSupplier extends VerticalLayout {
      ******************************************************************************************************************/
 
      public void actionEventMethods() {
-
         // view suppliers button clicked will navigate to the UI where you see all suppliers...
         viewSuppliersButton.addClickListener(clickEvent -> {
            getUI().flatMap(ui -> ui.navigate(SupplersView.class));
@@ -273,7 +272,6 @@ public class AddSupplier extends VerticalLayout {
                 String areaOfSupply = supplyAreas.getValue();
                 String description = descriptionField.getValue();
                 LocalDate establishedDate = establishedDatePicker.getValue();
-                
              }
          });
 
@@ -288,7 +286,6 @@ public class AddSupplier extends VerticalLayout {
          uploadsButton.addSucceededListener(successEvent -> {
             fileName = successEvent.getFileName();
             InputStream inputStream = multiFile.getInputStream(fileName);
-
              StreamResource streamSource = new StreamResource(fileName, () -> inputStream);
              imageView.setSrc(streamSource);
          });

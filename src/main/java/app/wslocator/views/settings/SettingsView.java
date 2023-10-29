@@ -6,7 +6,10 @@ import app.wslocator.prompts.UserNotifications;
 import app.wslocator.specialMehods.SpecialMethods;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.MainLayout;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.RouteAlias;
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 
 import com.vaadin.flow.component.Component;
@@ -27,6 +30,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDate;
 
 
 @PageTitle("Settings")
@@ -48,7 +54,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 
     private TextField firstNameField = new TextField("First Name");
     private TextField lastNameField = new TextField("Last Name", "", (e) -> e.getValue());
-    private TextField emailField = new TextField("Email Address");
+    private EmailField emailField = new EmailField("Email Address");
     private TextField digitalAddressField = new TextField("Digital Address");
     private TextField numberField = new TextField("Mobile Number");
     private DatePicker employmentDatePicker = new DatePicker("Employment Date");
@@ -58,7 +64,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
     private final ComboBox<String> userRolePicker = new ComboBox<>("User Role");
     private final ComboBox<String> genderPicker = new ComboBox<>("Gender");
     Dialog addEmployeeFormDialog = new Dialog();
-    private Button addButton = new Button("Add Employee");
+    private Button saveEmployee = new Button("Save Employee");
     private Button exitButton = new Button("X");
     private Button clearButton = new Button("Clear");
     private Button addEmployeeButton = new Button("Add Employee");
@@ -67,7 +73,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 /***********************************************************************************************************************
             TRUE OR FALSE STATEMENTS.
  ***********************************************************************************************************************/
-    boolean isFirstnameEmpty() {return firstNameField.getValue().isEmpty();}
+
     
 
     public SettingsView() {
@@ -82,7 +88,8 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
        SpecialMethods.setGender(genderPicker);
        SpecialMethods.setUserRoles(userRolePicker);
        addEmployeesButtonClicked();
-       setRequiredFields();
+
+
     }
 
 
@@ -110,8 +117,8 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         return layout;
     }
 
-    @RolesAllowed("USER")
     //page body
+    @NotNull
     private HorizontalLayout pageBodyLayout() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.addClassName("content-area");
@@ -151,25 +158,31 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 
     private void setRequiredFields() {
         //SET REQUIRED FIELDS
-        firstNameField.setRequired(firstNameField.getValue().isEmpty());
-        firstNameField.setRequiredIndicatorVisible(firstNameField.getValue().isBlank());
-        lastNameField.setRequired(lastNameField.getValue().isBlank());
-        lastNameField.setRequiredIndicatorVisible(lastNameField.getValue().isBlank());
-        numberField.setRequiredIndicatorVisible(numberField.getValue().isBlank());
-        numberField.setRequired(numberField.getValue().isBlank());
-        emailField.setRequired(emailField.getValue().isBlank());
-        emailField.setRequiredIndicatorVisible(emailField.getValue().isBlank());
-        genderPicker.setRequired(genderPicker.getOptionalValue().isEmpty());
-        genderPicker.setRequiredIndicatorVisible(genderPicker.getOptionalValue().isEmpty());
-        digitalAddressField.setRequired(digitalAddressField.getValue().isBlank());
-        digitalAddressField.setRequiredIndicatorVisible(digitalAddressField.getValue().isBlank());
-        employmentDatePicker.setRequired(employmentDatePicker.getOptionalValue().isEmpty());
-        employmentDatePicker.setRequiredIndicatorVisible(employmentDatePicker.getOptionalValue().isEmpty());
-        usernameField.setRequired(usernameField.getValue().isBlank());
-        passwordField.setRequired(passwordField.getValue().isBlank());
-        passwordField.setRequiredIndicatorVisible(passwordField.getValue().isBlank());
-        confirmPasswordField.setRequiredIndicatorVisible(confirmPasswordField.getValue().isBlank());
-        userRolePicker.setRequiredIndicatorVisible(userRolePicker.getOptionalValue().isEmpty());
+        firstNameField.setInvalid(firstNameField.getValue().isBlank());
+        firstNameField.setRequired(true);
+        firstNameField.setErrorMessage("fill out space");
+        lastNameField.setInvalid(lastNameField.getValue().isBlank());
+        lastNameField.setRequired(true);
+        numberField.setRequired(true);
+        numberField.setInvalid(numberField.getValue().isBlank());
+        emailField.setRequired(true);
+        emailField.setInvalid(emailField.getValue().isBlank());
+        emailField.setRequired(true);
+        emailField.setErrorMessage("provide a valid email");
+        genderPicker.setInvalid(genderPicker.getOptionalValue().isEmpty());
+        genderPicker.setRequired(true);
+        employmentDatePicker.setInvalid(employmentDatePicker.getOptionalValue().isEmpty());
+        employmentDatePicker.setRequired(true);
+        digitalAddressField.setInvalid(digitalAddressField.getValue().isBlank());
+        digitalAddressField.setRequired(true);
+        usernameField.setInvalid(usernameField.getValue().isBlank());
+        usernameField.setRequired(true);
+        passwordField.setInvalid(passwordField.getValue().isBlank());
+        passwordField.setRequired(true);
+        confirmPasswordField.setRequired(true);
+        confirmPasswordField.setInvalid(confirmPasswordField.getValue().isBlank());
+        userRolePicker.setRequired(true);
+        userRolePicker.setInvalid(userRolePicker.getOptionalValue().isEmpty());
     }
 
     private void addEmployeesButtonClicked() {
@@ -205,10 +218,10 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         
         HorizontalLayout buttonsContainer = new HorizontalLayout();
         buttonsContainer.setJustifyContentMode(JustifyContentMode.END);
-        buttonsContainer.add(addButton, clearButton);
-        addButton.addClassName("save-button");
+        buttonsContainer.add(saveEmployee, clearButton);
+        saveEmployee.addClassName("save-button");
         clearButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        addButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+        saveEmployee.addThemeVariants(ButtonVariant.LUMO_SMALL);
 
 
         addEmployeeFormDialog.add(dialogHeaderContaier, formLayout, buttonsContainer);
@@ -216,6 +229,10 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         addEmployeeButton.addClickListener(e -> {
             addEmployeeFormDialog.open();
         });
+    }
+
+    boolean matchPasswords() {
+        return passwordField.getValue().equals(confirmPasswordField.getValue());
     }
 
 /***********************************************************************************************************************
@@ -228,11 +245,31 @@ private void exitFormButtonClicked() {
 }
 
 private void setAddEmployeeButtonClicked() {
-        addButton.addClickListener(buttonClickEvent -> {
-            NOTIFY = new UserNotifications("You have empty fields please fill out all required fields.");
-            if (isFirstnameEmpty()){
-                NOTIFY.showError();
-            }
+        saveEmployee.addClickListener(buttonClickEvent -> {
+            setRequiredFields();
+           if (!(firstNameField.isInvalid() || lastNameField.isInvalid() || numberField.isInvalid() || emailField.isInvalid() ||
+                   digitalAddressField.isInvalid() || genderPicker.isInvalid() || employmentDatePicker.isInvalid() || usernameField.isInvalid() ||
+                   passwordField.isInvalid() || confirmPasswordField.isInvalid() || userRolePicker.isInvalid()
+           )) {
+               if (!matchPasswords()) {
+                   NOTIFY = new UserNotifications("Sorry your password fields do no match ❌");
+                   NOTIFY.showWarning();
+                   passwordField.setInvalid(true);
+                   confirmPasswordField.setInvalid(true);
+               } else {
+                   String firstname = firstNameField.getValue();
+                   String lastname = lastNameField.getValue();
+                   String number = numberField.getValue();
+                   String email = emailField.getValue();
+                   String gender = genderPicker.getValue();
+                   String digital = digitalAddressField.getValue();
+                   LocalDate date = employmentDatePicker.getValue();
+                   String username = usernameField.getValue();
+                   String password = passwordField.getValue();
+                   String userRole = userRolePicker.getValue();
+               }
+           }
+
         });
 
 
