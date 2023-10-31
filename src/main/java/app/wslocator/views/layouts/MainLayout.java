@@ -9,9 +9,11 @@ import app.wslocator.views.settings.SettingsView;
 import app.wslocator.views.suppliers.SupplersView;
 import app.wslocator.views.visitors.VisitorsView;
 
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -75,26 +77,26 @@ public class MainLayout extends AppLayout {
         nav.setClassName("side-menu");
 
         if (accessChecker.hasAccess(DashboardView.class)) {
-            nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.CHALKBOARD_SOLID.create()));
+            nav.addItem(new SideNavItem("Dashboard", DashboardView.class, FontAwesome.Solid.DASHBOARD.create()));
         }
 
         if (accessChecker.hasAccess(InboxView.class)) {
-            nav.addItem(new SideNavItem("Inbox", InboxView.class, LineAwesomeIcon.INBOX_SOLID.create()));
+            nav.addItem(new SideNavItem("Inbox", InboxView.class, FontAwesome.Solid.INBOX.create()));
         }
 
         if (accessChecker.hasAccess(SupplersView.class)) {
-            nav.addItem(new SideNavItem("Suppliers", SupplersView.class, LineAwesomeIcon.USERS_SOLID.create()));
+            nav.addItem(new SideNavItem("Suppliers", SupplersView.class, FontAwesome.Solid.FILL_DRIP.create()));
         }
 
         if (accessChecker.hasAccess(VisitorsView.class)) {
-            nav.addItem(new SideNavItem("Visitors", VisitorsView.class, LineAwesomeIcon.MONEY_CHECK_SOLID.create()));
+            nav.addItem(new SideNavItem("Visitors", VisitorsView.class, FontAwesome.Solid.USERS_BETWEEN_LINES.create()));
         }
         if (accessChecker.hasAccess(RegionsAndDistricts.class)) {
-            nav.addItem(new SideNavItem("Regions & Districts", RegionsAndDistricts.class, LineAwesomeIcon.CHALKBOARD_SOLID.create()));
+            nav.addItem(new SideNavItem("Regions & Districts", RegionsAndDistricts.class, FontAwesome.Solid.MAP.create()));
         }
 
         if (accessChecker.hasAccess(SettingsView.class)) {
-            nav.addItem(new SideNavItem("Settings", SettingsView.class, VaadinIcon.WRENCH.create()));
+            nav.addItem(new SideNavItem("Settings", SettingsView.class, FontAwesome.Solid.GEAR.create()));
         }
 
         return nav;

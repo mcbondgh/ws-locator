@@ -7,14 +7,15 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
 
 public class UserDialogs extends Dialog{
 
     private static String title;
     private static String body;
-    private static Button confirmButton = new Button("APPROVE");
-    private static Button cancelButton = new Button("CANCEL");
+    public static Button confirmButton = new Button("APPROVE");
+    public static Button cancelButton = new Button("CANCEL");
     private boolean buttonStatus = false;
 
     public UserDialogs(String headerText, String bodyText) {
@@ -27,31 +28,23 @@ public class UserDialogs extends Dialog{
         setCloseOnOutsideClick(false);
         setModal(true);
         getFooter().add(cancelButton, confirmButton);
-        add(body);
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.getStyle().setBackground("#f5f8fd");
+        layout.setSizeFull();
+        layout.getStyle().set("border-radius", "5px");
+        layout.getStyle().setWidth("500px");
+        layout.add(body);
+        add(layout);
 
         confirmButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         confirmButton.addClassName("save-button");
         confirmButton.addClickShortcut(Key.ENTER);
-        open();
         
-        cancelButton.addClickListener(e -> {
-            buttonStatus = false;
-            close();
-        });
-        confirmButton.addClickListener(e -> {
-            buttonStatus = true;
-            close();
-        });
+        open();
     }
-
-    public boolean isConfirmed() {
-        return buttonStatus;
-    }
-
-
-
 
 
 

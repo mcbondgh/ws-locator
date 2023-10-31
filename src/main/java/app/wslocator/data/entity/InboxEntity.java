@@ -1,7 +1,6 @@
 package app.wslocator.data.entity;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;

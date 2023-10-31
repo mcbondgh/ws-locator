@@ -42,3 +42,14 @@ html {
     color:rgb(0, 85, 182);
   }
 
+.delete-button{
+  background-color: #cc0000;
+  color:#fff;
+  font-family: poppins;
+  font-size:14px;
+}
+
+.delete-layout-background{
+  background-color: #ffdede;
+  color:#cc0000;
+}

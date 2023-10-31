@@ -8,12 +8,16 @@ import app.wslocator.specialMehods.SpecialMethods;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.MainLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.RouteAlias;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
+import oshi.driver.mac.net.NetStat.IFdata;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -41,10 +45,11 @@ import java.time.LocalDate;
 @RolesAllowed("ADMIN")
 @Route(value = "/settings", layout = MainLayout.class)
 @RouteAlias(value = "app_settings", layout = MainLayout.class)
-public class SettingsView extends VerticalLayout implements HeaderAndFooter{
+public class SettingsView extends VerticalLayout implements HeaderAndFooter {
 
     UserNotifications NOTIFY;
     UserDialogs DIALOG;
+    EmployeesEntity employeesEntity = new EmployeesEntity();
 
     // *******************************************************************************************************
 
@@ -54,13 +59,12 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
     HorizontalLayout pageHeaderLayout;
     private H4 headerText = new H4();
     private Paragraph footerText = new Paragraph();
-    
 
     private TextField firstNameField = new TextField("First Name");
     private TextField lastNameField = new TextField("Last Name", "", (e) -> e.getValue());
     private EmailField emailField = new EmailField("Email Address");
     private TextField digitalAddressField = new TextField("Digital Address");
-    private TextField numberField = new TextField("Mobile Number");
+    private NumberField numberField = new NumberField("Mobile Number");
     private DatePicker employmentDatePicker = new DatePicker("Employment Date");
     private TextField usernameField = new TextField("Username");
     private PasswordField passwordField = new PasswordField("Password");
@@ -70,32 +74,27 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
     Dialog addEmployeeFormDialog = new Dialog();
     private Button saveEmployee = new Button("Save Employee");
     private Button exitButton = new Button("X");
-    private Button clearButton = new Button("Clear");
+    private Button clearButton = new Button("Reset Fields");
     private Button addEmployeeButton = new Button("Add Employee");
     private Grid<EmployeesEntity> employeesTable = new Grid<>();
 
-/***********************************************************************************************************************
-            TRUE OR FALSE STATEMENTS.
- ***********************************************************************************************************************/
-
-    
+    /***********************************************************************************************************************
+     * TRUE OR FALSE STATEMENTS.
+     ***********************************************************************************************************************/
 
     public SettingsView() {
+        add(
+                buildAddEmployeeButton(),
+                pageHeaderLayout(),
+                pageBodyLayout(),
+                pageFooterLayout());
         exitFormButtonClicked();
         setAddEmployeeButtonClicked();
-        add(
-            buildAddEmployeeButton(),
-            pageHeaderLayout(), 
-            pageBodyLayout(),
-            pageFooterLayout()
-       );
-       SpecialMethods.setGender(genderPicker);
-       SpecialMethods.setUserRoles(userRolePicker);
-       addEmployeesButtonClicked();
-
-
+        SpecialMethods.setGender(genderPicker);
+        SpecialMethods.setUserRoles(userRolePicker);
+        addEmployeesButtonClicked();
+        resetButtonClicked();
     }
-
 
     @Override
     public HorizontalLayout pageHeaderLayout() {
@@ -109,7 +108,8 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
 
         return pageHeaderLayout;
     }
-/*******************************************************************************************************************
+
+    /*******************************************************************************************************************
      ***************************************** UI VIEWS IMPLEMENTATION *************************************
      ******************************************************************************************************************/
     private Component buildAddEmployeeButton() {
@@ -121,7 +121,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         return layout;
     }
 
-    //page body
+    // page body
     @NotNull
     private HorizontalLayout pageBodyLayout() {
         HorizontalLayout layout = new HorizontalLayout();
@@ -141,9 +141,8 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         return layout;
     }
 
-
     @Override
-    public HorizontalLayout pageFooterLayout() { 
+    public HorizontalLayout pageFooterLayout() {
         pageHeaderLayout = new HorizontalLayout();
         pageHeaderLayout.addClassName(Gap.MEDIUM);
         footerText.setText("Powered By MCs Republic | 2023");
@@ -151,17 +150,15 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         footerText.getStyle().set("font-size", "var(--lumo-font-size-s)");
         pageHeaderLayout.add(footerText);
 
-
         return pageHeaderLayout;
     }
-
 
     /******************************************************************************************************************************
      * IMPLEMENTATION OF ACTION RELATED METHODS
      *****************************************************************************************************************************/
 
     private void setRequiredFields() {
-        //SET REQUIRED FIELDS
+        // SET REQUIRED FIELDS
         firstNameField.setInvalid(firstNameField.getValue().isBlank());
         firstNameField.setRequired(true);
         firstNameField.setErrorMessage("fill out space");
@@ -207,16 +204,16 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter{
         return passwordField.getValue().equals(confirmPasswordField.getValue());
     }
 
-/***********************************************************************************************************************
-******************************************** ACTION EVENT METHODS IMPLEMENTATION ***************************************
-************************************************************************************************************************/
-private void exitFormButtonClicked() {
-    exitButton.addSingleClickListener(buttonClickEvent -> {
-       addEmployeeFormDialog.close();
-    });
-}
+    /***********************************************************************************************************************
+     ******************************************** ACTION EVENT METHODS IMPLEMENTATION ***************************************
+     ************************************************************************************************************************/
+    private void exitFormButtonClicked() {
+        exitButton.addSingleClickListener(buttonClickEvent -> {
+            addEmployeeFormDialog.close();
+        });
+    }
 
-private void addEmployeesButtonClicked() {
+    private void addEmployeesButtonClicked() {
         addEmployeeFormDialog.setModal(true);
         addEmployeeFormDialog.setDraggable(true);
         addEmployeeFormDialog.setCloseOnEsc(true);
@@ -235,25 +232,22 @@ private void addEmployeesButtonClicked() {
         dialogHeaderContaier.add(headerText, exitButton);
 
         formLayout.setResponsiveSteps(
-            new FormLayout.ResponsiveStep("0", 1),
-            new FormLayout.ResponsiveStep("600px",3)
-        );
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("600px", 3));
 
         formLayout.add(
-            firstNameField, lastNameField,numberField,
-            emailField, genderPicker,digitalAddressField,
-            employmentDatePicker, usernameField, passwordField, 
-            confirmPasswordField, userRolePicker
-        );
+                firstNameField, lastNameField, numberField,
+                emailField, genderPicker, digitalAddressField,
+                employmentDatePicker, usernameField, passwordField,
+                confirmPasswordField, userRolePicker);
         formLayout.setColspan(usernameField, 2);
-        
+
         HorizontalLayout buttonsContainer = new HorizontalLayout();
         buttonsContainer.setJustifyContentMode(JustifyContentMode.END);
         buttonsContainer.add(saveEmployee, clearButton);
         saveEmployee.addClassName("save-button");
         clearButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         saveEmployee.addThemeVariants(ButtonVariant.LUMO_SMALL);
-
 
         addEmployeeFormDialog.add(dialogHeaderContaier, formLayout, buttonsContainer);
 
@@ -262,46 +256,63 @@ private void addEmployeesButtonClicked() {
         });
     }
 
-private void setAddEmployeeButtonClicked() {
+    private void setAddEmployeeButtonClicked() {
         saveEmployee.addClickListener(buttonClickEvent -> {
             setRequiredFields();
-           if (!(firstNameField.isInvalid() || lastNameField.isInvalid() || numberField.isInvalid() || emailField.isInvalid() ||
-                   digitalAddressField.isInvalid() || genderPicker.isInvalid() || employmentDatePicker.isInvalid() || usernameField.isInvalid() ||
-                   passwordField.isInvalid() || confirmPasswordField.isInvalid() || userRolePicker.isInvalid()
-           )) {
-               if (!matchPasswords()) {
-                   NOTIFY = new UserNotifications("Sorry your password fields do no match ❌");
-                   NOTIFY.showWarning();
-                   passwordField.setInvalid(true);
-                   confirmPasswordField.setInvalid(true);
-               } else {
-                   String firstname = firstNameField.getValue();
-                   String lastname = lastNameField.getValue();
-                   String number = numberField.getValue();
-                   String email = emailField.getValue();
-                   String gender = genderPicker.getValue();
-                   String digital = digitalAddressField.getValue();
-                   LocalDate date = employmentDatePicker.getValue();
-                   String username = usernameField.getValue();
-                   String password = passwordField.getValue();
-                   String userRole = userRolePicker.getValue();
+            if (!(firstNameField.isInvalid() || lastNameField.isInvalid() || numberField.isInvalid()
+                    || emailField.isInvalid() ||
+                    digitalAddressField.isInvalid() || genderPicker.isInvalid() || employmentDatePicker.isInvalid()
+                    || usernameField.isInvalid() ||
+                    passwordField.isInvalid() || confirmPasswordField.isInvalid() || userRolePicker.isInvalid())) {
+                if (!matchPasswords()) {
+                    NOTIFY = new UserNotifications("Sorry your password fields do no match ❌");
+                    NOTIFY.showWarning();
+                    passwordField.setInvalid(true);
+                    confirmPasswordField.setInvalid(true);
+                } else {
+                    String firstname = firstNameField.getValue();
+                    String lastname = lastNameField.getValue();
+                    String number = numberField.getValue();
+                    String email = emailField.getValue();
+                    String gender = genderPicker.getValue();
+                    String digital = digitalAddressField.getValue();
+                    LocalDate date = employmentDatePicker.getValue();
+                    String username = usernameField.getValue();
+                    String password = passwordField.getValue();
+                    String userRole = userRolePicker.getValue();
+                    String hashedPassword = PasswordValidation.hashPlainText(password);
+                    DIALOG = new UserDialogs("SAVE EMPLOYEE",
+                            "ARE YOU SURE YOU WANT TO ADD ["+firstname.concat(" " + lastname)+"] TO YOUR LIST OF EMPLOYEES? ");
+                    UserDialogs.cancelButton.addClickListener(e -> {
+                        DIALOG.close();
+                    });
+                    UserDialogs.confirmButton.addClickListener(e -> {
+                        employeesEntity.setFirstname(firstname);
+                        employeesEntity.setLastname(lastname);
+                        employeesEntity.setMobile(number);
+                        DIALOG.close();
+                        
+                    });
+                }
+            }
+        });
+    }
 
-                   String hashedPassword = PasswordValidation.hashPlainText(password);
-                   
-                   DIALOG = new UserDialogs("SAVE EMPLOYEE", "ARE YOU SURE YOU WANT TO ADD THIS EMPLOYEE TO YOUR LIST OF EMPLOYEES? ");
-                   System.out.println(DIALOG.isConfirmed());
-                   if (!DIALOG.isConfirmed()) {
-                        NOTIFY = new UserNotifications("Approved f clicked.");
-                        NOTIFY.showSuccess();
-                   }
-               }
-           }
+    private void resetButtonClicked() {
+        clearButton.addClickListener((e) -> {
+            firstNameField.clear();
+            lastNameField.clear();
+            emailField.clear();
+            userRolePicker.clear();
+            genderPicker.clear();
+            numberField.clear();
+            digitalAddressField.clear();
+            employmentDatePicker.clear();
+            usernameField.clear();
+            passwordField.clear();
+            confirmPasswordField.clear();
 
         });
+    }
 
-
-}
-
-
-
-}//end of class...
+}// end of class...
