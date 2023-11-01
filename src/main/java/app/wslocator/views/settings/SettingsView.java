@@ -2,15 +2,20 @@ package app.wslocator.views.settings;
 
 import app.wslocator.config.PasswordValidation;
 import app.wslocator.data.entity.EmployeesEntity;
+import app.wslocator.grids.EmployeesTableGrid;
+import app.wslocator.models.SettingsModel;
 import app.wslocator.prompts.UserDialogs;
 import app.wslocator.prompts.UserNotifications;
 import app.wslocator.specialMehods.SpecialMethods;
+import app.wslocator.views.dashboard.DashboardView;
 import app.wslocator.views.includes.HeaderAndFooter;
 import app.wslocator.views.layouts.MainLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.VaadinSession;
+
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import oshi.driver.mac.net.NetStat.IFdata;
@@ -20,6 +25,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.charts.model.Navigation;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JavaScript;
@@ -28,6 +34,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -50,6 +57,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
     UserNotifications NOTIFY;
     UserDialogs DIALOG;
     EmployeesEntity employeesEntity = new EmployeesEntity();
+    SettingsModel DAO = new SettingsModel();
 
     // *******************************************************************************************************
 
@@ -64,7 +72,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
     private TextField lastNameField = new TextField("Last Name", "", (e) -> e.getValue());
     private EmailField emailField = new EmailField("Email Address");
     private TextField digitalAddressField = new TextField("Digital Address");
-    private NumberField numberField = new NumberField("Mobile Number");
+    private TextField numberField = new TextField("Mobile Number");
     private DatePicker employmentDatePicker = new DatePicker("Employment Date");
     private TextField usernameField = new TextField("Username");
     private PasswordField passwordField = new PasswordField("Password");
@@ -87,13 +95,22 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
                 buildAddEmployeeButton(),
                 pageHeaderLayout(),
                 pageBodyLayout(),
-                pageFooterLayout());
+                pageFooterLayout()
+
+        );
         exitFormButtonClicked();
         setAddEmployeeButtonClicked();
+        addEmployeesButtonClicked();
         SpecialMethods.setGender(genderPicker);
         SpecialMethods.setUserRoles(userRolePicker);
-        addEmployeesButtonClicked();
         resetButtonClicked();
+        validateMobileNumberField();
+    }
+
+    //ATTACH LISTENER BEHAVES SMILIER TO THE initialize() method.
+    @Override
+    protected void onAttach(AttachEvent event) {
+        loadEmployeesTable();
     }
 
     @Override
@@ -135,7 +152,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
         employeesTable.addColumn(EmployeesEntity::getFormattedDate).setHeader("DATE JOINED");
         employeesTable.addColumn(EmployeesEntity::getMobile).setHeader("MOBILE NUMBER");
         employeesTable.addColumn(EmployeesEntity::getRole_name).setHeader("ROLE");
-        employeesTable.getColumns().forEach(col -> col.setResizable(true));
+        employeesTable.getColumns().forEach(col -> col.setAutoWidth(true));
 
         layout.add(employeesTable);
         return layout;
@@ -154,7 +171,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
     }
 
     /******************************************************************************************************************************
-     * IMPLEMENTATION OF ACTION RELATED METHODS
+     * IMPLEMENTATION OF OTHER RELATED METHODS
      *****************************************************************************************************************************/
 
     private void setRequiredFields() {
@@ -202,6 +219,30 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
 
     boolean matchPasswords() {
         return passwordField.getValue().equals(confirmPasswordField.getValue());
+    }
+
+    void loadEmployeesTable() {
+        EmployeesTableGrid table = new EmployeesTableGrid();
+        employeesTable.setDataProvider(table.populateGrid());
+    }
+   
+    /***********************************************************************************************************************
+     ******************************************** INPUT FIELD METHODS IMPLEMENTATION ***************************************
+     ************************************************************************************************************************/
+    void validateMobileNumberField() {
+        numberField.setValueChangeMode(ValueChangeMode.EAGER);
+        numberField.addKeyPressListener(e -> {
+            if (numberField.getValue().length() > 10) {
+                numberField.setErrorMessage("number must be 10 digits");
+                numberField.setInvalid(true);
+                return;
+            }
+            ;
+            if (!e.getKey().matches("[0-9]")) {
+                numberField.setErrorMessage("Invalid character");
+                numberField.setInvalid(true);
+            }
+        });
     }
 
     /***********************************************************************************************************************
@@ -253,6 +294,7 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
 
         addEmployeeButton.addClickListener(e -> {
             addEmployeeFormDialog.open();
+            clearFields();
         });
     }
 
@@ -270,48 +312,44 @@ public class SettingsView extends VerticalLayout implements HeaderAndFooter {
                     passwordField.setInvalid(true);
                     confirmPasswordField.setInvalid(true);
                 } else {
-                    String firstname = firstNameField.getValue();
-                    String lastname = lastNameField.getValue();
-                    String number = numberField.getValue();
-                    String email = emailField.getValue();
-                    String gender = genderPicker.getValue();
-                    String digital = digitalAddressField.getValue();
-                    LocalDate date = employmentDatePicker.getValue();
-                    String username = usernameField.getValue();
-                    String password = passwordField.getValue();
-                    String userRole = userRolePicker.getValue();
-                    String hashedPassword = PasswordValidation.hashPlainText(password);
                     DIALOG = new UserDialogs("SAVE EMPLOYEE",
-                            "ARE YOU SURE YOU WANT TO ADD ["+firstname.concat(" " + lastname)+"] TO YOUR LIST OF EMPLOYEES? ");
-                    UserDialogs.cancelButton.addClickListener(e -> {
-                        DIALOG.close();
-                    });
-                    UserDialogs.confirmButton.addClickListener(e -> {
-                        employeesEntity.setFirstname(firstname);
-                        employeesEntity.setLastname(lastname);
-                        employeesEntity.setMobile(number);
-                        DIALOG.close();
-                        
-                    });
+                "ARE YOU SURE YOU WANT TO ADD ["
+                        + firstNameField.getValue().concat(" " + lastNameField.getValue())
+                        + "] TO YOUR LIST OF EMPLOYEES? ");
                 }
+            }
+        });
+    
+        // execute this process when APPROVE button is clicked...
+        UserDialogs.confirmButton.addClickListener(e -> {
+             String hashedPassword = PasswordValidation.hashPlainText(passwordField.getValue());
+            employeesEntity.setFirstname(firstNameField.getValue());
+            employeesEntity.setLastname(lastNameField.getValue());
+            employeesEntity.setMobile(numberField.getValue().toString());
+            employeesEntity.setEmail(emailField.getValue());
+            employeesEntity.setDate_employed(employmentDatePicker.getValue());
+            employeesEntity.setGender(genderPicker.getValue());
+            employeesEntity.setDigital_add(digitalAddressField.getValue());
+            employeesEntity.setUsername(usernameField.getValue());
+            employeesEntity.setPasswword(hashedPassword);
+            employeesEntity.setRole_name(userRolePicker.getValue());
+            int status = DAO.saveEmployee(employeesEntity);
+            if (status > 0) {
+                NOTIFY = new UserNotifications("Employee have successfully been saved! 👍");
+                NOTIFY.showSuccess();
+                clearFields();
+                DIALOG.close();
+                loadEmployeesTable();
+                } else {
+                NOTIFY = new UserNotifications("Failed to save employee, please try again later!");
+                NOTIFY.showError();
             }
         });
     }
 
     private void resetButtonClicked() {
         clearButton.addClickListener((e) -> {
-            firstNameField.clear();
-            lastNameField.clear();
-            emailField.clear();
-            userRolePicker.clear();
-            genderPicker.clear();
-            numberField.clear();
-            digitalAddressField.clear();
-            employmentDatePicker.clear();
-            usernameField.clear();
-            passwordField.clear();
-            confirmPasswordField.clear();
-
+            clearFields();
         });
     }
 

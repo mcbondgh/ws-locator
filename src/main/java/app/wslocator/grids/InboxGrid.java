@@ -26,12 +26,10 @@ public class InboxGrid extends Component{
 
 
     public static Grid<InboxEntity> generateInboxGrid() {
-        
         return inboxGrid;
     }
 
     public static ListDataProvider<InboxEntity> populateGrid() {
-
         LinkedList<InboxEntity> dataItems = new LinkedList<InboxEntity>();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);

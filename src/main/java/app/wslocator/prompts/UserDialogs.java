@@ -42,6 +42,8 @@ public class UserDialogs extends Dialog{
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         confirmButton.addClassName("save-button");
         confirmButton.addClickShortcut(Key.ENTER);
+
+        cancelButton.addClickListener(e -> {close();});
         
         open();
     }
